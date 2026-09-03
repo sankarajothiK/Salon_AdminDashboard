@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   PieChart,
   IndianRupee,
-  Calendar,
-  Layers,
-  AlertCircle,
-  Crown,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useSalons } from '@/contexts/SalonContext';
@@ -60,7 +56,7 @@ export const ExpensesPage: React.FC = () => {
         <select
           value={salonFilter}
           onChange={(e) => setSalonFilter(e.target.value)}
-          className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+          className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
         >
           <option value="all">All Salons</option>
           {salons.map((s) => (
@@ -72,23 +68,23 @@ export const ExpensesPage: React.FC = () => {
       </div>
 
       {/* Overview Stat */}
-      <div className="bg-white border-2 border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle flex items-center justify-between">
+      <div className="bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle flex items-center justify-between">
         <div>
           <div className="text-xs font-bold uppercase text-black">Total Logged Expenses</div>
           <div className="text-2xl font-bold text-black mt-1">{formatCurrency(totalAmount)}</div>
         </div>
-        <div className="w-12 h-12 rounded-xl bg-[#601D49] text-[#FFEBB8] border-2 border-[#FFEBB8] flex items-center justify-center font-bold shadow-plum-sm">
+        <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-emerald-sm">
           <IndianRupee className="w-6 h-6" />
         </div>
       </div>
 
       {/* Expenses Table */}
-      <div className="bg-white border-2 border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Querying expense records from Supabase..." size="md" />
         ) : expenses.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-[#FFEBB8] text-black border border-[#BD5579]/30 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-950 border border-emerald-300 flex items-center justify-center mx-auto mb-3">
               <PieChart className="w-6 h-6" />
             </div>
             <h3 className="text-sm font-bold text-black">No Expenses Recorded</h3>
@@ -99,7 +95,7 @@ export const ExpensesPage: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-black">
-              <thead className="bg-[#fdf2f6] text-black font-bold uppercase text-[11px] border-b border-[#BD5579]/20">
+              <thead className="bg-emerald-50 text-black font-bold uppercase text-[11px] border-b-2 border-emerald-100">
                 <tr>
                   <th className="px-5 py-3.5 font-bold text-black">Category</th>
                   <th className="px-4 py-3.5 font-bold text-black">Description</th>
@@ -107,11 +103,11 @@ export const ExpensesPage: React.FC = () => {
                   <th className="px-5 py-3.5 font-bold text-black text-right">Amount</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#BD5579]/10">
+              <tbody className="divide-y divide-emerald-100">
                 {expenses.map((exp) => (
-                  <tr key={exp.id} className="hover:bg-[#fcf2f6]/60 transition-colors">
+                  <tr key={exp.id} className="hover:bg-emerald-50/50 transition-colors">
                     <td className="px-5 py-4 font-bold text-black">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#FFEBB8] text-black border border-[#BD5579]/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-950 border border-emerald-300">
                         {exp.category || 'General'}
                       </span>
                     </td>

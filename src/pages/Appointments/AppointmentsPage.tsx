@@ -79,7 +79,7 @@ export const AppointmentsPage: React.FC = () => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
-    <div className="space-y-6 font-alata">
+    <div className="space-y-6 font-alata text-black">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -120,17 +120,17 @@ export const AppointmentsPage: React.FC = () => {
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* View Mode Buttons */}
-          <div className="flex rounded-xl bg-[#fdf2f6] p-1 border border-[#BD5579]/15">
+          <div className="flex rounded-xl bg-emerald-50/70 p-1 border border-emerald-200">
             <button
               onClick={() => {
                 setViewMode('all');
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'all' ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs' : 'text-black hover:text-[#601D49]'
+                viewMode === 'all' ? 'bg-emerald-600 text-white shadow-2xs' : 'text-black hover:text-emerald-800'
               }`}
             >
               All Bookings
@@ -141,7 +141,7 @@ export const AppointmentsPage: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'today' ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs' : 'text-black hover:text-[#601D49]'
+                viewMode === 'today' ? 'bg-emerald-600 text-white shadow-2xs' : 'text-black hover:text-emerald-800'
               }`}
             >
               Today's Schedule
@@ -152,7 +152,7 @@ export const AppointmentsPage: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'upcoming' ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs' : 'text-black hover:text-[#601D49]'
+                viewMode === 'upcoming' ? 'bg-emerald-600 text-white shadow-2xs' : 'text-black hover:text-emerald-800'
               }`}
             >
               Upcoming
@@ -167,7 +167,7 @@ export const AppointmentsPage: React.FC = () => {
                 setSalonFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
               <option value="all">All Salons</option>
               {salons.map((s) => (
@@ -184,7 +184,7 @@ export const AppointmentsPage: React.FC = () => {
                 setStatusFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
               <option value="all">All Statuses</option>
               <option value="scheduled">Scheduled</option>
@@ -208,8 +208,8 @@ export const AppointmentsPage: React.FC = () => {
         />
       </div>
 
-      {/* Appointments Table with Bold Black Typography */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Appointments Table with Emerald & White Styling */}
+      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Fetching appointments from Supabase..." size="md" />
         ) : appointments.length === 0 ? (
@@ -222,7 +222,7 @@ export const AppointmentsPage: React.FC = () => {
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs text-black">
-                <thead className="bg-[#fdf2f6] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+                <thead className="bg-emerald-50 text-black font-bold uppercase tracking-wider text-[11px] border-b-2 border-emerald-100">
                   <tr>
                     <th className="px-5 py-4 font-bold text-black">Customer & Salon</th>
                     <th className="px-4 py-4 font-bold text-black">Service</th>
@@ -233,18 +233,18 @@ export const AppointmentsPage: React.FC = () => {
                     <th className="px-5 py-4 font-bold text-black text-right">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#BD5579]/10">
+                <tbody className="divide-y divide-emerald-100">
                   {appointments.map((appt) => {
                     const style = getAppointmentStatusStyle(appt.status);
 
                     return (
-                      <tr key={appt.id} className="hover:bg-[#fcf2f6]/60 transition-colors">
+                      <tr key={appt.id} className="hover:bg-emerald-50/50 transition-colors">
                         <td className="px-5 py-4">
                           <div className="font-bold text-black text-sm">
                             {appt.customer ? (
                               <Link
                                 to={`/customers/${appt.customer.id}`}
-                                className="hover:text-[#601D49] transition-colors"
+                                className="hover:text-emerald-700 transition-colors"
                               >
                                 {appt.customer.name}
                               </Link>
@@ -252,7 +252,7 @@ export const AppointmentsPage: React.FC = () => {
                               'Walk-in Client'
                             )}
                           </div>
-                          <div className="text-[10.5px] text-black font-semibold mt-0.5">{appt.salon?.name || 'Salon'}</div>
+                          <div className="text-[10.5px] text-emerald-900 font-semibold mt-0.5">{appt.salon?.name || 'Salon'}</div>
                         </td>
 
                         <td className="px-4 py-4 font-bold text-black text-sm">{appt.service_name}</td>
@@ -261,7 +261,7 @@ export const AppointmentsPage: React.FC = () => {
 
                         <td className="px-4 py-4">
                           <div className="text-black font-bold">{formatDate(appt.start_time)}</div>
-                          <div className="text-[11px] text-black font-semibold">{formatTime(appt.start_time)}</div>
+                          <div className="text-[11px] text-emerald-900 font-semibold">{formatTime(appt.start_time)}</div>
                         </td>
 
                         <td className="px-4 py-4 text-center">
@@ -280,7 +280,7 @@ export const AppointmentsPage: React.FC = () => {
                         <td className="px-5 py-4 text-right">
                           <button
                             onClick={() => setSelectedAppt(appt)}
-                            className="p-1.5 rounded-lg bg-[#fdf2f6] hover:bg-[#601D49] hover:text-[#FFEBB8] text-black transition-colors border border-[#BD5579]/20"
+                            className="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 hover:text-white text-black transition-colors border border-emerald-200 shadow-2xs"
                             title="View Booking Detail"
                           >
                             <Eye className="w-4 h-4" />
@@ -313,7 +313,7 @@ export const AppointmentsPage: React.FC = () => {
           subtitle={`Booking Reference ID: ${selectedAppt.id}`}
         >
           <div className="space-y-4 text-xs font-alata text-black">
-            <div className="bg-[#fdf9fa] p-4 rounded-xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
+            <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-2 font-bold text-black">
               <div className="flex justify-between">
                 <span>Salon:</span>
                 <span className="font-bold text-black">{selectedAppt.salon?.name}</span>
@@ -324,11 +324,11 @@ export const AppointmentsPage: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <span>Assigned Stylist:</span>
-                <span className="font-bold text-[#601D49]">{selectedAppt.staff?.name || 'Unassigned'}</span>
+                <span className="font-bold text-emerald-800">{selectedAppt.staff?.name || 'Unassigned'}</span>
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-[#BD5579]/20 font-bold text-black">
+            <div className="space-y-2 pt-2 border-t border-emerald-200 font-bold text-black">
               <div className="flex justify-between">
                 <span>Services:</span>
                 <span className="font-bold text-black">{selectedAppt.service_name}</span>
@@ -349,14 +349,14 @@ export const AppointmentsPage: React.FC = () => {
                 <span>Payment Status:</span>
                 <span className="font-bold text-black uppercase">{selectedAppt.payment_status || 'Pending'}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-[#BD5579]/20">
+              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-emerald-200">
                 <span>Total Amount:</span>
                 <span className="text-black">{formatCurrency(selectedAppt.final_amount || selectedAppt.total_amount)}</span>
               </div>
             </div>
 
             {selectedAppt.notes && (
-              <div className="p-3 bg-[#fdf2f6] rounded-xl border border-[#BD5579]/30 text-black font-bold">
+              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-black font-bold">
                 <span className="text-black font-bold block mb-1">Appointment Notes:</span>
                 {selectedAppt.notes}
               </div>

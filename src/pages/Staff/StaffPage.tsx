@@ -85,7 +85,7 @@ export const StaffPage: React.FC = () => {
       </div>
 
       {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
@@ -96,7 +96,7 @@ export const StaffPage: React.FC = () => {
         <select
           value={salonFilter}
           onChange={(e) => setSalonFilter(e.target.value)}
-          className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+          className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
         >
           <option value="all">All Salons</option>
           {salons.map((s) => (
@@ -107,7 +107,7 @@ export const StaffPage: React.FC = () => {
         </select>
       </div>
 
-      {/* Staff Cards Grid with Bold Black Typography */}
+      {/* Staff Cards Grid with Emerald & White Styling */}
       {loading ? (
         <LoadingSpinner message="Calculating stylist metrics from Supabase..." size="md" />
       ) : (
@@ -115,33 +115,33 @@ export const StaffPage: React.FC = () => {
           {filteredStaff.map((s) => (
             <div
               key={s.id}
-              className="bg-white border-2 border-[#BD5579]/20 rounded-2xl p-5 hover:border-[#601D49] hover:shadow-card-elevated transition-all shadow-card-subtle space-y-4"
+              className="bg-white border-2 border-emerald-100 rounded-2xl p-5 hover:border-emerald-500 hover:shadow-card-elevated transition-all shadow-card-subtle space-y-4"
             >
               <div className="flex items-start gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-[#601D49] text-[#FFEBB8] flex items-center justify-center font-bold text-base shadow-plum-sm flex-shrink-0 border-2 border-[#FFEBB8]">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow-emerald-sm flex-shrink-0">
                   {s.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <h3 className="font-bold text-black text-sm">{s.name}</h3>
-                  <div className="text-xs text-black font-bold">{s.role}</div>
+                  <div className="text-xs text-emerald-900 font-bold">{s.role}</div>
                   <div className="text-[11px] text-black font-semibold mt-0.5">{s.salon?.name || 'Salon'}</div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#BD5579]/15">
-                <div className="p-3 bg-[#fdf5f8] rounded-xl border border-[#BD5579]/15">
-                  <div className="text-[10.5px] font-bold text-black uppercase">Bookings</div>
+              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-emerald-100">
+                <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200">
+                  <div className="text-[10.5px] font-bold text-emerald-950 uppercase">Bookings</div>
                   <div className="text-base font-bold text-black mt-0.5">{s.appointmentCount || 0}</div>
                 </div>
-                <div className="p-3 bg-[#fdf5f8] rounded-xl border border-[#BD5579]/15">
-                  <div className="text-[10.5px] font-bold text-black uppercase">Revenue</div>
+                <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200">
+                  <div className="text-[10.5px] font-bold text-emerald-950 uppercase">Revenue</div>
                   <div className="text-base font-bold text-black mt-0.5">{formatCurrency(s.revenueGenerated)}</div>
                 </div>
               </div>
 
               {s.phone_number && (
                 <div className="text-[11px] text-black flex items-center gap-1.5 font-bold">
-                  <Phone className="w-3.5 h-3.5 text-black" />
+                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
                   <span>{formatPhoneNumber(s.phone_number)}</span>
                 </div>
               )}

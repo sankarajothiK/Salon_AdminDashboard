@@ -2,14 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
   UserX,
   Search,
-  Calendar,
-  Phone,
   Store,
-  FileText,
-  AlertTriangle,
   Clock,
   Eye,
-  Crown,
   ShieldAlert,
 } from 'lucide-react';
 import { accountDeletionService } from '@/services/accountDeletionService';
@@ -71,16 +66,16 @@ export const AccountDeletionsPage: React.FC = () => {
   return (
     <div className="space-y-6 font-alata text-black">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-rose-100/60 via-[#FFEBB8]/40 to-white border-2 border-rose-300/60 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-emerald-100/70 via-emerald-50/50 to-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-700 to-[#601D49] flex items-center justify-center text-[#FFEBB8] shadow-plum-sm flex-shrink-0 border-2 border-[#FFEBB8]">
-              <UserX className="w-4 h-4 text-[#FFEBB8]" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-800 to-emerald-500 flex items-center justify-center text-white shadow-emerald-sm flex-shrink-0 border-2 border-emerald-300">
+              <UserX className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
               Salon Account Deletions & Feedback Reasons
             </h1>
-            <span className="px-3 py-0.5 rounded-full bg-rose-100 text-black border border-rose-300 text-xs font-bold shadow-2xs">
+            <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold shadow-2xs">
               Live Supabase
             </span>
           </div>
@@ -128,7 +123,7 @@ export const AccountDeletionsPage: React.FC = () => {
           value={recentDeletionsCount}
           icon={<Clock className="w-5 h-5" />}
           subtitle="Churn activity this month"
-          variant="plum"
+          variant="emerald"
         />
         <StatCard
           title="Audit Table Status"
@@ -140,7 +135,7 @@ export const AccountDeletionsPage: React.FC = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -152,8 +147,8 @@ export const AccountDeletionsPage: React.FC = () => {
         />
       </div>
 
-      {/* Deletions Table with Bold Black Typography */}
-      <div className="bg-white border-2 border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Deletions Table with Emerald & White Styling */}
+      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Querying account deletions from Supabase..." size="md" />
         ) : filteredDeletions.length === 0 ? (
@@ -166,7 +161,7 @@ export const AccountDeletionsPage: React.FC = () => {
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs text-black">
-                <thead className="bg-[#fdf2f6] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+                <thead className="bg-emerald-50 text-black font-bold uppercase tracking-wider text-[11px] border-b-2 border-emerald-100">
                   <tr>
                     <th className="px-5 py-4 font-bold text-black">Salon Name</th>
                     <th className="px-4 py-4 font-bold text-black">Owner / Contact</th>
@@ -176,18 +171,18 @@ export const AccountDeletionsPage: React.FC = () => {
                     <th className="px-4 py-4 font-bold text-black text-right">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#BD5579]/10">
+                <tbody className="divide-y divide-emerald-100">
                   {paginatedData.map((item) => (
-                    <tr key={item.id} className="hover:bg-rose-50/50 transition-colors group">
+                    <tr key={item.id} className="hover:bg-emerald-50/50 transition-colors group">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-900 border border-rose-300 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
-                            <Store className="w-4 h-4 text-rose-800" />
+                          <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-800 border border-rose-300 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
+                            <Store className="w-4 h-4 text-rose-700" />
                           </div>
                           <div>
                             <div className="font-bold text-black text-sm">{item.salon_name}</div>
                             {item.salon_id && (
-                              <div className="text-[10px] text-black font-mono font-semibold">
+                              <div className="text-[10px] text-emerald-950 font-mono font-semibold">
                                 ID: {item.salon_id.slice(0, 10)}...
                               </div>
                             )}
@@ -207,13 +202,13 @@ export const AccountDeletionsPage: React.FC = () => {
                         <div className="font-bold text-black">
                           {formatDate(item.deleted_at || item.created_at)}
                         </div>
-                        <div className="text-[10.5px] text-black font-semibold">
+                        <div className="text-[10.5px] text-emerald-900 font-semibold">
                           {formatTimeAgo(item.deleted_at || item.created_at)}
                         </div>
                       </td>
 
                       <td className="px-5 py-4 max-w-xs">
-                        <div className="p-2.5 rounded-xl bg-[#fdf2f6] border border-[#BD5579]/25 text-black font-bold text-xs line-clamp-2">
+                        <div className="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-black font-bold text-xs line-clamp-2">
                           {item.reason}
                         </div>
                       </td>
@@ -221,7 +216,7 @@ export const AccountDeletionsPage: React.FC = () => {
                       <td className="px-4 py-4 text-right">
                         <button
                           onClick={() => setSelectedRecord(item)}
-                          className="px-3 py-1.5 rounded-xl bg-[#601D49] text-[#FFEBB8] hover:bg-[#7d265f] text-xs font-bold transition-all shadow-plum-sm inline-flex items-center gap-1.5"
+                          className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold transition-all shadow-emerald-sm inline-flex items-center gap-1.5"
                         >
                           <Eye className="w-3.5 h-3.5" />
                           <span>View Reason</span>
@@ -253,7 +248,7 @@ export const AccountDeletionsPage: React.FC = () => {
           subtitle={`Deletion Audit ID: ${selectedRecord.id}`}
         >
           <div className="space-y-4 text-xs font-alata text-black">
-            <div className="bg-[#fdf9fa] p-4 rounded-xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
+            <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-2 font-bold text-black">
               <div className="flex justify-between">
                 <span>Salon Name:</span>
                 <span className="font-bold text-black">{selectedRecord.salon_name}</span>
@@ -276,7 +271,7 @@ export const AccountDeletionsPage: React.FC = () => {
 
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase text-black">Salon Owner's Stated Reason:</h4>
-              <div className="p-4 bg-rose-50 border-2 border-rose-200 rounded-xl text-black font-bold text-sm leading-relaxed whitespace-pre-wrap">
+              <div className="p-4 bg-emerald-50 border-2 border-emerald-200 rounded-xl text-black font-bold text-sm leading-relaxed whitespace-pre-wrap">
                 "{selectedRecord.reason}"
               </div>
             </div>

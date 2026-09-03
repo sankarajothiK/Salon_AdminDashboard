@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'purple' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream';
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'purple' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream' | 'emerald';
   size?: 'sm' | 'md';
   dot?: boolean;
   className?: string;
@@ -11,37 +11,39 @@ interface BadgeProps {
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
-  variant = 'default',
+  variant = 'emerald',
   size = 'md',
   dot = false,
   className,
 }) => {
   const variantStyles = {
-    default: 'bg-slate-100 text-slate-700 border-slate-200',
-    plum: 'bg-[#601D49]/10 text-[#601D49] border-[#601D49]/30',
-    berry: 'bg-[#BD5579]/10 text-[#BD5579] border-[#BD5579]/30',
-    blush: 'bg-[#EA9D9D]/20 text-[#601D49] border-[#EA9D9D]/50',
-    cream: 'bg-[#FFEBB8]/80 text-[#601D49] border-[#FFEBB8]',
-    gold: 'bg-[#FFEBB8] text-[#601D49] border-[#BD5579]/30 shadow-2xs',
-    success: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    warning: 'bg-amber-50 text-amber-800 border-amber-200',
-    danger: 'bg-rose-50 text-rose-800 border-rose-200',
-    info: 'bg-blue-50 text-blue-800 border-blue-200',
-    purple: 'bg-[#f5e7f0] text-[#601D49] border-[#edd1e3]',
+    default: 'bg-slate-100 text-slate-800 border-slate-300',
+    emerald: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    plum: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    berry: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    blush: 'bg-emerald-50 text-emerald-900 border-emerald-200',
+    cream: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    gold: 'bg-emerald-100 text-emerald-950 border-emerald-300 shadow-2xs',
+    success: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    warning: 'bg-amber-100 text-amber-950 border-amber-300',
+    danger: 'bg-rose-100 text-rose-950 border-rose-300',
+    info: 'bg-blue-100 text-blue-950 border-blue-300',
+    purple: 'bg-emerald-100 text-emerald-950 border-emerald-300',
   };
 
   const dotColors = {
-    default: 'bg-slate-400',
-    plum: 'bg-[#601D49]',
-    berry: 'bg-[#BD5579]',
-    blush: 'bg-[#EA9D9D]',
-    cream: 'bg-[#FFEBB8]',
-    gold: 'bg-[#BD5579]',
-    success: 'bg-emerald-500',
-    warning: 'bg-amber-500',
-    danger: 'bg-rose-500',
-    info: 'bg-blue-500',
-    purple: 'bg-[#601D49]',
+    default: 'bg-slate-500',
+    emerald: 'bg-emerald-600',
+    plum: 'bg-emerald-600',
+    berry: 'bg-emerald-600',
+    blush: 'bg-emerald-500',
+    cream: 'bg-emerald-500',
+    gold: 'bg-emerald-600',
+    success: 'bg-emerald-600',
+    warning: 'bg-amber-600',
+    danger: 'bg-rose-600',
+    info: 'bg-blue-600',
+    purple: 'bg-emerald-600',
   };
 
   const sizeStyles = {

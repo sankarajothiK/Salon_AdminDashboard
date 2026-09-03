@@ -14,12 +14,12 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleSidebar }) => {
   const { refreshSalons, loading } = useSalons();
 
   return (
-    <header className="h-16 bg-white/95 backdrop-blur-md border-b-2 border-[#BD5579]/20 px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs font-alata">
+    <header className="h-16 bg-white/95 backdrop-blur-md border-b-2 border-emerald-100 px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs font-alata">
       {/* Left controls */}
       <div className="flex items-center gap-4">
         <button
           onClick={onToggleSidebar}
-          className="p-2 text-black hover:bg-[#fcf2f6] rounded-xl transition-colors border border-[#BD5579]/20"
+          className="p-2 text-black hover:bg-emerald-50 hover:text-emerald-800 rounded-xl transition-colors border border-emerald-200"
           title="Toggle Sidebar"
         >
           <Menu className="w-5 h-5" />
@@ -32,7 +32,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleSidebar }) => {
       {/* Right controls */}
       <div className="flex items-center gap-3">
         {/* Live Supabase Connectivity Badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-xs text-black font-bold shadow-2xs">
+        <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-xs text-emerald-950 font-bold shadow-2xs">
           <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-700"></span>
@@ -43,15 +43,15 @@ export const TopNav: React.FC<TopNavProps> = ({ onToggleSidebar }) => {
         {/* Refresh button */}
         <button
           onClick={() => refreshSalons()}
-          className="p-2 text-black hover:text-[#601D49] hover:bg-[#fcf2f6] rounded-xl transition-colors border border-[#BD5579]/20"
+          className="p-2 text-black hover:text-emerald-700 hover:bg-emerald-50 rounded-xl transition-colors border border-emerald-200"
           title="Refresh Live Data"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#601D49]' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600' : ''}`} />
         </button>
 
         {/* Permanent Super Admin Role Pill */}
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#FFEBB8] border border-[#BD5579]/40 text-xs text-black font-bold shadow-2xs">
-          <Crown className="w-4 h-4 text-[#601D49]" />
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white border border-emerald-700 text-xs font-bold shadow-emerald-sm">
+          <Crown className="w-4 h-4 text-white" />
           <span>SUPER ADMIN</span>
         </div>
       </div>

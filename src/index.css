@@ -8,12 +8,12 @@
   }
 
   body {
-    background-color: #fdfaf7;
+    background-color: #f8fafc;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(255, 235, 184, 0.45) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(234, 157, 157, 0.3) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(189, 85, 121, 0.1) 0px, transparent 50%);
-    color: #3d0d2d;
+      radial-gradient(at 0% 0%, rgba(167, 243, 208, 0.45) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(209, 250, 229, 0.5) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(236, 253, 245, 0.6) 0px, transparent 50%);
+    color: #000000;
     font-family: 'Alata', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -21,53 +21,49 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Alata', sans-serif;
-    color: #601D49;
+    color: #000000;
     letter-spacing: -0.02em;
   }
 }
 
-/* Custom Scrollbar in Palette Tones */
+/* Custom Emerald Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #fdf7f9;
+  background: #f0fdf4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e4b6cc;
+  background: #a7f3d0;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #BD5579;
+  background: #059669;
 }
 
-/* Palette Specific Gradients & Utilities */
-.bg-palette-gradient {
-  background: linear-gradient(135deg, #601D49 0%, #BD5579 50%, #EA9D9D 100%);
+/* Emerald Gradients & Utilities */
+.bg-emerald-gradient {
+  background: linear-gradient(135deg, #064e3b 0%, #059669 50%, #10b981 100%);
 }
 
-.bg-plum-gradient {
-  background: linear-gradient(135deg, #601D49 0%, #812f65 100%);
+.bg-emerald-primary {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
 }
 
-.bg-berry-gradient {
-  background: linear-gradient(135deg, #BD5579 0%, #EA9D9D 100%);
+.bg-mint-glow {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
 }
 
-.bg-cream-glow {
-  background: linear-gradient(135deg, #FFEBB8 0%, #fff6db 100%);
+.border-emerald-subtle {
+  border-color: rgba(5, 150, 105, 0.2);
 }
 
-.border-palette-subtle {
-  border-color: rgba(189, 85, 121, 0.2);
-}
-
-.text-plum-gradient {
-  background: linear-gradient(135deg, #601D49 0%, #BD5579 100%);
+.text-emerald-gradient {
+  background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

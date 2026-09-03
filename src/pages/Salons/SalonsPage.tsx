@@ -86,7 +86,7 @@ export const SalonsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
@@ -98,7 +98,7 @@ export const SalonsPage: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
@@ -109,8 +109,8 @@ export const SalonsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Salons Table with Bold Black Typography */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Salons Table with Emerald & White Styling */}
+      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
         {filteredSalons.length === 0 ? (
           <EmptyState
             icon={<Store className="w-6 h-6" />}
@@ -120,7 +120,7 @@ export const SalonsPage: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-black">
-              <thead className="bg-[#fdf2f6] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+              <thead className="bg-emerald-50 text-black font-bold uppercase tracking-wider text-[11px] border-b-2 border-emerald-100">
                 <tr>
                   <th className="px-5 py-4 font-bold text-black">Salon Name</th>
                   <th className="px-4 py-4 font-bold text-black">Owner / Contact</th>
@@ -133,29 +133,29 @@ export const SalonsPage: React.FC = () => {
                   <th className="px-5 py-4 font-bold text-black text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#BD5579]/10">
+              <tbody className="divide-y divide-emerald-100">
                 {filteredSalons.map((salon) => {
                   const statusStyle = getSalonStatusStyle(salon.status);
 
                   return (
-                    <tr key={salon.id} className="hover:bg-[#fcf2f6]/60 transition-colors group">
+                    <tr key={salon.id} className="hover:bg-emerald-50/50 transition-colors group">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div
                             className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-2xs flex-shrink-0"
-                            style={{ backgroundColor: salon.theme_color || '#601D49' }}
+                            style={{ backgroundColor: salon.theme_color || '#059669' }}
                           >
                             {salon.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <Link
                               to={`/salons/${salon.id}`}
-                              className="font-bold text-black hover:text-[#601D49] transition-colors flex items-center gap-1 text-sm"
+                              className="font-bold text-black hover:text-emerald-700 transition-colors flex items-center gap-1 text-sm"
                             >
                               <span>{salon.name}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#601D49]" />
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" />
                             </Link>
-                            <span className="text-[10.5px] text-black font-semibold">
+                            <span className="text-[10.5px] text-emerald-900 font-semibold">
                               Registered {formatDate(salon.created_at)}
                             </span>
                           </div>
@@ -165,17 +165,17 @@ export const SalonsPage: React.FC = () => {
                       <td className="px-4 py-4">
                         <div className="font-bold text-black">{salon.owner_name || '—'}</div>
                         <div className="text-[11px] text-black font-semibold flex items-center gap-1 mt-0.5">
-                          <Phone className="w-3.5 h-3.5 text-black" />
+                          <Phone className="w-3.5 h-3.5 text-emerald-700" />
                           <span>{formatPhoneNumber(salon.phone_number)}</span>
                         </div>
                       </td>
 
                       <td className="px-4 py-4">
                         <div className="text-black font-bold flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-black" />
+                          <MapPin className="w-3.5 h-3.5 text-emerald-700" />
                           <span>{salon.city || '—'}</span>
                         </div>
-                        <div className="text-[10.5px] text-black font-semibold truncate max-w-[140px]">
+                        <div className="text-[10.5px] text-emerald-900 font-semibold truncate max-w-[140px]">
                           {salon.address || '—'}
                         </div>
                       </td>
@@ -209,14 +209,14 @@ export const SalonsPage: React.FC = () => {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => setSelectedSalonId(salon.id)}
-                            className="px-3 py-1 text-[11px] rounded-lg bg-[#FFEBB8] text-black border border-[#BD5579]/30 font-bold transition-colors"
-                            title="Filter whole dashboard to this salon"
+                            className="px-3 py-1 text-[11px] rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border border-emerald-300 font-bold transition-colors"
+                            title="Filter dashboard to this salon"
                           >
                             Set Scope
                           </button>
                           <Link
                             to={`/salons/${salon.id}`}
-                            className="p-1.5 rounded-lg bg-[#601D49] text-[#FFEBB8] hover:bg-[#7d265f] transition-colors"
+                            className="p-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-2xs"
                             title="View 360 Salon Details"
                           >
                             <ExternalLink className="w-4 h-4" />

@@ -21,33 +21,33 @@ export const StatCard: React.FC<StatCardProps> = ({
   icon,
   trend,
   subtitle,
-  variant = 'plum',
+  variant = 'emerald',
   className,
 }) => {
   const iconColors = {
-    plum: 'bg-[#601D49] text-[#FFEBB8] border-[#601D49] shadow-plum-sm',
-    berry: 'bg-[#BD5579] text-white border-[#BD5579] shadow-berry-sm',
-    blush: 'bg-[#EA9D9D] text-black border-[#BD5579]/40 shadow-2xs',
-    cream: 'bg-[#FFEBB8] text-black border-[#BD5579]/40 shadow-2xs',
-    gold: 'bg-[#FFEBB8] text-black border-[#BD5579]/40 shadow-2xs',
-    amber: 'bg-[#FFEBB8] text-black border-[#FFEBB8] shadow-2xs',
-    emerald: 'bg-emerald-600 text-white border-emerald-700 shadow-2xs',
-    purple: 'bg-[#601D49] text-[#FFEBB8] border-[#601D49] shadow-2xs',
-    blue: 'bg-blue-600 text-white border-blue-700 shadow-2xs',
-    rose: 'bg-[#BD5579] text-white border-[#BD5579] shadow-2xs',
-    indigo: 'bg-[#601D49] text-white border-[#601D49] shadow-2xs',
+    emerald: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
+    plum: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
+    berry: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
+    blush: 'bg-emerald-50 text-emerald-800 border-emerald-200 shadow-2xs',
+    cream: 'bg-emerald-100 text-emerald-900 border-emerald-300 shadow-2xs',
+    gold: 'bg-emerald-100 text-emerald-900 border-emerald-300 shadow-2xs',
+    amber: 'bg-amber-100 text-amber-900 border-amber-300 shadow-2xs',
+    purple: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-2xs',
+    blue: 'bg-blue-100 text-blue-900 border-blue-300 shadow-2xs',
+    rose: 'bg-rose-100 text-rose-800 border-rose-300 shadow-2xs',
+    indigo: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-2xs',
   };
 
   return (
     <div
       className={clsx(
-        'bg-white border-2 border-[#BD5579]/20 rounded-2xl p-5 hover:shadow-card-elevated hover:border-[#601D49] transition-all shadow-card-subtle font-alata group',
+        'bg-white border-2 border-emerald-100 rounded-2xl p-5 hover:shadow-card-elevated hover:border-emerald-500 transition-all shadow-card-subtle font-alata group',
         className
       )}
     >
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold uppercase tracking-wider text-black">{title}</span>
-        <div className={clsx('w-10 h-10 rounded-xl flex items-center justify-center border group-hover:scale-105 transition-transform', iconColors[variant])}>
+        <div className={clsx('w-10 h-10 rounded-xl flex items-center justify-center border-2 group-hover:scale-105 transition-transform', iconColors[variant])}>
           {icon}
         </div>
       </div>
@@ -59,7 +59,7 @@ export const StatCard: React.FC<StatCardProps> = ({
               <span
                 className={clsx(
                   'inline-flex items-center gap-0.5 font-bold px-2 py-0.5 rounded-md text-[11px]',
-                  trend.isPositive ? 'bg-emerald-100 text-black border border-emerald-300' : 'bg-rose-100 text-black border border-rose-300'
+                  trend.isPositive ? 'bg-emerald-100 text-emerald-950 border border-emerald-300' : 'bg-rose-100 text-rose-950 border border-rose-300'
                 )}
               >
                 {trend.isPositive ? <TrendingUp className="w-3.5 h-3.5 text-emerald-800" /> : <TrendingDown className="w-3.5 h-3.5 text-rose-800" />}

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Sparkles,
-  Scissors,
   Clock,
-  IndianRupee,
   Search,
-  Filter,
-  Layers,
-  Crown,
-  Gem,
 } from 'lucide-react';
 import { serviceCatalogService } from '@/services/serviceCatalogService';
 import { useSalons } from '@/contexts/SalonContext';
@@ -55,8 +48,8 @@ export const ServicesPage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6 font-alata">
-      {/* Header with Bold Black Typography */}
+    <div className="space-y-6 font-alata text-black">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Services & Treatment Catalog</h1>
@@ -84,18 +77,18 @@ export const ServicesPage: React.FC = () => {
       </div>
 
       {/* Filter and Category Bar */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1.5 bg-[#fdf2f6] p-1 rounded-xl border border-[#BD5579]/15">
+          <div className="flex flex-wrap gap-1.5 bg-emerald-50/70 p-1 rounded-xl border border-emerald-200">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
                   selectedCategory === cat
-                    ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs'
-                    : 'text-black hover:text-[#601D49]'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'text-black hover:text-emerald-800'
                 }`}
               >
                 {cat}
@@ -107,7 +100,7 @@ export const ServicesPage: React.FC = () => {
           <select
             value={salonFilter}
             onChange={(e) => setSalonFilter(e.target.value)}
-            className="bg-[#fdf9fa] border border-[#BD5579]/25 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           >
             <option value="all">All Salons (Direct Supabase)</option>
             {salons.map((s) => (
@@ -126,7 +119,7 @@ export const ServicesPage: React.FC = () => {
         />
       </div>
 
-      {/* Services Grid with Bold Black Typography */}
+      {/* Services Grid with Emerald & White Styling */}
       {loading ? (
         <LoadingSpinner message="Querying live service catalog from Supabase..." size="md" />
       ) : (
@@ -134,20 +127,20 @@ export const ServicesPage: React.FC = () => {
           {filteredServices.map((svc) => (
             <div
               key={svc.id}
-              className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 hover:border-[#601D49] hover:shadow-card-elevated transition-all shadow-card-subtle flex flex-col justify-between group"
+              className="bg-white border-2 border-emerald-100 rounded-2xl p-5 hover:border-emerald-500 hover:shadow-card-elevated transition-all shadow-card-subtle flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FFEBB8] text-black border border-[#BD5579]/30">
+                  <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300">
                     {svc.category}
                   </span>
-                  <div className="flex items-center gap-1 text-[11px] text-black font-bold">
-                    <Clock className="w-3.5 h-3.5 text-black" />
+                  <div className="flex items-center gap-1 text-[11px] text-emerald-900 font-bold">
+                    <Clock className="w-3.5 h-3.5 text-emerald-700" />
                     <span>{svc.duration_minutes} min</span>
                   </div>
                 </div>
 
-                <h3 className="text-sm font-bold text-black mt-3 group-hover:text-[#601D49] transition-colors">
+                <h3 className="text-sm font-bold text-black mt-3 group-hover:text-emerald-700 transition-colors">
                   {svc.name}
                 </h3>
                 <p className="text-xs text-black font-semibold mt-1 line-clamp-2">
@@ -155,7 +148,7 @@ export const ServicesPage: React.FC = () => {
                 </p>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[#BD5579]/15 flex items-center justify-between">
+              <div className="pt-4 mt-4 border-t border-emerald-100 flex items-center justify-between">
                 <span className="text-xs text-black font-bold">Pricing</span>
                 <span className="text-base font-bold text-black">
                   {formatCurrency(svc.price)}

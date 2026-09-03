@@ -52,17 +52,17 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="space-y-6 font-alata text-black">
-      {/* Royal Header Banner with Bold Black Text */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-[#601D49]/15 via-[#BD5579]/15 to-[#FFEBB8]/30 border-2 border-[#BD5579]/30 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
+      {/* Executive Header Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-emerald-100/70 via-emerald-50/50 to-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#601D49] via-[#BD5579] to-[#EA9D9D] flex items-center justify-center text-[#FFEBB8] shadow-plum-sm flex-shrink-0 border-2 border-[#FFEBB8]">
-              <Crown className="w-4 h-4 text-[#FFEBB8]" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-800 to-emerald-500 flex items-center justify-center text-white shadow-emerald-sm flex-shrink-0 border-2 border-emerald-300">
+              <Crown className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
               {isMultiSalon ? 'Company Platform Overview' : `${selectedSalon?.name || 'Salon'} Dashboard`}
             </h1>
-            <span className="px-3 py-0.5 rounded-full bg-[#FFEBB8] text-black border border-[#BD5579]/40 text-xs font-bold shadow-2xs">
+            <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold shadow-2xs">
               Live Supabase
             </span>
           </div>
@@ -86,9 +86,9 @@ export const DashboardPage: React.FC = () => {
           />
           <Link
             to="/reports"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#601D49] hover:bg-[#7d265f] text-[#FFEBB8] text-xs font-bold shadow-plum-sm transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-emerald-sm transition-all"
           >
-            <Gem className="w-3.5 h-3.5 text-[#FFEBB8]" />
+            <Gem className="w-3.5 h-3.5 text-white" />
             <span>Executive BI Reports</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -103,7 +103,7 @@ export const DashboardPage: React.FC = () => {
             value={metrics.totalSalons}
             icon={<Store className="w-5 h-5" />}
             subtitle={`${metrics.activeSalons} actively operating`}
-            variant="plum"
+            variant="emerald"
           />
         ) : (
           <StatCard
@@ -111,7 +111,7 @@ export const DashboardPage: React.FC = () => {
             value="Active"
             icon={<Store className="w-5 h-5" />}
             subtitle={`Owner: ${selectedSalon?.owner_name || 'Owner'}`}
-            variant="plum"
+            variant="emerald"
           />
         )}
 
@@ -120,7 +120,7 @@ export const DashboardPage: React.FC = () => {
           value={metrics.totalCustomers}
           icon={<Users className="w-5 h-5" />}
           subtitle={`${metrics.returningCustomers} repeat client visits`}
-          variant="berry"
+          variant="emerald"
         />
 
         <StatCard
@@ -128,7 +128,7 @@ export const DashboardPage: React.FC = () => {
           value={formatCurrency(metrics.todayRevenue)}
           icon={<IndianRupee className="w-5 h-5" />}
           subtitle={`Month: ${formatCurrency(metrics.thisMonthRevenue)}`}
-          variant="cream"
+          variant="emerald"
         />
 
         <StatCard
@@ -136,20 +136,20 @@ export const DashboardPage: React.FC = () => {
           value={metrics.todayAppointments}
           icon={<Calendar className="w-5 h-5" />}
           subtitle={`${metrics.completedAppointmentsToday} completed today`}
-          variant="blush"
+          variant="emerald"
         />
       </div>
 
-      {/* Charts Section with Bold Black Typography */}
+      {/* Charts Section with Emerald & White Styling */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue Trend Area Chart */}
-        <div className="lg:col-span-2 bg-white border-2 border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle">
+        <div className="lg:col-span-2 bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-bold text-black">Revenue Trajectory (Last 14 Days)</h3>
               <p className="text-xs text-black font-semibold">Daily gross billing collection aggregated from invoices</p>
             </div>
-            <span className="text-xs font-bold text-black bg-[#FFEBB8] px-2.5 py-1 rounded-lg border border-[#BD5579]/40">
+            <span className="text-xs font-bold text-emerald-950 bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-300">
               {formatCurrency(metrics.dailyRevenueTrend.reduce((sum, d) => sum + d.revenue, 0))} Total
             </span>
           </div>
@@ -157,7 +157,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Appointment Status Donut */}
-        <div className="bg-white border-2 border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle">
+        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle">
           <div className="mb-4">
             <h3 className="text-sm font-bold text-black">Appointment Breakdown</h3>
             <p className="text-xs text-black font-semibold">Status distribution across bookings</p>
@@ -169,13 +169,13 @@ export const DashboardPage: React.FC = () => {
       {/* Bottom Section: Salon Leaderboard & Live Activity Stream */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Salon Leaderboard */}
-        <div className="lg:col-span-1 bg-white border-2 border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle flex flex-col">
+        <div className="lg:col-span-1 bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-bold text-black">Salon Performance</h3>
               <p className="text-xs text-black font-semibold">Revenue & volume ranking</p>
             </div>
-            <Link to="/salons" className="text-xs text-black hover:text-[#601D49] font-bold">
+            <Link to="/salons" className="text-xs text-emerald-700 hover:text-emerald-900 font-bold">
               View All &rarr;
             </Link>
           </div>
@@ -184,25 +184,25 @@ export const DashboardPage: React.FC = () => {
             {metrics.revenueBySalon.map((s, idx) => (
               <div
                 key={s.salonId}
-                className="p-3.5 rounded-xl bg-[#fdfafb] border border-[#BD5579]/20 hover:border-[#601D49] transition-all flex items-center justify-between"
+                className="p-3.5 rounded-xl bg-white border border-emerald-200 hover:border-emerald-500 transition-all flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-[#FFEBB8] text-black flex items-center justify-center text-xs font-bold border border-[#BD5579]/40 shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-950 flex items-center justify-center text-xs font-bold border border-emerald-300 shadow-2xs">
                     #{idx + 1}
                   </div>
                   <div>
                     <Link
                       to={`/salons/${s.salonId}`}
-                      className="text-xs font-bold text-black hover:text-[#601D49] transition-colors"
+                      className="text-xs font-bold text-black hover:text-emerald-700 transition-colors"
                     >
                       {s.salonName}
                     </Link>
-                    <div className="text-[10.5px] text-black font-semibold">{s.appointments} appointments</div>
+                    <div className="text-[10.5px] text-emerald-900 font-semibold">{s.appointments} appointments</div>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-xs font-bold text-black">{formatCurrency(s.revenue)}</div>
-                  <div className="text-[10px] text-black font-bold">Collected</div>
+                  <div className="text-[10px] text-emerald-900 font-bold">Collected</div>
                 </div>
               </div>
             ))}
@@ -210,16 +210,16 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Live System Activity Feed */}
-        <div className="lg:col-span-2 bg-white border-2 border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle flex flex-col">
+        <div className="lg:col-span-2 bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-black" />
+              <Activity className="w-4 h-4 text-emerald-600" />
               <div>
                 <h3 className="text-sm font-bold text-black">Recent Platform Activity</h3>
                 <p className="text-xs text-black font-semibold">Live operational event stream across all salons</p>
               </div>
             </div>
-            <Link to="/activity" className="text-xs text-black hover:text-[#601D49] font-bold">
+            <Link to="/activity" className="text-xs text-emerald-700 hover:text-emerald-900 font-bold">
               Full Audit Stream &rarr;
             </Link>
           </div>
@@ -231,21 +231,21 @@ export const DashboardPage: React.FC = () => {
               activities.map((act) => (
                 <div
                   key={act.id}
-                  className="p-3.5 rounded-xl bg-[#fdfafb] border border-[#BD5579]/20 hover:border-[#601D49] transition-all flex items-start justify-between gap-3 text-xs"
+                  className="p-3.5 rounded-xl bg-white border border-emerald-200 hover:border-emerald-500 transition-all flex items-start justify-between gap-3 text-xs"
                 >
                   <div className="flex items-start gap-2.5">
-                    <div className="w-2 h-2 rounded-full bg-[#601D49] mt-1.5 flex-shrink-0" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-600 mt-1 flex-shrink-0" />
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-black">{act.title}</span>
-                        <span className="px-2 py-0.5 rounded text-[10px] bg-[#FFEBB8] text-black font-bold border border-[#BD5579]/40">
+                        <span className="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-950 font-bold border border-emerald-300">
                           {act.salonName}
                         </span>
                       </div>
                       <p className="text-black font-semibold text-xs mt-0.5">{act.description}</p>
                     </div>
                   </div>
-                  <span className="text-[10px] text-black font-bold whitespace-nowrap flex-shrink-0">
+                  <span className="text-[10px] text-emerald-900 font-bold whitespace-nowrap flex-shrink-0">
                     {formatTimeAgo(act.timestamp)}
                   </span>
                 </div>
