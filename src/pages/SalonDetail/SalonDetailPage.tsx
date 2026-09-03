@@ -185,7 +185,7 @@ export const SalonDetailPage: React.FC = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b-2 border-emerald-100 space-x-2">
+      <div className="flex border-b-2 border-emerald-100 space-x-2 overflow-x-auto whitespace-nowrap pb-1">
         {[
           { key: 'overview', label: 'Overview & Activity' },
           { key: 'customers', label: `Customers (${customers.length})` },
@@ -197,7 +197,7 @@ export const SalonDetailPage: React.FC = () => {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as any)}
-            className={`px-4 py-3 text-xs font-bold border-b-2 transition-all ${
+            className={`px-4 py-3 text-xs font-bold border-b-2 transition-all flex-shrink-0 ${
               activeTab === tab.key
                 ? 'border-emerald-600 text-emerald-950 bg-emerald-100/70 rounded-t-xl'
                 : 'border-transparent text-black hover:text-emerald-700'
