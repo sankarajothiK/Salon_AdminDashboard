@@ -136,7 +136,7 @@ export interface Expense {
 
 export interface NotificationLog {
   id: string;
-  salon_id: string;
+  salon_id?: string | null;
   customer_id?: string | null;
   appointment_id?: string | null;
   type: string;
@@ -162,16 +162,27 @@ export interface WhatsAppMessage {
   customer?: Customer;
 }
 
+export interface AccountDeletion {
+  id: string;
+  salon_id?: string;
+  salon_name?: string;
+  owner_name?: string;
+  phone_number?: string;
+  reason: string;
+  deleted_at?: string;
+  created_at?: string;
+}
+
 export interface ActivityEvent {
   id: string;
-  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent';
+  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent' | 'account_deleted';
   title: string;
   description: string;
   salonId: string;
   salonName?: string;
   timestamp: string;
   entityId?: string;
-  entityType?: 'customer' | 'appointment' | 'bill' | 'salon' | 'staff';
+  entityType?: 'customer' | 'appointment' | 'bill' | 'salon' | 'staff' | 'account_deletion';
   metadata?: Record<string, any>;
 }
 

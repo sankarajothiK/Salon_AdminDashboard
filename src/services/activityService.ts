@@ -15,6 +15,7 @@ export const activityService = {
       let billsQuery = supabase.from('bills').select('id, total, created_at, salon_id, customer:customer_id(name), salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
       let notifsQuery = supabase.from('notifications').select('id, title, message, status, type, created_at, salon_id, salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
       let waQuery = supabase.from('whatsapp_messages').select('id, phone_number, status, created_at, salon_id, salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
+      let deletionsQuery = supabase.from('account_deletions').select('*').order('created_at', { ascending: false }).limit(limit);
 
       if (salonId && salonId !== 'all') {
         customersQuery = customersQuery.eq('salon_id', salonId);
@@ -22,18 +23,35 @@ export const activityService = {
         billsQuery = billsQuery.eq('salon_id', salonId);
         notifsQuery = notifsQuery.eq('salon_id', salonId);
         waQuery = waQuery.eq('salon_id', salonId);
+        deletionsQuery = deletionsQuery.eq('salon_id', salonId);
       }
 
-      const [salonsRes, customersRes, apptsRes, billsRes, notifsRes, waRes] = await Promise.all([
+      const [salonsRes, customersRes, apptsRes, billsRes, notifsRes, waRes, deletionsRes] = await Promise.all([
         salonsQuery,
         customersQuery,
         apptsQuery,
         billsQuery,
         notifsQuery,
         waQuery,
+        deletionsQuery,
       ]);
 
       const events: ActivityEvent[] = [];
+
+      // Process Account Deletions
+      (deletionsRes.data || []).forEach((d: any) => {
+        events.push({
+          id: `del-${d.id}`,
+          type: 'account_deleted',
+          title: `Account Deleted: ${d.salon_name}`,
+          description: `Salon owner requested account deletion. Reason: "${d.reason}"`,
+          salonId: d.salon_id,
+          salonName: d.salon_name || 'Deleted Salon',
+          timestamp: d.deleted_at || d.created_at,
+          entityId: d.id,
+          entityType: 'account_deletion',
+        });
+      });
 
       // Process Salons
       if (!salonId || salonId === 'all') {

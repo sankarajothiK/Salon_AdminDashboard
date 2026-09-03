@@ -11,6 +11,7 @@ import {
   PieChart,
   Activity,
   AlertTriangle,
+  UserX,
   Settings,
   LogOut,
   Crown,
@@ -40,25 +41,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     { label: 'Reports & BI', path: '/reports', icon: Gem },
     { label: 'Activity & Audit', path: '/activity', icon: Activity },
     { label: 'System Alerts', path: '/alerts', icon: AlertTriangle },
+    { label: 'Account Deletions', path: '/account-deletions', icon: UserX },
     { label: 'Settings', path: '/settings', icon: Settings },
   ];
-
-  const getRoleBadge = () => {
-    switch (user?.role) {
-      case 'super_admin':
-        return { label: 'Super Admin', color: 'bg-[#FFEBB8] text-black border-[#BD5579]/40' };
-      case 'company_admin':
-        return { label: 'Company Admin', color: 'bg-[#EA9D9D]/30 text-black border-[#BD5579]/40' };
-      case 'support_admin':
-        return { label: 'Support Staff', color: 'bg-slate-200 text-black border-slate-300' };
-      case 'salon_admin':
-        return { label: 'Salon Admin', color: 'bg-emerald-100 text-black border-emerald-300' };
-      default:
-        return { label: 'Admin', color: 'bg-slate-200 text-black border-slate-300' };
-    }
-  };
-
-  const roleInfo = getRoleBadge();
 
   return (
     <aside
@@ -88,20 +73,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         )}
       </div>
 
-      {/* Role Indicator */}
+      {/* Super Admin Indicator */}
       {!collapsed && (
         <div className="px-4 py-2.5 bg-[#fdf5f8] border-b border-[#BD5579]/15">
           <div className="flex items-center justify-between text-xs font-bold text-black">
             <span className="truncate max-w-[110px] text-black">{user?.name}</span>
-            <span className={clsx('text-[10.5px] font-bold px-2 py-0.5 rounded-full border shadow-2xs', roleInfo.color)}>
-              {roleInfo.label}
+            <span className="text-[10.5px] font-bold px-2 py-0.5 rounded-full border shadow-2xs bg-[#FFEBB8] text-black border-[#BD5579]/40">
+              Super Admin
             </span>
           </div>
         </div>
       )}
 
-      {/* Navigation Links with Bold Black High Contrast */}
-      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+      {/* Navigation Links with High-Contrast Bold Black Typography */}
+      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto">
         {navItems.map((item) => (
           <NavLink
             key={item.path}

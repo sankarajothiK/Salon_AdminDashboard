@@ -21,6 +21,7 @@ import { ExpensesPage } from './pages/Expenses/ExpensesPage';
 import { ReportsPage } from './pages/Reports/ReportsPage';
 import { ActivityPage } from './pages/Activity/ActivityPage';
 import { AlertsPage } from './pages/Alerts/AlertsPage';
+import { AccountDeletionsPage } from './pages/AccountDeletions/AccountDeletionsPage';
 import { SettingsPage } from './pages/Settings/SettingsPage';
 
 export function App() {
@@ -56,6 +57,7 @@ export function App() {
                 <Route path="reports" element={<ReportsPage />} />
                 <Route path="activity" element={<ActivityPage />} />
                 <Route path="alerts" element={<AlertsPage />} />
+                <Route path="account-deletions" element={<AccountDeletionsPage />} />
                 <Route path="settings" element={<SettingsPage />} />
               </Route>
 
