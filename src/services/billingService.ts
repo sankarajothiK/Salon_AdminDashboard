@@ -13,6 +13,17 @@ export interface BillingFilterOptions {
   offset?: number;
 }
 
+export interface RevenueSummaryData {
+  todayRevenue: number;
+  weekRevenue: number;
+  monthRevenue: number;
+  totalRevenue: number;
+  allTimeRevenue: number;
+  todayBillCount: number;
+  monthBillCount: number;
+  totalBillCount: number;
+}
+
 export const billingService = {
   /**
    * Fetch bills with salon, customer, and item joins
@@ -68,13 +79,7 @@ export const billingService = {
    * Get overall revenue aggregates for today, this week, this month, and all time
    */
   async getRevenueSummary(salonId?: string): Promise<{
-    todayRevenue: number;
-    weekRevenue: number;
-    monthRevenue: number;
-    totalRevenue: number;
-    todayBillCount: number;
-    monthBillCount: number;
-    totalBillCount: number;
+    data: RevenueSummaryData | null;
     error: string | null;
   }> {
     try {
@@ -87,13 +92,16 @@ export const billingService = {
       if (error) throw error;
       if (!data) {
         return {
-          todayRevenue: 0,
-          weekRevenue: 0,
-          monthRevenue: 0,
-          totalRevenue: 0,
-          todayBillCount: 0,
-          monthBillCount: 0,
-          totalBillCount: 0,
+          data: {
+            todayRevenue: 0,
+            weekRevenue: 0,
+            monthRevenue: 0,
+            totalRevenue: 0,
+            allTimeRevenue: 0,
+            todayBillCount: 0,
+            monthBillCount: 0,
+            totalBillCount: 0,
+          },
           error: null,
         };
       }
@@ -130,25 +138,31 @@ export const billingService = {
       });
 
       return {
-        todayRevenue,
-        weekRevenue,
-        monthRevenue,
-        totalRevenue,
-        todayBillCount,
-        monthBillCount,
-        totalBillCount: data.length,
+        data: {
+          todayRevenue,
+          weekRevenue,
+          monthRevenue,
+          totalRevenue,
+          allTimeRevenue: totalRevenue,
+          todayBillCount,
+          monthBillCount,
+          totalBillCount: data.length,
+        },
         error: null,
       };
     } catch (err: any) {
       console.error('billingService.getRevenueSummary error:', err);
       return {
-        todayRevenue: 0,
-        weekRevenue: 0,
-        monthRevenue: 0,
-        totalRevenue: 0,
-        todayBillCount: 0,
-        monthBillCount: 0,
-        totalBillCount: 0,
+        data: {
+          todayRevenue: 0,
+          weekRevenue: 0,
+          monthRevenue: 0,
+          totalRevenue: 0,
+          allTimeRevenue: 0,
+          todayBillCount: 0,
+          monthBillCount: 0,
+          totalBillCount: 0,
+        },
         error: err.message,
       };
     }

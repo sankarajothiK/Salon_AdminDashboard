@@ -3,12 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Receipt,
   Search,
-  Filter,
   IndianRupee,
-  FileText,
-  Eye,
-  Calendar,
-  Crown,
 } from 'lucide-react';
 import { billingService } from '@/services/billingService';
 import { useSalons } from '@/contexts/SalonContext';
@@ -65,9 +60,39 @@ export const BillingPage: React.FC = () => {
         setBills(billsRes.data);
         setTotalCount(billsRes.totalCount);
       }
+
       if (summaryRes.data) {
-        setSummary(summaryRes.data);
+        setSummary({
+          todayRevenue: summaryRes.data.todayRevenue || 0,
+          weekRevenue: summaryRes.data.weekRevenue || 0,
+          monthRevenue: summaryRes.data.monthRevenue || 0,
+          allTimeRevenue: summaryRes.data.allTimeRevenue || summaryRes.data.totalRevenue || 0,
+        });
+      } else if (billsRes.data && billsRes.data.length > 0) {
+        // Fallback calculation directly from fetched bills
+        const now = new Date();
+        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const weekStart = todayStart - 7 * 24 * 60 * 60 * 1000;
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+
+        let tRev = 0, wRev = 0, mRev = 0, aRev = 0;
+        billsRes.data.forEach((b) => {
+          const amt = Number(b.total) || 0;
+          const time = new Date(b.created_at).getTime();
+          aRev += amt;
+          if (time >= todayStart) tRev += amt;
+          if (time >= weekStart) wRev += amt;
+          if (time >= monthStart) mRev += amt;
+        });
+
+        setSummary({
+          todayRevenue: tRev,
+          weekRevenue: wRev,
+          monthRevenue: mRev,
+          allTimeRevenue: aRev,
+        });
       }
+
       setLoading(false);
     };
 
@@ -75,6 +100,14 @@ export const BillingPage: React.FC = () => {
   }, [salonFilter, currentPage]);
 
   const totalPages = Math.ceil(totalCount / pageSize);
+
+  const filteredBills = bills.filter((b) => {
+    const term = search.toLowerCase();
+    const custName = (b.customer?.name || '').toLowerCase();
+    const invId = (b.id || '').toLowerCase();
+    const salonName = (b.salon?.name || '').toLowerCase();
+    return custName.includes(term) || invId.includes(term) || salonName.includes(term);
+  });
 
   return (
     <div className="space-y-6 font-alata text-black">
@@ -151,7 +184,7 @@ export const BillingPage: React.FC = () => {
             setSearch(val);
             setCurrentPage(1);
           }}
-          placeholder="Search by customer name or invoice ID..."
+          placeholder="Search by customer name, salon, or invoice ID..."
           className="flex-1 text-black font-bold"
         />
 
@@ -176,7 +209,7 @@ export const BillingPage: React.FC = () => {
       <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Reading invoice ledger from Supabase..." size="md" />
-        ) : bills.length === 0 ? (
+        ) : filteredBills.length === 0 ? (
           <EmptyState
             icon={<Receipt className="w-6 h-6" />}
             title="No invoices recorded"
@@ -198,7 +231,7 @@ export const BillingPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-100">
-                  {bills.map((bill) => (
+                  {filteredBills.map((bill) => (
                     <tr key={bill.id} className="hover:bg-emerald-50/50 transition-colors">
                       <td className="px-5 py-4 font-mono text-[11px] font-bold text-black">
                         #{bill.id.slice(0, 8)}
