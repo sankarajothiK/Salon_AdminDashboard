@@ -5,9 +5,10 @@ import {
   MapPin,
   Phone,
   Calendar,
-  Users,
-  IndianRupee,
-  Activity,
+  Smartphone,
+  CheckCircle2,
+  Clock,
+  UserX,
   ArrowUpRight,
   ExternalLink,
   Crown,
@@ -18,7 +19,6 @@ import { ExportDropdown } from '@/components/common/ExportDropdown';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { EmptyState } from '@/components/common/EmptyState';
 import { formatCurrency, formatDate, formatPhoneNumber, formatTimeAgo } from '@/utils/formatters';
-import { getSalonStatusStyle } from '@/utils/statusBadge';
 
 export const SalonsPage: React.FC = () => {
   const { salons, loading, setSelectedSalonId } = useSalons();
@@ -40,7 +40,7 @@ export const SalonsPage: React.FC = () => {
   }, [salons, search, statusFilter]);
 
   if (loading) {
-    return <LoadingSpinner message="Fetching registered salons from Supabase..." size="lg" />;
+    return <LoadingSpinner message="Fetching registered salons and app telemetry from Supabase..." size="lg" />;
   }
 
   return (
@@ -48,9 +48,9 @@ export const SalonsPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Salon Management</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Salon Management & Telemetry</h1>
           <p className="text-xs text-black font-semibold mt-1">
-            Overview of all salon businesses onboarded to our CRM platform ({salons.length} registered salons)
+            Overview of all onboarded salon partners, installed app versions, and operational health ({salons.length} registered salons)
           </p>
         </div>
 
@@ -60,26 +60,22 @@ export const SalonsPage: React.FC = () => {
             Owner: s.owner_name,
             Phone: s.phone_number,
             City: s.city,
-            Customers: s.customerCount || 0,
-            Appointments: s.appointmentCount || 0,
-            Revenue: s.totalRevenue || 0,
-            Status: s.status,
+            AppVersion: s.app_version || '1.0.0',
+            Status: s.status || 'Active',
             Registered: s.created_at,
           }))}
           fileName="registered_salons_report"
           pdfConfig={{
             title: 'Registered Salons Directory Report',
             subtitle: `Total Salons: ${salons.length}`,
-            headers: ['Salon Name', 'Owner', 'City', 'Phone', 'Customers', 'Appts', 'Revenue', 'Status'],
+            headers: ['Salon Name', 'Owner', 'City', 'Phone', 'App Version', 'Status'],
             rows: filteredSalons.map((s) => [
               s.name,
               s.owner_name,
               s.city,
               s.phone_number,
-              s.customerCount || 0,
-              s.appointmentCount || 0,
-              formatCurrency(s.totalRevenue),
-              s.status || 'Active',
+              `v${s.app_version || '1.0.0'}`,
+              s.status?.toUpperCase() || 'ACTIVE',
             ]),
           }}
         />
@@ -102,9 +98,9 @@ export const SalonsPage: React.FC = () => {
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
-            <option value="trial">Trial</option>
             <option value="inactive">Inactive</option>
-            <option value="suspended">Suspended</option>
+            <option value="uninstalled">Uninstalled</option>
+            <option value="trial">Trial</option>
           </select>
         </div>
       </div>
@@ -125,18 +121,14 @@ export const SalonsPage: React.FC = () => {
                   <th className="px-5 py-4 font-bold text-black">Salon Name</th>
                   <th className="px-4 py-4 font-bold text-black">Owner / Contact</th>
                   <th className="px-4 py-4 font-bold text-black">Location</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">Customers</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">Appts</th>
-                  <th className="px-4 py-4 font-bold text-black text-right">Revenue</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">Status</th>
-                  <th className="px-4 py-4 font-bold text-black">Last Activity</th>
+                  <th className="px-4 py-4 font-bold text-black text-center">App Version</th>
+                  <th className="px-4 py-4 font-bold text-black text-center">Lifecycle Status</th>
+                  <th className="px-4 py-4 font-bold text-black">Registered</th>
                   <th className="px-5 py-4 font-bold text-black text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-emerald-100">
                 {filteredSalons.map((salon) => {
-                  const statusStyle = getSalonStatusStyle(salon.status);
-
                   return (
                     <tr key={salon.id} className="hover:bg-emerald-50/50 transition-colors group">
                       <td className="px-5 py-4">
@@ -156,7 +148,7 @@ export const SalonsPage: React.FC = () => {
                               <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" />
                             </Link>
                             <span className="text-[10.5px] text-emerald-900 font-semibold">
-                              Registered {formatDate(salon.created_at)}
+                              ID: {salon.id.slice(0, 8)}...
                             </span>
                           </div>
                         </div>
@@ -181,28 +173,20 @@ export const SalonsPage: React.FC = () => {
                       </td>
 
                       <td className="px-4 py-4 text-center">
-                        <span className="font-bold text-black text-sm">{salon.customerCount || 0}</span>
-                      </td>
-
-                      <td className="px-4 py-4 text-center">
-                        <span className="font-bold text-black text-sm">{salon.appointmentCount || 0}</span>
-                      </td>
-
-                      <td className="px-4 py-4 text-right">
-                        <span className="font-bold text-black text-sm">{formatCurrency(salon.totalRevenue)}</span>
-                      </td>
-
-                      <td className="px-4 py-4 text-center">
-                        <span
-                          className={`inline-flex items-center gap-1.5 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border ${statusStyle.bg} text-black ${statusStyle.border}`}
-                        >
-                          <span className={`w-1.5 h-1.5 rounded-full ${statusStyle.dot}`} />
-                          {statusStyle.label}
+                        <span className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-950 font-mono font-bold text-xs border border-emerald-300">
+                          v{salon.app_version || '1.0.0'}
                         </span>
                       </td>
 
-                      <td className="px-4 py-4 text-black text-[11px] font-bold">
-                        {formatTimeAgo(salon.lastActivity)}
+                      <td className="px-4 py-4 text-center">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-300">
+                          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                          <span>Active</span>
+                        </span>
+                      </td>
+
+                      <td className="px-4 py-4 text-black text-xs font-bold">
+                        {formatDate(salon.created_at)}
                       </td>
 
                       <td className="px-5 py-4 text-right">

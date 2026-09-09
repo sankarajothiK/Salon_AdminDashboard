@@ -1,5 +1,7 @@
 export type UserRole = 'super_admin';
 
+export type SalonLifecycleStatus = 'active' | 'inactive' | 'uninstalled' | 'deleted';
+
 export interface AdminUser {
   id: string;
   email?: string;
@@ -20,7 +22,11 @@ export interface Salon {
   gstin?: string | null;
   theme_color?: string;
   created_at: string;
-  // Computed / Aggregated properties from Supabase
+  // Computed / Aggregated properties from Supabase & Telemetry
+  app_version?: string;
+  platform?: 'android' | 'ios';
+  lifecycle_status?: SalonLifecycleStatus;
+  last_active_at?: string;
   customerCount?: number;
   appointmentCount?: number;
   totalRevenue?: number;
@@ -54,7 +60,7 @@ export interface Staff {
   name: string;
   role: string;
   created_at: string;
-  // Computed fields from Supabase
+  phone_number?: string;
   salon?: Salon;
   appointmentCount?: number;
   completedAppointments?: number;
@@ -92,7 +98,6 @@ export interface Appointment {
   notes?: string;
   created_at: string;
   is_billed?: boolean;
-  // Relational joins from Supabase
   salon?: Salon;
   customer?: Customer;
   staff?: Staff;
@@ -108,7 +113,6 @@ export interface Bill {
   gst_amount: number;
   total: number;
   created_at: string;
-  // Relational joins from Supabase
   salon?: Salon;
   customer?: Customer;
   items?: BillItem[];
@@ -148,20 +152,6 @@ export interface NotificationLog {
   customer?: Customer;
 }
 
-export interface WhatsAppMessage {
-  id: string;
-  salon_id: string;
-  customer_id?: string | null;
-  bill_id?: string | null;
-  phone_number: string;
-  message: string;
-  status: 'pending' | 'sent' | 'failed';
-  api_response?: any;
-  created_at: string;
-  salon?: Salon;
-  customer?: Customer;
-}
-
 export interface AccountDeletion {
   id: string;
   salon_id?: string;
@@ -173,40 +163,81 @@ export interface AccountDeletion {
   created_at?: string;
 }
 
+export interface SupportMessage {
+  id: string;
+  salon_id?: string | null;
+  salon_name?: string;
+  customer_name?: string;
+  phone_number?: string;
+  email?: string;
+  subject: string;
+  message: string;
+  category: 'technical' | 'billing' | 'feature' | 'general' | 'bug' | 'inquiry';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  app_version?: string;
+  platform?: 'android' | 'ios' | 'web';
+  created_at: string;
+  resolved_at?: string;
+  notes?: string;
+}
+
+export interface AppTelemetryRecord {
+  id: string;
+  salon_id: string;
+  salon_name: string;
+  owner_name: string;
+  phone_number: string;
+  city?: string;
+  app_version: string;
+  platform: 'android' | 'ios';
+  status: SalonLifecycleStatus;
+  last_active_at: string;
+  login_count: number;
+  device_model: string;
+  os_version: string;
+  uninstalled_at?: string;
+  deleted_at?: string;
+  deletion_reason?: string;
+  errors_count: number;
+}
+
 export interface ActivityEvent {
   id: string;
-  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent' | 'account_deleted';
+  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent' | 'account_deleted' | 'support_received' | 'error_logged';
   title: string;
   description: string;
   salonId: string;
   salonName?: string;
   timestamp: string;
   entityId?: string;
-  entityType?: 'customer' | 'appointment' | 'bill' | 'salon' | 'staff' | 'account_deletion';
+  entityType?: 'customer' | 'appointment' | 'bill' | 'salon' | 'staff' | 'account_deletion' | 'support' | 'error';
   metadata?: Record<string, any>;
 }
 
 export interface PlatformMetrics {
   totalSalons: number;
   activeSalons: number;
+  inactiveSalons: number;
+  uninstalledSalons: number;
+  deletedSalons: number;
   totalCustomers: number;
-  newCustomersThisMonth: number;
-  returningCustomers: number;
-  todayAppointments: number;
-  completedAppointmentsToday: number;
-  todayRevenue: number;
+  openSupportMessages: number;
+  resolvedSupportMessages: number;
+  totalRevenue: number;
   thisMonthRevenue: number;
-  totalStaff: number;
+  versionDistribution: { version: string; count: number; percentage: number }[];
+  statusDistribution: { status: SalonLifecycleStatus; count: number; label: string }[];
   revenueBySalon: { salonId: string; salonName: string; revenue: number; appointments: number }[];
   dailyRevenueTrend: { date: string; revenue: number; count: number }[];
-  appointmentStatusCounts: { status: string; count: number }[];
+  recentErrorsCount: number;
 }
 
 export interface SystemAlert {
   id: string;
   salonId: string;
   salonName: string;
-  type: 'inactivity' | 'cancellation_spike' | 'failed_messaging' | 'revenue_drop';
+  type: 'inactivity' | 'cancellation_spike' | 'failed_messaging' | 'revenue_drop' | 'uninstall_detected' | 'error_spike';
   severity: 'low' | 'medium' | 'high' | 'critical';
   title: string;
   message: string;

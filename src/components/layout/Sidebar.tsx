@@ -3,12 +3,9 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   Store,
-  Users,
-  Calendar,
-  Sparkles,
-  UserCheck,
-  Receipt,
-  PieChart,
+  Gem,
+  MessageSquare,
+  Smartphone,
   Activity,
   AlertTriangle,
   UserX,
@@ -16,7 +13,6 @@ import {
   LogOut,
   Crown,
   ShieldCheck,
-  Gem,
   X,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -36,20 +32,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const { user, logout } = useAuth();
 
+  // Super Admin Executive Company Navigation
   const navItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { label: 'Salons', path: '/salons', icon: Store },
-    { label: 'Customers', path: '/customers', icon: Users },
-    { label: 'Appointments', path: '/appointments', icon: Calendar },
-    { label: 'Services', path: '/services', icon: Sparkles },
-    { label: 'Staff & Stylists', path: '/staff', icon: UserCheck },
-    { label: 'Billing & Invoices', path: '/billing', icon: Receipt },
-    { label: 'Expenses', path: '/expenses', icon: PieChart },
-    { label: 'Reports & BI', path: '/reports', icon: Gem },
-    { label: 'Activity & Audit', path: '/activity', icon: Activity },
-    { label: 'System Alerts', path: '/alerts', icon: AlertTriangle },
+    { label: 'Salons & 360°', path: '/salons', icon: Store },
+    { label: 'Reports & BI', path: '/reports', icon: Gem }, // 3rd item as requested
+    { label: 'Support Messages', path: '/support-messages', icon: MessageSquare },
+    { label: 'App Version & Telemetry', path: '/app-telemetry', icon: Smartphone },
+    { label: 'Platform Audit Trail', path: '/activity', icon: Activity },
+    { label: 'System Health Alerts', path: '/alerts', icon: AlertTriangle },
     { label: 'Account Deletions', path: '/account-deletions', icon: UserX },
-    { label: 'Settings', path: '/settings', icon: Settings },
+    { label: 'System Governance', path: '/settings', icon: Settings },
   ];
 
   return (
@@ -75,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <h1 className="text-sm font-bold text-black tracking-wide truncate flex items-center gap-1.5">
                 <span>SALON CRM</span>
                 <span className="text-[10px] text-emerald-900 bg-emerald-100 px-1.5 py-0.5 rounded-md border border-emerald-300 font-bold shadow-2xs">
-                  PRO
+                  SUPER ADMIN
                 </span>
               </h1>
               <div className="flex items-center gap-1 text-[11px] text-emerald-800 font-bold tracking-wide">
@@ -86,7 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
 
-        {/* Mobile Close Button (Visible only on mobile/tablet) */}
+        {/* Mobile Close Button */}
         <button
           onClick={onCloseMobile}
           className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:text-black hover:bg-emerald-50 transition-colors border border-emerald-200"
