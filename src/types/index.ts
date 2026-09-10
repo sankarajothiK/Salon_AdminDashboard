@@ -163,23 +163,37 @@ export interface AccountDeletion {
   created_at?: string;
 }
 
+export interface SupportMessageAnswer {
+  id: string;
+  support_message_id: string;
+  salon_id?: string | null;
+  salon_name?: string | null;
+  phone?: string | null;
+  answer: string;
+  answered_by: string;
+  created_at: string;
+}
+
 export interface SupportMessage {
   id: string;
   salon_id?: string | null;
-  salon_name?: string;
-  customer_name?: string;
-  phone_number?: string;
-  email?: string;
-  subject: string;
+  salon_name?: string | null;
+  owner_name?: string | null;
+  customer_name?: string | null;
+  phone?: string | null;
+  phone_number?: string | null;
+  email?: string | null;
+  subject?: string | null;
   message: string;
-  category: 'technical' | 'billing' | 'feature' | 'general' | 'bug' | 'inquiry';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  category: string;
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  status: 'open' | 'in_progress' | 'resolved' | 'replied' | 'closed';
   app_version?: string;
   platform?: 'android' | 'ios' | 'web';
   created_at: string;
   resolved_at?: string;
   notes?: string;
+  answers?: SupportMessageAnswer[];
 }
 
 export interface AppTelemetryRecord {
@@ -204,7 +218,7 @@ export interface AppTelemetryRecord {
 
 export interface ActivityEvent {
   id: string;
-  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent' | 'account_deleted' | 'support_received' | 'error_logged';
+  type: 'customer_created' | 'appointment_created' | 'appointment_completed' | 'appointment_cancelled' | 'bill_generated' | 'notification_sent' | 'salon_registered' | 'whatsapp_sent' | 'account_deleted' | 'support_received' | 'support_answered' | 'error_logged';
   title: string;
   description: string;
   salonId: string;

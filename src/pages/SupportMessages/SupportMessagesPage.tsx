@@ -4,16 +4,17 @@ import {
   Search,
   Filter,
   Phone,
-  Mail,
   CheckCircle2,
   Clock,
   AlertCircle,
-  Smartphone,
   ExternalLink,
   Crown,
   Eye,
   Send,
-  UserCheck,
+  CornerDownRight,
+  ShieldCheck,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import { supportMessageService } from '@/services/supportMessageService';
 import { SupportMessage } from '@/types';
@@ -25,23 +26,34 @@ import { Modal } from '@/components/common/Modal';
 import { ExportDropdown } from '@/components/common/ExportDropdown';
 import { formatDateTime, formatTimeAgo, formatPhoneNumber } from '@/utils/formatters';
 
+const PRESET_ANSWERS = [
+  'Thank you for reaching out! We have investigated and resolved the issue for your salon.',
+  'Your request has been processed. Please restart your mobile app to see the updates.',
+  'We have updated your salon profile settings and synced with our live cloud server.',
+  'Our technical support team is currently working on this and will follow up shortly.',
+];
+
 export const SupportMessagesPage: React.FC = () => {
   const [messages, setMessages] = useState<SupportMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [priorityFilter, setPriorityFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
 
-  // Selected message for details & resolution modal
+  // Inline answer state per message: { [messageId]: answerText }
+  const [inlineAnswers, setInlineAnswers] = useState<Record<string, string>>({});
+  const [sendingId, setSendingId] = useState<string | null>(null);
+
+  // Selected message for detailed inspection modal
   const [selectedMessage, setSelectedMessage] = useState<SupportMessage | null>(null);
-  const [resolutionNotes, setResolutionNotes] = useState('');
-  const [updating, setUpdating] = useState(false);
+  const [modalAnswerText, setModalAnswerText] = useState('');
+  const [modalSending, setModalSending] = useState(false);
 
   const fetchMessages = async () => {
     setLoading(true);
     const res = await supportMessageService.getSupportMessages({
       status: statusFilter,
-      priority: priorityFilter,
+      category: categoryFilter,
       search,
     });
     if (res.data) setMessages(res.data);
@@ -50,47 +62,78 @@ export const SupportMessagesPage: React.FC = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, [statusFilter, priorityFilter, search]);
+  }, [statusFilter, categoryFilter, search]);
 
-  const handleUpdateStatus = async (status: SupportMessage['status']) => {
-    if (!selectedMessage) return;
-    setUpdating(true);
-    await supportMessageService.updateMessageStatus(selectedMessage.id, status, resolutionNotes);
-    setUpdating(false);
-    setSelectedMessage(null);
-    fetchMessages();
+  const handleSendInlineAnswer = async (item: SupportMessage) => {
+    const text = (inlineAnswers[item.id] || '').trim();
+    if (!text) return;
+
+    setSendingId(item.id);
+    const res = await supportMessageService.sendAnswer(item.id, text, {
+      salonId: item.salon_id,
+      salonName: item.salon_name,
+      phone: item.phone || item.phone_number,
+    });
+
+    if (res.success) {
+      setInlineAnswers((prev) => ({ ...prev, [item.id]: '' }));
+      await fetchMessages();
+    }
+    setSendingId(null);
+  };
+
+  const handleSendModalAnswer = async () => {
+    if (!selectedMessage || !modalAnswerText.trim()) return;
+
+    setModalSending(true);
+    const res = await supportMessageService.sendAnswer(selectedMessage.id, modalAnswerText.trim(), {
+      salonId: selectedMessage.salon_id,
+      salonName: selectedMessage.salon_name,
+      phone: selectedMessage.phone || selectedMessage.phone_number,
+    });
+
+    if (res.success) {
+      setModalAnswerText('');
+      setSelectedMessage(null);
+      await fetchMessages();
+    }
+    setModalSending(false);
   };
 
   const openCount = messages.filter((m) => m.status === 'open').length;
   const inProgressCount = messages.filter((m) => m.status === 'in_progress').length;
-  const resolvedCount = messages.filter((m) => m.status === 'resolved').length;
+  const resolvedCount = messages.filter((m) => m.status === 'resolved' || m.status === 'replied').length;
 
-  const getPriorityStyle = (priority: SupportMessage['priority']) => {
-    switch (priority) {
-      case 'urgent':
-      case 'high':
-        return 'bg-rose-100 text-rose-950 border-rose-300';
-      case 'medium':
-        return 'bg-amber-100 text-amber-950 border-amber-300';
-      default:
-        return 'bg-emerald-100 text-emerald-950 border-emerald-300';
-    }
-  };
-
-  const getStatusStyle = (status: SupportMessage['status']) => {
+  const getStatusBadge = (status: SupportMessage['status']) => {
     switch (status) {
       case 'resolved':
-        return 'bg-emerald-100 text-emerald-950 border-emerald-300';
+      case 'replied':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-300">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Answered & Resolved</span>
+          </span>
+        );
       case 'in_progress':
-        return 'bg-blue-100 text-blue-950 border-blue-300';
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-950 border border-blue-300">
+            <Clock className="w-3.5 h-3.5 text-blue-700" />
+            <span>In Progress</span>
+          </span>
+        );
       default:
-        return 'bg-amber-100 text-amber-950 border-amber-300';
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-950 border border-amber-300">
+            <AlertCircle className="w-3.5 h-3.5 text-amber-700" />
+            <span>Awaiting Answer</span>
+          </span>
+        );
     }
   };
 
   return (
     <div className="space-y-6 font-alata text-black">
-      {/* Header */}
+      {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-emerald-100/70 via-emerald-50/50 to-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
@@ -98,68 +141,63 @@ export const SupportMessagesPage: React.FC = () => {
               <MessageSquare className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
-              Customer & Salon Support Center
+              Salon Support Messages & Response Center
             </h1>
             <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold shadow-2xs">
-              Live Inquiries
+              Live Supabase
             </span>
           </div>
           <p className="text-xs text-black mt-1.5 leading-relaxed font-bold">
-            Centralized communications portal for salon owner inquiries, customer care requests, and technical assistance.
+            Real-time messages sent by salon owners from the mobile app. Reply directly from the answer box to resolve their queries and dispatch live responses.
           </p>
         </div>
 
-        <ExportDropdown
-          data={messages.map((m) => ({
-            Sender: m.customer_name,
-            Salon: m.salon_name,
-            Phone: m.phone_number,
-            Subject: m.subject,
-            Message: m.message,
-            Category: m.category,
-            Priority: m.priority,
-            Status: m.status,
-            AppVersion: m.app_version,
-            CreatedAt: m.created_at,
-          }))}
-          fileName="support_messages_log"
-          pdfConfig={{
-            title: 'Customer & Salon Support Messages Report',
-            subtitle: `Total Inquiries: ${messages.length}`,
-            headers: ['Sender / Salon', 'Phone', 'Subject', 'Priority', 'Status', 'Date'],
-            rows: messages.map((m) => [
-              `${m.customer_name} (${m.salon_name || '—'})`,
-              m.phone_number || '—',
-              m.subject,
-              m.priority.toUpperCase(),
-              m.status.toUpperCase(),
-              formatDateTime(m.created_at),
-            ]),
-          }}
-        />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => fetchMessages()}
+            className="p-2.5 rounded-xl bg-white hover:bg-emerald-50 text-black border-2 border-emerald-200 transition-colors shadow-2xs"
+            title="Refresh Messages"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600' : ''}`} />
+          </button>
+          <ExportDropdown
+            data={messages.map((m) => ({
+              Salon: m.salon_name,
+              Owner: m.owner_name,
+              Phone: m.phone || m.phone_number,
+              Category: m.category,
+              Message: m.message,
+              Status: m.status,
+              AnswersCount: (m.answers || []).length,
+              LastAnswer: (m.answers || []).slice(-1)[0]?.answer || 'None',
+              CreatedAt: m.created_at,
+            }))}
+            fileName="support_messages_and_answers_log"
+          />
+        </div>
       </div>
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
-          title="Open Inquiries"
+          title="Awaiting Answer"
           value={openCount}
           icon={<AlertCircle className="w-5 h-5" />}
-          subtitle="Awaiting response / action"
+          subtitle="Open salon messages"
           variant="amber"
         />
         <StatCard
           title="In Progress"
           value={inProgressCount}
           icon={<Clock className="w-5 h-5" />}
-          subtitle="Currently being resolved"
+          subtitle="Under active review"
           variant="blue"
         />
         <StatCard
-          title="Resolved Inquiries"
+          title="Answered & Resolved"
           value={resolvedCount}
           icon={<CheckCircle2 className="w-5 h-5" />}
-          subtitle="Successfully handled tickets"
+          subtitle="Responses delivered"
           variant="emerald"
         />
       </div>
@@ -179,22 +217,22 @@ export const SupportMessagesPage: React.FC = () => {
                     : 'text-black hover:text-emerald-800'
                 }`}
               >
-                {st.replace('_', ' ')}
+                {st === 'resolved' ? 'Answered / Resolved' : st === 'open' ? 'Awaiting Answer' : st}
               </button>
             ))}
           </div>
 
           <div className="flex items-center gap-2">
             <select
-              value={priorityFilter}
-              onChange={(e) => setPriorityFilter(e.target.value)}
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
               className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
-              <option value="all">All Priorities</option>
-              <option value="urgent">Urgent</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
+              <option value="all">All Categories</option>
+              <option value="Bug / Error">Bug / Error</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Billing / Payment">Billing / Payment</option>
             </select>
           </div>
         </div>
@@ -202,174 +240,258 @@ export const SupportMessagesPage: React.FC = () => {
         <SearchInput
           value={search}
           onChange={setSearch}
-          placeholder="Search by sender name, salon, phone, subject, or message..."
+          placeholder="Search by salon name, owner, phone number, category, or message content..."
           className="text-black font-bold"
         />
       </div>
 
-      {/* Messages List */}
-      <div className="space-y-3">
+      {/* Support Messages List with Integrated Answer Box */}
+      <div className="space-y-4">
         {loading ? (
-          <LoadingSpinner message="Fetching live support messages..." size="md" />
+          <LoadingSpinner message="Querying live support_messages from Supabase..." size="md" />
         ) : messages.length === 0 ? (
           <EmptyState
             icon={<MessageSquare className="w-6 h-6" />}
-            title="No support messages found"
-            description="No customer inquiries matched your search or status filter."
+            title="No support messages recorded"
+            description="When salon owners send support inquiries from their mobile app, they will automatically appear here."
           />
         ) : (
-          messages.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white border-2 border-emerald-100 rounded-2xl p-5 hover:border-emerald-500 transition-all shadow-card-subtle flex flex-col sm:flex-row sm:items-start justify-between gap-4"
-            >
-              <div className="space-y-2 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border uppercase ${getStatusStyle(item.status)}`}>
-                    {item.status.replace('_', ' ')}
-                  </span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border uppercase ${getPriorityStyle(item.priority)}`}>
-                    {item.priority} priority
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-950 border border-emerald-200 uppercase">
-                    {item.category}
-                  </span>
-                  {item.app_version && (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-black border border-slate-300">
-                      App v{item.app_version}
-                    </span>
-                  )}
+          messages.map((item) => {
+            const hasAnswers = item.answers && item.answers.length > 0;
+            const currentDraft = inlineAnswers[item.id] || '';
+
+            return (
+              <div
+                key={item.id}
+                className="bg-white border-2 border-emerald-100 rounded-3xl p-5 sm:p-6 hover:border-emerald-500 transition-all shadow-card-subtle space-y-4"
+              >
+                {/* Message Header */}
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b-2 border-emerald-100 pb-3">
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {getStatusBadge(item.status)}
+                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-950 border border-emerald-200 uppercase">
+                        {item.category || 'General Inquiry'}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-black font-bold pt-1">
+                      <span>Salon: <strong className="text-black text-sm">{item.salon_name || 'Salon'}</strong></span>
+                      <span>Owner: <strong className="text-black">{item.owner_name || 'Owner'}</strong></span>
+                      {(item.phone || item.phone_number) && (
+                        <span className="flex items-center gap-1 text-emerald-900 font-bold">
+                          <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>{formatPhoneNumber(item.phone || item.phone_number)}</span>
+                        </span>
+                      )}
+                      <span className="text-emerald-900 font-semibold">{formatTimeAgo(item.created_at)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {/* Quick WhatsApp Button */}
+                    {(item.phone || item.phone_number) && (
+                      <a
+                        href={`https://wa.me/${(item.phone || item.phone_number || '').replace(/\D/g, '')}?text=${encodeURIComponent(
+                          `Hello ${item.owner_name || ''}, regarding your salon CRM support query: ` +
+                            (hasAnswers ? item.answers![item.answers!.length - 1].answer : '')
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-emerald-sm flex items-center gap-1.5"
+                        title="Send message on WhatsApp"
+                      >
+                        <Send className="w-3.5 h-3.5 text-white" />
+                        <span>WhatsApp</span>
+                      </a>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSelectedMessage(item);
+                        setModalAnswerText('');
+                      }}
+                      className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-black border border-emerald-200 transition-colors"
+                      title="Open full dialog"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
-                <h3 className="text-sm sm:text-base font-bold text-black">{item.subject}</h3>
-                <p className="text-xs text-black font-semibold leading-relaxed line-clamp-2">
-                  {item.message}
-                </p>
+                {/* Salon Owner's Stated Query / Message */}
+                <div className="p-4 bg-[#f8fafc] border-2 border-emerald-100 rounded-2xl">
+                  <div className="text-[11px] font-bold uppercase text-emerald-950 mb-1 flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Salon Owner's Query:</span>
+                  </div>
+                  <p className="text-black font-bold text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
+                    "{item.message}"
+                  </p>
+                </div>
 
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-black font-bold pt-1">
-                  <span>From: <strong className="text-black">{item.customer_name}</strong></span>
-                  {item.salon_name && <span>Salon: <strong className="text-black">{item.salon_name}</strong></span>}
-                  {item.phone_number && <span>Phone: <strong className="text-black">{formatPhoneNumber(item.phone_number)}</strong></span>}
-                  <span className="text-emerald-900 font-semibold">{formatTimeAgo(item.created_at)}</span>
+                {/* Previous Answers Thread (if any) */}
+                {hasAnswers && (
+                  <div className="space-y-2 pl-2 sm:pl-4 border-l-4 border-emerald-500">
+                    <div className="text-[11px] font-bold uppercase text-emerald-950 flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                      <span>Super Admin Answer & Reply History ({item.answers!.length}):</span>
+                    </div>
+                    {item.answers!.map((ans) => (
+                      <div
+                        key={ans.id}
+                        className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-xs text-black font-bold space-y-1"
+                      >
+                        <div className="flex items-center justify-between text-[11px] text-emerald-950 font-bold border-b border-emerald-200 pb-1">
+                          <span>Answered by: {ans.answered_by}</span>
+                          <span>{formatTimeAgo(ans.created_at)} ({formatDateTime(ans.created_at)})</span>
+                        </div>
+                        <p className="text-black font-bold leading-relaxed pt-1">
+                          {ans.answer}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Dedicated Answer & Reply Box */}
+                <div className="pt-2 border-t-2 border-emerald-100 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold uppercase text-black flex items-center gap-1.5">
+                      <CornerDownRight className="w-3.5 h-3.5 text-emerald-700" />
+                      <span>{hasAnswers ? 'Add Another Reply / Update:' : 'Reply & Answer This Query:'}</span>
+                    </label>
+                  </div>
+
+                  {/* Preset Quick Replies */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {PRESET_ANSWERS.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() =>
+                          setInlineAnswers((prev) => ({
+                            ...prev,
+                            [item.id]: preset,
+                          }))
+                        }
+                        className="text-[10.5px] px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 font-bold transition-colors text-left"
+                      >
+                        ✨ {preset.slice(0, 42)}...
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Answer Input Textarea & Action Button */}
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <textarea
+                      value={currentDraft}
+                      onChange={(e) =>
+                        setInlineAnswers((prev) => ({
+                          ...prev,
+                          [item.id]: e.target.value,
+                        }))
+                      }
+                      placeholder="Type your official answer here to resolve this query and deliver to the salon..."
+                      rows={2}
+                      className="flex-1 bg-[#f8fafc] border-2 border-emerald-200 rounded-2xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                    />
+
+                    <button
+                      onClick={() => handleSendInlineAnswer(item)}
+                      disabled={!currentDraft.trim() || sendingId === item.id}
+                      className="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold shadow-emerald-sm transition-all flex items-center justify-center gap-2 flex-shrink-0"
+                    >
+                      {sendingId === item.id ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4 text-white" />
+                      )}
+                      <span>Send Answer & Resolve</span>
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-emerald-100">
-                <button
-                  onClick={() => {
-                    setSelectedMessage(item);
-                    setResolutionNotes(item.notes || '');
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-emerald-sm flex items-center gap-1.5"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  <span>Inspect & Manage</span>
-                </button>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
-      {/* Support Details & Management Modal */}
+      {/* Detailed Modal */}
       {selectedMessage && (
         <Modal
           isOpen={!!selectedMessage}
           onClose={() => setSelectedMessage(null)}
-          title="Support Inquiry Details"
-          subtitle={`Ticket ID: ${selectedMessage.id}`}
+          title="Support Message Inspection & Response"
+          subtitle={`Message Reference ID: ${selectedMessage.id}`}
         >
           <div className="space-y-4 font-alata text-xs text-black">
             <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 space-y-2 font-bold text-black">
               <div className="flex justify-between">
-                <span>Sender Name:</span>
-                <span className="text-black font-bold">{selectedMessage.customer_name}</span>
+                <span>Salon:</span>
+                <span className="text-black font-bold">{selectedMessage.salon_name || 'Salon Owner'}</span>
               </div>
               <div className="flex justify-between">
-                <span>Salon Partner:</span>
-                <span className="text-black font-bold">{selectedMessage.salon_name || 'Direct Inquiry'}</span>
+                <span>Owner Name:</span>
+                <span className="text-black font-bold">{selectedMessage.owner_name || 'Owner'}</span>
               </div>
               <div className="flex justify-between">
-                <span>Contact Phone:</span>
-                <span className="text-black font-bold">{formatPhoneNumber(selectedMessage.phone_number)}</span>
+                <span>Phone:</span>
+                <span className="text-black font-bold">{formatPhoneNumber(selectedMessage.phone || selectedMessage.phone_number)}</span>
               </div>
               <div className="flex justify-between">
-                <span>App Version / Platform:</span>
-                <span className="text-black font-bold">v{selectedMessage.app_version || '1.0.0'} ({selectedMessage.platform || 'Android'})</span>
+                <span>Category:</span>
+                <span className="text-black font-bold">{selectedMessage.category}</span>
               </div>
               <div className="flex justify-between">
-                <span>Date & Time:</span>
+                <span>Received At:</span>
                 <span className="text-black">{formatDateTime(selectedMessage.created_at)}</span>
               </div>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold uppercase text-black mb-1.5">Subject: {selectedMessage.subject}</h4>
+              <h4 className="text-xs font-bold uppercase text-black mb-1.5">Salon Owner Query:</h4>
               <div className="p-4 bg-white border-2 border-emerald-200 rounded-xl text-black font-bold text-xs leading-relaxed whitespace-pre-wrap">
-                {selectedMessage.message}
+                "{selectedMessage.message}"
               </div>
             </div>
 
-            {/* Quick Actions Bar */}
-            <div className="flex flex-wrap gap-2 pt-2">
-              {selectedMessage.phone_number && (
-                <a
-                  href={`tel:${selectedMessage.phone_number}`}
-                  className="px-3 py-2 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-bold border border-emerald-300 flex items-center gap-1.5"
-                >
-                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
-                  <span>Call Sender</span>
-                </a>
-              )}
-              {selectedMessage.phone_number && (
-                <a
-                  href={`https://wa.me/${selectedMessage.phone_number.replace(/\D/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-emerald-sm flex items-center gap-1.5"
-                >
-                  <Send className="w-3.5 h-3.5 text-white" />
-                  <span>WhatsApp Message</span>
-                </a>
-              )}
-            </div>
+            {/* Modal Previous Answers */}
+            {selectedMessage.answers && selectedMessage.answers.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase text-black">Previous Answers ({selectedMessage.answers.length}):</h4>
+                {selectedMessage.answers.map((a) => (
+                  <div key={a.id} className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl font-bold text-black">
+                    <div className="text-[10.5px] text-emerald-900 border-b border-emerald-200 pb-1 flex justify-between">
+                      <span>{a.answered_by}</span>
+                      <span>{formatDateTime(a.created_at)}</span>
+                    </div>
+                    <p className="pt-1 text-black font-bold">{a.answer}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
-            {/* Admin Notes & Resolution */}
-            <div className="space-y-2 pt-3 border-t border-emerald-200">
+            {/* Modal Answer Box */}
+            <div className="space-y-2 pt-2 border-t border-emerald-200">
               <label className="block text-xs font-bold uppercase text-black">
-                Super Admin Resolution Notes:
+                Type Super Admin Answer:
               </label>
               <textarea
-                value={resolutionNotes}
-                onChange={(e) => setResolutionNotes(e.target.value)}
-                placeholder="Enter actions taken, follow-up status, or resolution notes..."
+                value={modalAnswerText}
+                onChange={(e) => setModalAnswerText(e.target.value)}
+                placeholder="Enter official answer / solution..."
                 rows={3}
                 className="w-full bg-[#f8fafc] border-2 border-emerald-200 rounded-xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400"
               />
             </div>
 
-            {/* Status Change Buttons */}
-            <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+            <div className="flex items-center justify-end gap-2 pt-2">
               <button
-                onClick={() => handleUpdateStatus('open')}
-                disabled={updating}
-                className="px-3 py-2 rounded-xl bg-amber-100 text-amber-950 hover:bg-amber-200 border border-amber-300 font-bold transition-all"
+                onClick={handleSendModalAnswer}
+                disabled={!modalAnswerText.trim() || modalSending}
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold shadow-emerald-sm transition-all flex items-center gap-2"
               >
-                Mark as Open
-              </button>
-              <button
-                onClick={() => handleUpdateStatus('in_progress')}
-                disabled={updating}
-                className="px-3 py-2 rounded-xl bg-blue-100 text-blue-950 hover:bg-blue-200 border border-blue-300 font-bold transition-all"
-              >
-                Mark In Progress
-              </button>
-              <button
-                onClick={() => handleUpdateStatus('resolved')}
-                disabled={updating}
-                className="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 font-bold shadow-emerald-sm transition-all"
-              >
-                Resolve Ticket
+                <Send className="w-4 h-4" />
+                <span>Submit Answer & Resolve</span>
               </button>
             </div>
           </div>
