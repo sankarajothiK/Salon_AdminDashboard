@@ -147,7 +147,7 @@ export const ActivityPage: React.FC = () => {
           <EmptyState
             icon={<ActivityIcon className="w-6 h-6 text-[#601D49]" />}
             title="No activity events recorded"
-            description="Events will automatically appear as salons operate their CRM."
+            description="Events will automatically appear as salons operate their Style Fleet app."
           />
         ) : (
           filteredActivities.map((act) => (

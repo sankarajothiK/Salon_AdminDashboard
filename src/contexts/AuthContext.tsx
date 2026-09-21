@@ -15,14 +15,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const SUPER_ADMIN_USER: AdminUser = {
   id: 'admin-super-root',
   name: 'Super Admin',
-  email: 'admin@saloncrm.com',
+  email: 'admin@stylefleet.com',
   phone: '8888888888',
   role: 'super_admin',
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AdminUser | null>(() => {
-    const saved = localStorage.getItem('salon_admin_user');
+    const saved = localStorage.getItem('style_fleet_admin_user') || localStorage.getItem('salon_admin_user');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -37,8 +37,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('salon_admin_user', JSON.stringify(user));
+      localStorage.setItem('style_fleet_admin_user', JSON.stringify(user));
     } else {
+      localStorage.removeItem('style_fleet_admin_user');
       localStorage.removeItem('salon_admin_user');
     }
   }, [user]);
@@ -73,14 +74,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // 2. Direct Super Admin Authentication (single privileged administrative role)
       const cleanCred = credential.toLowerCase().trim();
       if (
+        cleanCred === 'admin@stylefleet.com' ||
         cleanCred === 'admin@saloncrm.com' ||
-        cleanCred === 'superadmin@saloncrm.com' ||
+        cleanCred === 'superadmin@stylefleet.com' ||
         cleanCred === '8888888888' ||
         cleanCred.length >= 3
       ) {
         const loggedUser: AdminUser = {
           id: 'admin-super-root',
-          email: cleanCred.includes('@') ? cleanCred : 'admin@saloncrm.com',
+          email: cleanCred.includes('@') ? cleanCred : 'admin@stylefleet.com',
           phone: cleanCred.includes('@') ? '8888888888' : cleanCred,
           name: 'Super Admin',
           role: 'super_admin',
@@ -102,6 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     supabase.auth.signOut().catch(() => {});
     setUser(null);
+    localStorage.removeItem('style_fleet_admin_user');
     localStorage.removeItem('salon_admin_user');
   };
 

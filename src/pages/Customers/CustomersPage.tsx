@@ -67,7 +67,7 @@ export const CustomersPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Customer Intelligence & CRM</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Customer Intelligence & Fleet Directory</h1>
           <p className="text-xs text-black font-semibold mt-1">
             Central customer directory and retention analytics across {salons.length} salons ({totalCount} total customers)
           </p>

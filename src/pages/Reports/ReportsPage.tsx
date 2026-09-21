@@ -52,7 +52,7 @@ export const ReportsPage: React.FC = () => {
           data={metrics.revenueBySalon}
           fileName="executive_bi_report"
           pdfConfig={{
-            title: 'Salon CRM Executive BI & Analytics Report',
+            title: 'Style Fleet Executive BI & Analytics Report',
             subtitle: `Generated on ${new Date().toLocaleDateString()} | Total Revenue: ${formatCurrency(metrics.thisMonthRevenue)}`,
             headers: ['Salon Name', 'Total Gross Billing', 'Total Appointments'],
             rows: metrics.revenueBySalon.map((r) => [r.salonName, formatCurrency(r.revenue), r.appointments]),

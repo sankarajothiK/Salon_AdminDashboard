@@ -66,14 +66,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {(!collapsed || mobileOpen) && (
             <div className="overflow-hidden">
               <h1 className="text-sm font-bold text-black tracking-wide truncate flex items-center gap-1.5">
-                <span>SALON CRM</span>
+                <span>STYLE FLEET</span>
                 <span className="text-[10px] text-black bg-[#FFEBB8] px-1.5 py-0.5 rounded-md border border-[#BD5579]/30 font-bold shadow-2xs">
                   SUPER ADMIN
                 </span>
               </h1>
               <div className="flex items-center gap-1 text-[11px] text-[#601D49] font-bold tracking-wide">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#601D49]" />
-                <span>Company Portal</span>
+                <span>HQ Command</span>
               </div>
             </div>
           )}

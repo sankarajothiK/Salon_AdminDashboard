@@ -293,7 +293,7 @@ export const SupportMessagesPage: React.FC = () => {
                     {(item.phone || item.phone_number) && (
                       <a
                         href={`https://wa.me/${(item.phone || item.phone_number || '').replace(/\D/g, '')}?text=${encodeURIComponent(
-                          `Hello ${item.owner_name || ''}, regarding your salon CRM support query: ` +
+                          `Hello ${item.owner_name || ''}, regarding your Style Fleet support query: ` +
                             (hasAnswers ? item.answers![item.answers!.length - 1].answer : '')
                         )}`}
                         target="_blank"

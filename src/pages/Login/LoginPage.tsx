@@ -9,7 +9,7 @@ export const LoginPage: React.FC = () => {
   const { login, loading } = useAuth();
 
   const [authMode, setAuthMode] = useState<'email' | 'phone'>('email');
-  const [email, setEmail] = useState('admin@saloncrm.com');
+  const [email, setEmail] = useState('admin@stylefleet.com');
   const [phone, setPhone] = useState('8888888888');
   const [password, setPassword] = useState('admin12345');
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +29,7 @@ export const LoginPage: React.FC = () => {
   };
 
   const handleQuickLogin = async () => {
-    await login('admin@saloncrm.com', 'admin12345');
+    await login('admin@stylefleet.com', 'admin12345');
     navigate('/dashboard');
   };
 
@@ -49,8 +49,8 @@ export const LoginPage: React.FC = () => {
             <ShieldCheck className="w-4 h-4 text-[#601D49]" />
             <span>SUPER ADMIN PORTAL</span>
           </div>
-          <h1 className="text-2xl font-bold text-black tracking-tight">SALON CRM PLATFORM</h1>
-          <p className="text-xs text-black mt-1 font-bold">Executive Oversight & Multi-Salon Telemetry</p>
+          <h1 className="text-2xl font-bold text-black tracking-tight">STYLE FLEET</h1>
+          <p className="text-xs text-black mt-1 font-bold">Executive Oversight & Multi-Salon Fleet Telemetry</p>
         </div>
 
         {/* Login Card */}
@@ -101,7 +101,7 @@ export const LoginPage: React.FC = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@saloncrm.com"
+                    placeholder="admin@stylefleet.com"
                     className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
                   />
                 </div>
@@ -150,7 +150,7 @@ export const LoginPage: React.FC = () => {
               className="w-full mt-4"
               icon={<ArrowRight className="w-4 h-4 ml-1" />}
             >
-              Sign In as Super Admin
+              Sign In to Style Fleet
             </Button>
           </form>
 
@@ -169,7 +169,7 @@ export const LoginPage: React.FC = () => {
 
         {/* Footer info */}
         <p className="text-center text-xs text-black font-bold mt-6">
-          Salon CRM Platform &copy; 2026. Direct Supabase Cloud Connection.
+          Style Fleet &copy; 2026. Direct Supabase Cloud Connection.
         </p>
       </div>
     </div>

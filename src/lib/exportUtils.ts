@@ -55,7 +55,7 @@ export function exportToPDF({
 
   doc.setFontSize(14);
   doc.setTextColor(255, 255, 255);
-  doc.text('SALON CRM — COMPANY ADMIN PLATFORM', 14, 15);
+  doc.text('STYLE FLEET — EXECUTIVE REPORT', 14, 15);
 
   doc.setFontSize(9);
   doc.setTextColor(148, 163, 184); // slate-400

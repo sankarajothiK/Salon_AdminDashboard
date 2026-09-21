@@ -60,7 +60,7 @@ export const activityService = {
             id: `salon-${s.id}`,
             type: 'salon_registered',
             title: 'New Salon Registered',
-            description: `"${s.name}" onboarded onto the Salon CRM platform.`,
+            description: `"${s.name}" onboarded onto the Style Fleet platform.`,
             salonId: s.id,
             salonName: s.name,
             timestamp: s.created_at,
