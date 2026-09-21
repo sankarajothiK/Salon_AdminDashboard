@@ -154,30 +154,30 @@ export const BillingPage: React.FC = () => {
           title="Today's Billing"
           value={formatCurrency(summary.todayRevenue)}
           icon={<IndianRupee className="w-5 h-5" />}
-          variant="emerald"
+          variant="wine"
         />
         <StatCard
           title="This Week"
           value={formatCurrency(summary.weekRevenue)}
           icon={<IndianRupee className="w-5 h-5" />}
-          variant="emerald"
+          variant="wine"
         />
         <StatCard
           title="This Month"
           value={formatCurrency(summary.monthRevenue)}
           icon={<IndianRupee className="w-5 h-5" />}
-          variant="emerald"
+          variant="wine"
         />
         <StatCard
           title="All-Time Platform Billing"
           value={formatCurrency(summary.allTimeRevenue)}
           icon={<IndianRupee className="w-5 h-5" />}
-          variant="emerald"
+          variant="wine"
         />
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -194,7 +194,7 @@ export const BillingPage: React.FC = () => {
             setSalonFilter(e.target.value);
             setCurrentPage(1);
           }}
-          className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
         >
           <option value="all">All Salons</option>
           {salons.map((s) => (
@@ -205,13 +205,13 @@ export const BillingPage: React.FC = () => {
         </select>
       </div>
 
-      {/* Invoices Table with Emerald & White Styling */}
-      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Invoices Table with White & Wine Styling */}
+      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Reading invoice ledger from Supabase..." size="md" />
         ) : filteredBills.length === 0 ? (
           <EmptyState
-            icon={<Receipt className="w-6 h-6" />}
+            icon={<Receipt className="w-6 h-6 text-[#601D49]" />}
             title="No invoices recorded"
             description="Invoices will appear automatically as salons generate bills."
           />
@@ -219,7 +219,7 @@ export const BillingPage: React.FC = () => {
           <>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs text-black">
-                <thead className="bg-emerald-50 text-black font-bold uppercase tracking-wider text-[11px] border-b-2 border-emerald-100">
+                <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
                   <tr>
                     <th className="px-5 py-4 font-bold text-black">Invoice ID</th>
                     <th className="px-4 py-4 font-bold text-black">Customer & Salon</th>
@@ -230,9 +230,9 @@ export const BillingPage: React.FC = () => {
                     <th className="px-5 py-4 font-bold text-black text-right">Receipt</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-emerald-100">
+                <tbody className="divide-y divide-[#BD5579]/10">
                   {filteredBills.map((bill) => (
-                    <tr key={bill.id} className="hover:bg-emerald-50/50 transition-colors">
+                    <tr key={bill.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
                       <td className="px-5 py-4 font-mono text-[11px] font-bold text-black">
                         #{bill.id.slice(0, 8)}
                       </td>
@@ -240,14 +240,14 @@ export const BillingPage: React.FC = () => {
                       <td className="px-4 py-4">
                         <div className="font-bold text-black text-sm">
                           {bill.customer ? (
-                            <Link to={`/customers/${bill.customer.id}`} className="hover:text-emerald-700">
+                            <Link to={`/customers/${bill.customer.id}`} className="hover:text-[#601D49]">
                               {bill.customer.name}
                             </Link>
                           ) : (
                             'Walk-in Client'
                           )}
                         </div>
-                        <div className="text-[10.5px] text-emerald-900 font-semibold mt-0.5">{bill.salon?.name || 'Salon'}</div>
+                        <div className="text-[10.5px] text-[#601D49]/70 font-semibold mt-0.5">{bill.salon?.name || 'Salon'}</div>
                       </td>
 
                       <td className="px-4 py-4 text-black font-bold">
@@ -267,7 +267,7 @@ export const BillingPage: React.FC = () => {
                       <td className="px-5 py-4 text-right">
                         <button
                           onClick={() => setSelectedBill(bill)}
-                          className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold transition-all shadow-emerald-sm"
+                          className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white hover:opacity-95 text-xs font-bold transition-all shadow-wine-sm"
                         >
                           View Receipt
                         </button>
@@ -298,7 +298,7 @@ export const BillingPage: React.FC = () => {
           subtitle={`Issued on ${formatDateTime(selectedBill.created_at)}`}
         >
           <div className="space-y-4 text-xs font-alata text-black font-bold">
-            <div className="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-2 font-bold text-black">
+            <div className="bg-[#fdf5f8] p-4 rounded-xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
               <div className="flex justify-between">
                 <span>Salon:</span>
                 <span className="font-bold text-black">{selectedBill.salon?.name}</span>
@@ -320,11 +320,11 @@ export const BillingPage: React.FC = () => {
                   {selectedBill.items.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-3 rounded-xl bg-white border border-emerald-200 font-bold text-black"
+                      className="flex items-center justify-between p-3 rounded-xl bg-white border border-[#BD5579]/15 font-bold text-black"
                     >
                       <div>
                         <div className="font-bold text-black">{item.service_name}</div>
-                        <div className="text-[10.5px] text-emerald-900 font-semibold">Qty: {item.qty}</div>
+                        <div className="text-[10.5px] text-[#601D49] font-semibold">Qty: {item.qty}</div>
                       </div>
                       <div className="font-bold text-black">{formatCurrency(item.price * item.qty)}</div>
                     </div>
@@ -333,7 +333,7 @@ export const BillingPage: React.FC = () => {
               )}
             </div>
 
-            <div className="pt-3 border-t border-emerald-200 space-y-1.5 font-bold text-black">
+            <div className="pt-3 border-t border-[#BD5579]/20 space-y-1.5 font-bold text-black">
               <div className="flex justify-between">
                 <span>Subtotal:</span>
                 <span>{formatCurrency(selectedBill.subtotal)}</span>
@@ -348,7 +348,7 @@ export const BillingPage: React.FC = () => {
                 <span>GST:</span>
                 <span>{formatCurrency(selectedBill.gst_amount)}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-emerald-200">
+              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-[#BD5579]/20">
                 <span>Total Paid:</span>
                 <span>{formatCurrency(selectedBill.total)}</span>
               </div>

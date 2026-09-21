@@ -79,7 +79,7 @@ export const SalonDetailPage: React.FC = () => {
   }, [id]);
 
   if (loading || !salon) {
-    return <LoadingSpinner message="Loading royal salon 360 profile..." size="lg" />;
+    return <LoadingSpinner message="Loading salon 360 profile..." size="lg" />;
   }
 
   const completedAppts = appointments.filter((a) => a.status === 'completed').length;
@@ -92,9 +92,9 @@ export const SalonDetailPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <Link
           to="/salons"
-          className="inline-flex items-center gap-1.5 text-xs text-black hover:text-emerald-700 font-bold transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs text-black hover:text-[#601D49] font-bold transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-[#601D49]" />
           <span>Back to Salons Directory</span>
         </Link>
 
@@ -112,12 +112,12 @@ export const SalonDetailPage: React.FC = () => {
       </div>
 
       {/* Salon Profile Hero Header */}
-      <div className="bg-white border-2 border-emerald-100 rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-card-subtle">
+      <div className="bg-white border border-[#BD5579]/20 rounded-3xl p-6 sm:p-7 relative overflow-hidden shadow-card-subtle">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="flex items-start gap-4">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-md flex-shrink-0"
-              style={{ backgroundColor: salon.theme_color || '#059669' }}
+              style={{ backgroundColor: salon.theme_color || '#601D49' }}
             >
               {salon.name.charAt(0).toUpperCase()}
             </div>
@@ -135,19 +135,19 @@ export const SalonDetailPage: React.FC = () => {
 
               <div className="flex flex-wrap items-center gap-y-1 gap-x-4 mt-2 text-xs text-black font-bold">
                 <span className="flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5 text-emerald-700" />
+                  <Users className="w-3.5 h-3.5 text-[#BD5579]" />
                   <span>Owner: <strong className="text-black font-bold">{salon.owner_name}</strong></span>
                 </span>
                 <span className="flex items-center gap-1">
-                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                  <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
                   <span>{formatPhoneNumber(salon.phone_number)}</span>
                 </span>
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-700" />
+                  <MapPin className="w-3.5 h-3.5 text-[#BD5579]" />
                   <span>{salon.address ? `${salon.address}, ` : ''}{salon.city} ({salon.pin_code})</span>
                 </span>
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-emerald-700" />
+                  <Calendar className="w-3.5 h-3.5 text-[#BD5579]" />
                   <span>Registered: {formatDate(salon.created_at)}</span>
                 </span>
               </div>
@@ -158,34 +158,34 @@ export const SalonDetailPage: React.FC = () => {
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Customers</div>
           <div className="text-xl font-bold text-black mt-1">{customers.length}</div>
         </div>
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Appointments</div>
           <div className="text-xl font-bold text-black mt-1">{appointments.length}</div>
         </div>
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Total Revenue</div>
           <div className="text-xl font-bold text-black mt-1">{formatCurrency(totalRevenue)}</div>
         </div>
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Completed</div>
           <div className="text-xl font-bold text-black mt-1">{completedAppts}</div>
         </div>
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Staff / Stylists</div>
           <div className="text-xl font-bold text-black mt-1">{staff.length}</div>
         </div>
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl p-4 shadow-2xs">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-4 shadow-card-subtle">
           <div className="text-[11px] font-bold text-black uppercase">Services</div>
           <div className="text-xl font-bold text-black mt-1">{services.length}</div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b-2 border-emerald-100 space-x-2 overflow-x-auto whitespace-nowrap pb-1">
+      <div className="flex border-b border-[#BD5579]/20 space-x-2 overflow-x-auto whitespace-nowrap pb-1">
         {[
           { key: 'overview', label: 'Overview & Activity' },
           { key: 'customers', label: `Customers (${customers.length})` },
@@ -199,8 +199,8 @@ export const SalonDetailPage: React.FC = () => {
             onClick={() => setActiveTab(tab.key as any)}
             className={`px-4 py-3 text-xs font-bold border-b-2 transition-all flex-shrink-0 ${
               activeTab === tab.key
-                ? 'border-emerald-600 text-emerald-950 bg-emerald-100/70 rounded-t-xl'
-                : 'border-transparent text-black hover:text-emerald-700'
+                ? 'border-[#601D49] text-[#601D49] bg-[#fdf5f8] rounded-t-xl'
+                : 'border-transparent text-black hover:text-[#601D49]'
             }`}
           >
             {tab.label}
@@ -211,7 +211,7 @@ export const SalonDetailPage: React.FC = () => {
       {/* Tab Contents */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle space-y-4">
+          <div className="lg:col-span-2 bg-white border border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle space-y-4">
             <h3 className="text-sm font-bold text-black">Recent Appointments</h3>
             {appointments.length === 0 ? (
               <p className="text-xs text-black font-semibold py-4">No appointments recorded yet.</p>
@@ -222,7 +222,7 @@ export const SalonDetailPage: React.FC = () => {
                   return (
                     <div
                       key={appt.id}
-                      className="p-3.5 rounded-xl bg-white border border-emerald-200 flex items-center justify-between text-xs"
+                      className="p-3.5 rounded-xl bg-white border border-[#BD5579]/15 flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center gap-3">
                         <div className="font-bold text-black">{appt.customer?.name || 'Client'}</div>
@@ -242,17 +242,17 @@ export const SalonDetailPage: React.FC = () => {
             )}
           </div>
 
-          <div className="bg-white border-2 border-emerald-100 rounded-2xl p-6 shadow-card-subtle space-y-3">
+          <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-6 shadow-card-subtle space-y-3">
             <h3 className="text-sm font-bold text-black">Salon Activity Log</h3>
             <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
               {activities.length === 0 ? (
                 <p className="text-xs text-black font-semibold py-4">No activities logged yet.</p>
               ) : (
                 activities.slice(0, 8).map((act) => (
-                  <div key={act.id} className="p-3 rounded-xl bg-white border border-emerald-200 text-xs">
+                  <div key={act.id} className="p-3 rounded-xl bg-white border border-[#BD5579]/15 text-xs">
                     <div className="font-bold text-black">{act.title}</div>
                     <div className="text-[11px] text-black font-semibold mt-0.5">{act.description}</div>
-                    <div className="text-[10px] text-emerald-900 font-bold mt-1">{formatTimeAgo(act.timestamp)}</div>
+                    <div className="text-[10px] text-[#BD5579] font-bold mt-1">{formatTimeAgo(act.timestamp)}</div>
                   </div>
                 ))
               )}
@@ -262,9 +262,9 @@ export const SalonDetailPage: React.FC = () => {
       )}
 
       {activeTab === 'customers' && (
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
           <table className="w-full text-left text-xs text-black">
-            <thead className="bg-emerald-50 text-black font-bold uppercase text-[11px] border-b-2 border-emerald-100">
+            <thead className="bg-[#fdf5f8] text-black font-bold uppercase text-[11px] border-b border-[#BD5579]/20">
               <tr>
                 <th className="px-5 py-3.5 font-bold text-black">Customer Name</th>
                 <th className="px-4 py-3.5 font-bold text-black">Phone</th>
@@ -274,11 +274,11 @@ export const SalonDetailPage: React.FC = () => {
                 <th className="px-5 py-3.5 font-bold text-black text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-emerald-100">
+            <tbody className="divide-y divide-[#BD5579]/10">
               {customers.map((c) => (
-                <tr key={c.id} className="hover:bg-emerald-50/50 transition-colors">
+                <tr key={c.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
                   <td className="px-5 py-4 font-bold text-black">
-                    <Link to={`/customers/${c.id}`} className="hover:text-emerald-700">
+                    <Link to={`/customers/${c.id}`} className="hover:text-[#601D49]">
                       {c.name}
                     </Link>
                   </td>
@@ -291,7 +291,7 @@ export const SalonDetailPage: React.FC = () => {
                   <td className="px-5 py-4 text-right">
                     <Link
                       to={`/customers/${c.id}`}
-                      className="text-xs text-emerald-700 hover:text-emerald-900 font-bold"
+                      className="text-xs text-[#601D49] hover:text-[#BD5579] font-bold"
                     >
                       View Profile &rarr;
                     </Link>
@@ -304,9 +304,9 @@ export const SalonDetailPage: React.FC = () => {
       )}
 
       {activeTab === 'appointments' && (
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
           <table className="w-full text-left text-xs text-black">
-            <thead className="bg-emerald-50 text-black font-bold uppercase text-[11px] border-b-2 border-emerald-100">
+            <thead className="bg-[#fdf5f8] text-black font-bold uppercase text-[11px] border-b border-[#BD5579]/20">
               <tr>
                 <th className="px-5 py-3.5 font-bold text-black">Customer</th>
                 <th className="px-4 py-3.5 font-bold text-black">Service</th>
@@ -316,11 +316,11 @@ export const SalonDetailPage: React.FC = () => {
                 <th className="px-4 py-3.5 font-bold text-black text-right">Amount</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-emerald-100">
+            <tbody className="divide-y divide-[#BD5579]/10">
               {appointments.map((a) => {
                 const style = getAppointmentStatusStyle(a.status);
                 return (
-                  <tr key={a.id} className="hover:bg-emerald-50/50 transition-colors">
+                  <tr key={a.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
                     <td className="px-5 py-4 font-bold text-black">{a.customer?.name || 'Client'}</td>
                     <td className="px-4 py-4 font-bold text-black">{a.service_name}</td>
                     <td className="px-4 py-4 font-bold text-black">{a.staff?.name || 'Stylist'}</td>
@@ -344,9 +344,9 @@ export const SalonDetailPage: React.FC = () => {
       )}
 
       {activeTab === 'bills' && (
-        <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
+        <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
           <table className="w-full text-left text-xs text-black">
-            <thead className="bg-emerald-50 text-black font-bold uppercase text-[11px] border-b-2 border-emerald-100">
+            <thead className="bg-[#fdf5f8] text-black font-bold uppercase text-[11px] border-b border-[#BD5579]/20">
               <tr>
                 <th className="px-5 py-3.5 font-bold text-black">Invoice ID</th>
                 <th className="px-4 py-3.5 font-bold text-black">Customer</th>
@@ -356,9 +356,9 @@ export const SalonDetailPage: React.FC = () => {
                 <th className="px-4 py-3.5 font-bold text-black text-right">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-emerald-100">
+            <tbody className="divide-y divide-[#BD5579]/10">
               {bills.map((b) => (
-                <tr key={b.id} className="hover:bg-emerald-50/50 transition-colors">
+                <tr key={b.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
                   <td className="px-5 py-4 font-mono text-[11px] font-bold text-black">#{b.id.slice(0, 8)}</td>
                   <td className="px-4 py-4 font-bold text-black">{b.customer?.name || 'Walk-in'}</td>
                   <td className="px-4 py-4 text-black font-bold">{formatDate(b.created_at)}</td>
@@ -375,17 +375,17 @@ export const SalonDetailPage: React.FC = () => {
       {activeTab === 'staff' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {staff.map((s) => (
-            <div key={s.id} className="bg-white border-2 border-emerald-100 rounded-2xl p-5 shadow-card-subtle space-y-3">
+            <div key={s.id} className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 shadow-card-subtle space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] text-white flex items-center justify-center font-bold text-sm shadow-wine-sm">
                   {s.name.charAt(0)}
                 </div>
                 <div>
                   <div className="font-bold text-black text-sm">{s.name}</div>
-                  <div className="text-xs text-emerald-900 font-bold">{s.role}</div>
+                  <div className="text-xs text-[#601D49] font-bold">{s.role}</div>
                 </div>
               </div>
-              <div className="pt-3 border-t border-emerald-100 flex items-center justify-between text-xs font-bold text-black">
+              <div className="pt-3 border-t border-[#BD5579]/15 flex items-center justify-between text-xs font-bold text-black">
                 <span>Appointments: <strong className="text-black">{s.appointmentCount || 0}</strong></span>
                 <span>Revenue: <strong className="text-black">{formatCurrency(s.revenueGenerated)}</strong></span>
               </div>
@@ -397,9 +397,9 @@ export const SalonDetailPage: React.FC = () => {
       {activeTab === 'services' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map((svc) => (
-            <div key={svc.id} className="bg-white border-2 border-emerald-100 rounded-2xl p-5 shadow-card-subtle flex justify-between items-start">
+            <div key={svc.id} className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 shadow-card-subtle flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-950 uppercase tracking-wider border border-emerald-300">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#fdf5f8] text-[#601D49] uppercase tracking-wider border border-[#BD5579]/20">
                   {svc.category}
                 </span>
                 <h4 className="font-bold text-black text-sm mt-2">{svc.name}</h4>
@@ -407,7 +407,7 @@ export const SalonDetailPage: React.FC = () => {
               </div>
               <div className="text-right">
                 <div className="text-sm font-bold text-black">{formatCurrency(svc.price)}</div>
-                <div className="text-[10px] text-emerald-900 font-bold">{svc.duration_minutes}m</div>
+                <div className="text-[10px] text-[#BD5579] font-bold">{svc.duration_minutes}m</div>
               </div>
             </div>
           ))}

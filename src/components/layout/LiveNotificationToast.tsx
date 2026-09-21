@@ -13,28 +13,28 @@ export const LiveNotificationToast: React.FC = () => {
       {liveNotifications.slice(0, 3).map((notif) => (
         <div
           key={notif.id}
-          className="pointer-events-auto bg-white border border-amber-300 rounded-2xl p-4 shadow-xl backdrop-blur-md animate-in slide-in-from-bottom-5 duration-200"
+          className="pointer-events-auto bg-white border border-[#BD5579]/30 rounded-2xl p-4 shadow-wine-md backdrop-blur-md animate-in slide-in-from-bottom-5 duration-200 text-black font-bold"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
-                <Sparkles className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-xl bg-[#fdf5f8] border border-[#BD5579]/20 text-[#601D49] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
+                <Sparkles className="w-4 h-4 text-[#BD5579]" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-slate-900">{notif.title}</span>
+                  <span className="text-xs font-bold text-black">{notif.title}</span>
                   <span className="flex h-1.5 w-1.5 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#BD5579] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#601D49]"></span>
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 mt-1">{notif.message}</p>
-                <div className="text-[10px] text-slate-400 mt-1.5">{formatTimeAgo(notif.timestamp)}</div>
+                <p className="text-xs text-black/80 mt-1 font-semibold">{notif.message}</p>
+                <div className="text-[10px] text-[#BD5579] mt-1.5 font-bold">{formatTimeAgo(notif.timestamp)}</div>
               </div>
             </div>
             <button
               onClick={() => clearNotification(notif.id)}
-              className="text-slate-400 hover:text-slate-600 p-1 rounded-md hover:bg-slate-100"
+              className="text-black/50 hover:text-black p-1 rounded-md hover:bg-wine-50"
             >
               <X className="w-4 h-4" />
             </button>

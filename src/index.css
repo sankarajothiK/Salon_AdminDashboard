@@ -8,11 +8,11 @@
   }
 
   body {
-    background-color: #f8fafc;
+    background-color: #ffffff;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(167, 243, 208, 0.45) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(209, 250, 229, 0.5) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(236, 253, 245, 0.6) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(251, 207, 229, 0.4) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 235, 184, 0.35) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(252, 231, 241, 0.4) 0px, transparent 50%);
     color: #000000;
     font-family: 'Alata', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -26,44 +26,44 @@
   }
 }
 
-/* Custom Emerald Scrollbar */
+/* Custom Wine Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0fdf4;
+  background: #fdf2f7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #a7f3d0;
+  background: #ea9d9d;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #059669;
+  background: #601d49;
 }
 
-/* Emerald Gradients & Utilities */
-.bg-emerald-gradient {
-  background: linear-gradient(135deg, #064e3b 0%, #059669 50%, #10b981 100%);
+/* Wine Gradients & Utilities */
+.bg-wine-gradient {
+  background: linear-gradient(135deg, #601d49 0%, #bd5579 60%, #ea9d9d 100%);
 }
 
-.bg-emerald-primary {
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+.bg-wine-primary {
+  background: linear-gradient(135deg, #601d49 0%, #7d2347 100%);
 }
 
-.bg-mint-glow {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+.bg-wine-glow {
+  background: linear-gradient(135deg, #fdf2f7 0%, #fce7f1 100%);
 }
 
-.border-emerald-subtle {
-  border-color: rgba(5, 150, 105, 0.2);
+.border-wine-subtle {
+  border-color: rgba(96, 29, 73, 0.2);
 }
 
-.text-emerald-gradient {
-  background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+.text-wine-gradient {
+  background: linear-gradient(135deg, #601d49 0%, #bd5579 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

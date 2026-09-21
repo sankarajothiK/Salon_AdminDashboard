@@ -11,35 +11,33 @@ export default {
         alata: ['Alata', 'sans-serif'],
       },
       colors: {
-        // Complete Emerald Green & White Palette
-        emerald: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669', // Primary vibrant emerald
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b', // Deep forest emerald
-          950: '#022c22',
+        // Official Royal White & Wine Palette
+        wine: {
+          50: '#fdf2f7',
+          100: '#fce7f1',
+          200: '#fbcfe5',
+          300: '#f8a7cf',
+          400: '#ea9d9d', // Blush / Rose Gold
+          500: '#bd5579', // Berry Rose Accent
+          600: '#9e355c',
+          700: '#7d2347',
+          800: '#601d49', // Primary Deep Royal Wine
+          900: '#481436',
+          950: '#2e0a22',
         },
-        mint: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-        }
+        champagne: {
+          50: '#fffcf2',
+          100: '#fff8e1',
+          200: '#ffebb8', // Warm Champagne Cream
+          300: '#ffd580',
+          400: '#ffbe4d',
+        },
       },
       boxShadow: {
-        'emerald-sm': '0 2px 10px -1px rgba(5, 150, 105, 0.2)',
-        'emerald-md': '0 6px 20px -2px rgba(5, 150, 105, 0.25)',
-        'card-subtle': '0 1px 3px 0 rgba(5, 150, 105, 0.05), 0 1px 2px -1px rgba(5, 150, 105, 0.05)',
-        'card-elevated': '0 10px 25px -5px rgba(5, 150, 105, 0.08), 0 8px 10px -6px rgba(5, 150, 105, 0.04)',
+        'wine-sm': '0 2px 10px -1px rgba(96, 29, 73, 0.2)',
+        'wine-md': '0 6px 20px -2px rgba(96, 29, 73, 0.28)',
+        'card-subtle': '0 1px 3px 0 rgba(96, 29, 73, 0.06), 0 1px 2px -1px rgba(96, 29, 73, 0.04)',
+        'card-elevated': '0 10px 25px -5px rgba(96, 29, 73, 0.09), 0 8px 10px -6px rgba(96, 29, 73, 0.05)',
       }
     },
   },

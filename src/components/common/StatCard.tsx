@@ -11,7 +11,7 @@ interface StatCardProps {
     isPositive: boolean;
   };
   subtitle?: string;
-  variant?: 'amber' | 'emerald' | 'purple' | 'blue' | 'rose' | 'indigo' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream';
+  variant?: 'amber' | 'emerald' | 'purple' | 'blue' | 'rose' | 'indigo' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream' | 'wine';
   className?: string;
 }
 
@@ -21,27 +21,28 @@ export const StatCard: React.FC<StatCardProps> = ({
   icon,
   trend,
   subtitle,
-  variant = 'emerald',
+  variant = 'wine',
   className,
 }) => {
   const iconColors = {
-    emerald: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
-    plum: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
-    berry: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-emerald-sm',
-    blush: 'bg-emerald-50 text-emerald-800 border-emerald-200 shadow-2xs',
-    cream: 'bg-emerald-100 text-emerald-900 border-emerald-300 shadow-2xs',
-    gold: 'bg-emerald-100 text-emerald-900 border-emerald-300 shadow-2xs',
-    amber: 'bg-amber-100 text-amber-900 border-amber-300 shadow-2xs',
-    purple: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-2xs',
-    blue: 'bg-blue-100 text-blue-900 border-blue-300 shadow-2xs',
-    rose: 'bg-rose-100 text-rose-800 border-rose-300 shadow-2xs',
-    indigo: 'bg-emerald-100 text-emerald-800 border-emerald-300 shadow-2xs',
+    wine: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30 shadow-wine-sm',
+    plum: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30 shadow-wine-sm',
+    berry: 'bg-[#fce7f1] text-[#BD5579] border-[#BD5579]/30 shadow-wine-sm',
+    blush: 'bg-[#fdf2f7] text-[#601D49] border-[#EA9D9D]/40 shadow-2xs',
+    cream: 'bg-[#FFEBB8] text-black border-[#BD5579]/30 shadow-2xs',
+    gold: 'bg-[#FFEBB8] text-black border-[#BD5579]/30 shadow-2xs',
+    emerald: 'bg-emerald-100 text-emerald-950 border-emerald-300 shadow-2xs',
+    amber: 'bg-amber-100 text-amber-950 border-amber-300 shadow-2xs',
+    purple: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30 shadow-2xs',
+    blue: 'bg-blue-100 text-blue-950 border-blue-300 shadow-2xs',
+    rose: 'bg-rose-100 text-rose-950 border-rose-300 shadow-2xs',
+    indigo: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30 shadow-2xs',
   };
 
   return (
     <div
       className={clsx(
-        'bg-white border-2 border-emerald-100 rounded-2xl p-5 hover:shadow-card-elevated hover:border-emerald-500 transition-all shadow-card-subtle font-alata group',
+        'bg-white border-2 border-[#BD5579]/20 rounded-2xl p-5 hover:shadow-card-elevated hover:border-[#601D49] transition-all shadow-card-subtle font-alata group',
         className
       )}
     >

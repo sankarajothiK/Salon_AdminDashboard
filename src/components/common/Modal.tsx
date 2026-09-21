@@ -47,17 +47,17 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150 font-alata">
       <div
-        className={`w-full ${widthClasses[maxWidth]} bg-white border-2 border-emerald-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}
+        className={`w-full ${widthClasses[maxWidth]} bg-white border-2 border-[#BD5579]/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b-2 border-emerald-100 bg-emerald-50/70">
+        <div className="flex items-center justify-between px-5 py-4 border-b-2 border-[#BD5579]/20 bg-[#fdf5f8]">
           <div>
             <h2 className="text-sm sm:text-base font-bold text-black">{title}</h2>
-            {subtitle && <p className="text-[11px] text-emerald-900 font-semibold mt-0.5">{subtitle}</p>}
+            {subtitle && <p className="text-[11px] text-[#601D49] font-semibold mt-0.5">{subtitle}</p>}
           </div>
           <button
             onClick={onClose}
-            className="text-black hover:text-emerald-700 p-1.5 rounded-xl hover:bg-emerald-100 transition-colors border border-emerald-200"
+            className="text-black hover:text-[#601D49] p-1.5 rounded-xl hover:bg-[#fce7f1] transition-colors border border-[#BD5579]/20"
           >
             <X className="w-4 h-4" />
           </button>

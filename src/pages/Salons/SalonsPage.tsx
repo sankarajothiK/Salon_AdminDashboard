@@ -82,7 +82,7 @@ export const SalonsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
@@ -94,7 +94,7 @@ export const SalonsPage: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
@@ -105,18 +105,18 @@ export const SalonsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Salons Table with Emerald & White Styling */}
-      <div className="bg-white border-2 border-emerald-100 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Salons Table with White & Wine Styling */}
+      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
         {filteredSalons.length === 0 ? (
           <EmptyState
-            icon={<Store className="w-6 h-6" />}
+            icon={<Store className="w-6 h-6 text-[#601D49]" />}
             title="No salons matched your criteria"
             description="Try changing the search query or status filter."
           />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-black">
-              <thead className="bg-emerald-50 text-black font-bold uppercase tracking-wider text-[11px] border-b-2 border-emerald-100">
+              <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
                 <tr>
                   <th className="px-5 py-4 font-bold text-black">Salon Name</th>
                   <th className="px-4 py-4 font-bold text-black">Owner / Contact</th>
@@ -127,27 +127,27 @@ export const SalonsPage: React.FC = () => {
                   <th className="px-5 py-4 font-bold text-black text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-emerald-100">
+              <tbody className="divide-y divide-[#BD5579]/10">
                 {filteredSalons.map((salon) => {
                   return (
-                    <tr key={salon.id} className="hover:bg-emerald-50/50 transition-colors group">
+                    <tr key={salon.id} className="hover:bg-[#fdf5f8]/70 transition-colors group">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div
                             className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-2xs flex-shrink-0"
-                            style={{ backgroundColor: salon.theme_color || '#059669' }}
+                            style={{ backgroundColor: salon.theme_color || '#601D49' }}
                           >
                             {salon.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <Link
                               to={`/salons/${salon.id}`}
-                              className="font-bold text-black hover:text-emerald-700 transition-colors flex items-center gap-1 text-sm"
+                              className="font-bold text-black hover:text-[#601D49] transition-colors flex items-center gap-1 text-sm"
                             >
                               <span>{salon.name}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" />
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#BD5579]" />
                             </Link>
-                            <span className="text-[10.5px] text-emerald-900 font-semibold">
+                            <span className="text-[10.5px] text-[#601D49]/70 font-semibold">
                               ID: {salon.id.slice(0, 8)}...
                             </span>
                           </div>
@@ -157,30 +157,30 @@ export const SalonsPage: React.FC = () => {
                       <td className="px-4 py-4">
                         <div className="font-bold text-black">{salon.owner_name || '—'}</div>
                         <div className="text-[11px] text-black font-semibold flex items-center gap-1 mt-0.5">
-                          <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                          <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
                           <span>{formatPhoneNumber(salon.phone_number)}</span>
                         </div>
                       </td>
 
                       <td className="px-4 py-4">
                         <div className="text-black font-bold flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-emerald-700" />
+                          <MapPin className="w-3.5 h-3.5 text-[#BD5579]" />
                           <span>{salon.city || '—'}</span>
                         </div>
-                        <div className="text-[10.5px] text-emerald-900 font-semibold truncate max-w-[140px]">
+                        <div className="text-[10.5px] text-[#601D49]/70 font-semibold truncate max-w-[140px]">
                           {salon.address || '—'}
                         </div>
                       </td>
 
                       <td className="px-4 py-4 text-center">
-                        <span className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-950 font-mono font-bold text-xs border border-emerald-300">
+                        <span className="px-2.5 py-1 rounded-lg bg-[#FFEBB8]/40 text-[#601D49] font-mono font-bold text-xs border border-[#FFEBB8]">
                           v{salon.app_version || '1.0.0'}
                         </span>
                       </td>
 
                       <td className="px-4 py-4 text-center">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-300">
-                          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">
+                          <span className="w-2 h-2 rounded-full bg-[#601D49] animate-pulse" />
                           <span>Active</span>
                         </span>
                       </td>
@@ -193,14 +193,14 @@ export const SalonsPage: React.FC = () => {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => setSelectedSalonId(salon.id)}
-                            className="px-3 py-1 text-[11px] rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border border-emerald-300 font-bold transition-colors"
+                            className="px-3 py-1 text-[11px] rounded-lg bg-[#fdf5f8] hover:bg-wine-100 text-[#601D49] border border-[#BD5579]/20 font-bold transition-colors"
                             title="Filter dashboard to this salon"
                           >
                             Set Scope
                           </button>
                           <Link
                             to={`/salons/${salon.id}`}
-                            className="p-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-2xs"
+                            className="p-1.5 rounded-lg bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white hover:opacity-90 transition-opacity shadow-wine-sm"
                             title="View 360 Salon Details"
                           >
                             <ExternalLink className="w-4 h-4" />

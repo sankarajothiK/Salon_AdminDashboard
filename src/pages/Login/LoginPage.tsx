@@ -34,19 +34,19 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col justify-center items-center p-4 relative overflow-hidden font-alata">
-      {/* Background Radial Glows in Emerald */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-emerald-200/50 to-transparent blur-[90px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-72 h-72 bg-emerald-100/60 blur-[70px] rounded-full pointer-events-none" />
+    <div className="min-h-screen bg-white flex flex-col justify-center items-center p-4 relative overflow-hidden font-alata">
+      {/* Background Radial Glows in Wine & Champagne */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#EA9D9D]/35 to-transparent blur-[90px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#FFEBB8]/40 blur-[70px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-800 to-emerald-500 flex items-center justify-center text-white shadow-emerald-md mx-auto mb-4 border-2 border-emerald-300">
-            <Crown className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#601D49] via-[#BD5579] to-[#EA9D9D] flex items-center justify-center text-[#FFEBB8] shadow-wine-md mx-auto mb-4 border-2 border-[#FFEBB8]">
+            <Crown className="w-8 h-8 text-[#FFEBB8]" />
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold mb-2 shadow-2xs">
-            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#fdf2f7] text-[#601D49] border border-[#BD5579]/30 text-xs font-bold mb-2 shadow-2xs">
+            <ShieldCheck className="w-4 h-4 text-[#601D49]" />
             <span>SUPER ADMIN PORTAL</span>
           </div>
           <h1 className="text-2xl font-bold text-black tracking-tight">SALON CRM PLATFORM</h1>
@@ -54,7 +54,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Login Card */}
-        <div className="bg-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-8 shadow-card-elevated">
+        <div className="bg-white border-2 border-[#BD5579]/25 rounded-3xl p-6 sm:p-8 shadow-card-elevated">
           {error && (
             <div className="mb-4 p-3 rounded-xl bg-rose-100 border border-rose-300 text-black text-xs font-bold flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-700 flex-shrink-0" />
@@ -63,14 +63,14 @@ export const LoginPage: React.FC = () => {
           )}
 
           {/* Auth Tab Toggle */}
-          <div className="flex rounded-xl bg-emerald-50/70 p-1 mb-6 border border-emerald-200">
+          <div className="flex rounded-xl bg-[#fdf5f8] p-1 mb-6 border border-[#BD5579]/20">
             <button
               type="button"
               onClick={() => setAuthMode('email')}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 authMode === 'email'
-                  ? 'bg-emerald-600 text-white shadow-2xs'
-                  : 'text-black hover:text-emerald-800'
+                  ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs'
+                  : 'text-black hover:text-[#601D49]'
               }`}
             >
               Email Sign In
@@ -80,8 +80,8 @@ export const LoginPage: React.FC = () => {
               onClick={() => setAuthMode('phone')}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 authMode === 'phone'
-                  ? 'bg-emerald-600 text-white shadow-2xs'
-                  : 'text-black hover:text-emerald-800'
+                  ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs'
+                  : 'text-black hover:text-[#601D49]'
               }`}
             >
               Mobile / Phone
@@ -102,7 +102,7 @@ export const LoginPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@saloncrm.com"
-                    className="w-full bg-[#f8fafc] border-2 border-emerald-200 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-600 transition-all"
+                    className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
                   />
                 </div>
               </div>
@@ -119,7 +119,7 @@ export const LoginPage: React.FC = () => {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="8888888888"
-                    className="w-full bg-[#f8fafc] border-2 border-emerald-200 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-600 transition-all"
+                    className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
                   />
                 </div>
               </div>
@@ -137,7 +137,7 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-[#f8fafc] border-2 border-emerald-200 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-600 transition-all"
+                  className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
                 />
               </div>
             </div>
@@ -155,13 +155,13 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* Quick Preset */}
-          <div className="mt-6 pt-6 border-t border-emerald-100">
+          <div className="mt-6 pt-6 border-t border-[#BD5579]/15">
             <button
               type="button"
               onClick={handleQuickLogin}
-              className="w-full py-2.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 text-xs font-bold text-black transition-colors shadow-2xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-xl bg-[#fdf5f8] hover:bg-[#fce7f1] border border-[#BD5579]/30 text-xs font-bold text-black transition-colors shadow-2xs flex items-center justify-center gap-2"
             >
-              <Crown className="w-4 h-4 text-emerald-700" />
+              <Crown className="w-4 h-4 text-[#601D49]" />
               <span>1-Click Super Admin Sign In</span>
             </button>
           </div>

@@ -109,21 +109,21 @@ export const SupportMessagesPage: React.FC = () => {
       case 'resolved':
       case 'replied':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-300">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#601D49]" />
             <span>Answered & Resolved</span>
           </span>
         );
       case 'in_progress':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-950 border border-blue-300">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200">
             <Clock className="w-3.5 h-3.5 text-blue-700" />
             <span>In Progress</span>
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-950 border border-amber-300">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200">
             <AlertCircle className="w-3.5 h-3.5 text-amber-700" />
             <span>Awaiting Answer</span>
           </span>
@@ -134,16 +134,16 @@ export const SupportMessagesPage: React.FC = () => {
   return (
     <div className="space-y-6 font-alata text-black">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-emerald-100/70 via-emerald-50/50 to-white border-2 border-emerald-200 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-wine-50 via-white to-champagne-50/40 border border-[#BD5579]/20 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-800 to-emerald-500 flex items-center justify-center text-white shadow-emerald-sm flex-shrink-0 border-2 border-emerald-300">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] flex items-center justify-center text-white shadow-wine-sm flex-shrink-0 border border-[#BD5579]/30">
               <MessageSquare className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
               Salon Support Messages & Response Center
             </h1>
-            <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 text-xs font-bold shadow-2xs">
+            <span className="px-3 py-0.5 rounded-full bg-wine-50 text-[#601D49] border border-[#BD5579]/30 text-xs font-bold shadow-2xs">
               Live Supabase
             </span>
           </div>
@@ -155,10 +155,10 @@ export const SupportMessagesPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => fetchMessages()}
-            className="p-2.5 rounded-xl bg-white hover:bg-emerald-50 text-black border-2 border-emerald-200 transition-colors shadow-2xs"
+            className="p-2.5 rounded-xl bg-white hover:bg-wine-50 text-black border border-[#BD5579]/20 transition-colors shadow-2xs"
             title="Refresh Messages"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-emerald-600' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#601D49]' : ''}`} />
           </button>
           <ExportDropdown
             data={messages.map((m) => ({
@@ -198,23 +198,23 @@ export const SupportMessagesPage: React.FC = () => {
           value={resolvedCount}
           icon={<CheckCircle2 className="w-5 h-5" />}
           subtitle="Responses delivered"
-          variant="emerald"
+          variant="wine"
         />
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white border-2 border-emerald-100 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Status Tabs */}
-          <div className="flex flex-wrap gap-1.5 bg-emerald-50/70 p-1 rounded-xl border border-emerald-200">
+          <div className="flex flex-wrap gap-1.5 bg-[#fdf5f8] p-1 rounded-xl border border-[#BD5579]/20">
             {['all', 'open', 'in_progress', 'resolved'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
                 className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all capitalize ${
                   statusFilter === st
-                    ? 'bg-emerald-600 text-white shadow-2xs'
-                    : 'text-black hover:text-emerald-800'
+                    ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm'
+                    : 'text-black hover:text-[#601D49]'
                 }`}
               >
                 {st === 'resolved' ? 'Answered / Resolved' : st === 'open' ? 'Awaiting Answer' : st}
@@ -226,7 +226,7 @@ export const SupportMessagesPage: React.FC = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-white border-2 border-emerald-200 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
             >
               <option value="all">All Categories</option>
               <option value="Bug / Error">Bug / Error</option>
@@ -263,14 +263,14 @@ export const SupportMessagesPage: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className="bg-white border-2 border-emerald-100 rounded-3xl p-5 sm:p-6 hover:border-emerald-500 transition-all shadow-card-subtle space-y-4"
+                className="bg-white border border-[#BD5579]/20 rounded-3xl p-5 sm:p-6 hover:border-[#601D49] transition-all shadow-card-subtle space-y-4"
               >
                 {/* Message Header */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b-2 border-emerald-100 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#BD5579]/15 pb-3">
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       {getStatusBadge(item.status)}
-                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-950 border border-emerald-200 uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#fdf5f8] text-[#601D49] border border-[#BD5579]/20 uppercase">
                         {item.category || 'General Inquiry'}
                       </span>
                     </div>
@@ -279,12 +279,12 @@ export const SupportMessagesPage: React.FC = () => {
                       <span>Salon: <strong className="text-black text-sm">{item.salon_name || 'Salon'}</strong></span>
                       <span>Owner: <strong className="text-black">{item.owner_name || 'Owner'}</strong></span>
                       {(item.phone || item.phone_number) && (
-                        <span className="flex items-center gap-1 text-emerald-900 font-bold">
-                          <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                        <span className="flex items-center gap-1 text-[#601D49] font-bold">
+                          <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
                           <span>{formatPhoneNumber(item.phone || item.phone_number)}</span>
                         </span>
                       )}
-                      <span className="text-emerald-900 font-semibold">{formatTimeAgo(item.created_at)}</span>
+                      <span className="text-[#BD5579] font-semibold">{formatTimeAgo(item.created_at)}</span>
                     </div>
                   </div>
 
@@ -298,7 +298,7 @@ export const SupportMessagesPage: React.FC = () => {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-emerald-sm flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-90 text-white text-xs font-bold transition-all shadow-wine-sm flex items-center gap-1.5"
                         title="Send message on WhatsApp"
                       >
                         <Send className="w-3.5 h-3.5 text-white" />
@@ -310,18 +310,18 @@ export const SupportMessagesPage: React.FC = () => {
                         setSelectedMessage(item);
                         setModalAnswerText('');
                       }}
-                      className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-black border border-emerald-200 transition-colors"
+                      className="p-2 rounded-xl bg-[#fdf5f8] hover:bg-wine-100 text-black border border-[#BD5579]/20 transition-colors"
                       title="Open full dialog"
                     >
-                      <Eye className="w-4 h-4" />
+                      <Eye className="w-4 h-4 text-[#601D49]" />
                     </button>
                   </div>
                 </div>
 
                 {/* Salon Owner's Stated Query / Message */}
-                <div className="p-4 bg-[#f8fafc] border-2 border-emerald-100 rounded-2xl">
-                  <div className="text-[11px] font-bold uppercase text-emerald-950 mb-1 flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-emerald-700" />
+                <div className="p-4 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-2xl">
+                  <div className="text-[11px] font-bold uppercase text-[#601D49] mb-1 flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-[#BD5579]" />
                     <span>Salon Owner's Query:</span>
                   </div>
                   <p className="text-black font-bold text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
@@ -331,17 +331,17 @@ export const SupportMessagesPage: React.FC = () => {
 
                 {/* Previous Answers Thread (if any) */}
                 {hasAnswers && (
-                  <div className="space-y-2 pl-2 sm:pl-4 border-l-4 border-emerald-500">
-                    <div className="text-[11px] font-bold uppercase text-emerald-950 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <div className="space-y-2 pl-2 sm:pl-4 border-l-4 border-[#601D49]">
+                    <div className="text-[11px] font-bold uppercase text-[#601D49] flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#BD5579]" />
                       <span>Super Admin Answer & Reply History ({item.answers!.length}):</span>
                     </div>
                     {item.answers!.map((ans) => (
                       <div
                         key={ans.id}
-                        className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-xs text-black font-bold space-y-1"
+                        className="p-3.5 rounded-2xl bg-[#fdf5f8] border border-[#BD5579]/20 text-xs text-black font-bold space-y-1"
                       >
-                        <div className="flex items-center justify-between text-[11px] text-emerald-950 font-bold border-b border-emerald-200 pb-1">
+                        <div className="flex items-center justify-between text-[11px] text-[#601D49] font-bold border-b border-[#BD5579]/15 pb-1">
                           <span>Answered by: {ans.answered_by}</span>
                           <span>{formatTimeAgo(ans.created_at)} ({formatDateTime(ans.created_at)})</span>
                         </div>
@@ -354,10 +354,10 @@ export const SupportMessagesPage: React.FC = () => {
                 )}
 
                 {/* Dedicated Answer & Reply Box */}
-                <div className="pt-2 border-t-2 border-emerald-100 space-y-3">
+                <div className="pt-2 border-t border-[#BD5579]/15 space-y-3">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-bold uppercase text-black flex items-center gap-1.5">
-                      <CornerDownRight className="w-3.5 h-3.5 text-emerald-700" />
+                      <CornerDownRight className="w-3.5 h-3.5 text-[#601D49]" />
                       <span>{hasAnswers ? 'Add Another Reply / Update:' : 'Reply & Answer This Query:'}</span>
                     </label>
                   </div>
@@ -373,7 +373,7 @@ export const SupportMessagesPage: React.FC = () => {
                             [item.id]: preset,
                           }))
                         }
-                        className="text-[10.5px] px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 font-bold transition-colors text-left"
+                        className="text-[10.5px] px-2.5 py-1 rounded-lg bg-[#fdf5f8] hover:bg-wine-100 text-[#601D49] border border-[#BD5579]/20 font-bold transition-colors text-left"
                       >
                         ✨ {preset.slice(0, 42)}...
                       </button>
@@ -392,13 +392,13 @@ export const SupportMessagesPage: React.FC = () => {
                       }
                       placeholder="Type your official answer here to resolve this query and deliver to the salon..."
                       rows={2}
-                      className="flex-1 bg-[#f8fafc] border-2 border-emerald-200 rounded-2xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      className="flex-1 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-2xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
                     />
 
                     <button
                       onClick={() => handleSendInlineAnswer(item)}
                       disabled={!currentDraft.trim() || sendingId === item.id}
-                      className="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold shadow-emerald-sm transition-all flex items-center justify-center gap-2 flex-shrink-0"
+                      className="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-95 disabled:opacity-50 text-white text-xs font-bold shadow-wine-sm transition-all flex items-center justify-center gap-2 flex-shrink-0"
                     >
                       {sendingId === item.id ? (
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -424,7 +424,7 @@ export const SupportMessagesPage: React.FC = () => {
           subtitle={`Message Reference ID: ${selectedMessage.id}`}
         >
           <div className="space-y-4 font-alata text-xs text-black">
-            <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 space-y-2 font-bold text-black">
+            <div className="bg-[#fdf5f8] p-4 rounded-2xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
               <div className="flex justify-between">
                 <span>Salon:</span>
                 <span className="text-black font-bold">{selectedMessage.salon_name || 'Salon Owner'}</span>
@@ -449,7 +449,7 @@ export const SupportMessagesPage: React.FC = () => {
 
             <div>
               <h4 className="text-xs font-bold uppercase text-black mb-1.5">Salon Owner Query:</h4>
-              <div className="p-4 bg-white border-2 border-emerald-200 rounded-xl text-black font-bold text-xs leading-relaxed whitespace-pre-wrap">
+              <div className="p-4 bg-white border border-[#BD5579]/20 rounded-xl text-black font-bold text-xs leading-relaxed whitespace-pre-wrap">
                 "{selectedMessage.message}"
               </div>
             </div>
@@ -459,8 +459,8 @@ export const SupportMessagesPage: React.FC = () => {
               <div className="space-y-2">
                 <h4 className="text-xs font-bold uppercase text-black">Previous Answers ({selectedMessage.answers.length}):</h4>
                 {selectedMessage.answers.map((a) => (
-                  <div key={a.id} className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl font-bold text-black">
-                    <div className="text-[10.5px] text-emerald-900 border-b border-emerald-200 pb-1 flex justify-between">
+                  <div key={a.id} className="p-3 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-xl font-bold text-black">
+                    <div className="text-[10.5px] text-[#601D49] border-b border-[#BD5579]/15 pb-1 flex justify-between">
                       <span>{a.answered_by}</span>
                       <span>{formatDateTime(a.created_at)}</span>
                     </div>
@@ -471,7 +471,7 @@ export const SupportMessagesPage: React.FC = () => {
             )}
 
             {/* Modal Answer Box */}
-            <div className="space-y-2 pt-2 border-t border-emerald-200">
+            <div className="space-y-2 pt-2 border-t border-[#BD5579]/20">
               <label className="block text-xs font-bold uppercase text-black">
                 Type Super Admin Answer:
               </label>
@@ -480,7 +480,7 @@ export const SupportMessagesPage: React.FC = () => {
                 onChange={(e) => setModalAnswerText(e.target.value)}
                 placeholder="Enter official answer / solution..."
                 rows={3}
-                className="w-full bg-[#f8fafc] border-2 border-emerald-200 rounded-xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full bg-[#fdf5f8] border border-[#BD5579]/20 rounded-xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
               />
             </div>
 
@@ -488,7 +488,7 @@ export const SupportMessagesPage: React.FC = () => {
               <button
                 onClick={handleSendModalAnswer}
                 disabled={!modalAnswerText.trim() || modalSending}
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold shadow-emerald-sm transition-all flex items-center gap-2"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-95 disabled:opacity-50 text-white font-bold shadow-wine-sm transition-all flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 <span>Submit Answer & Resolve</span>

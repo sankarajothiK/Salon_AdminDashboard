@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { Loader2 } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'success' | 'gold' | 'berry' | 'emerald';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'success' | 'gold' | 'berry' | 'emerald' | 'wine';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   icon?: React.ReactNode;
@@ -22,16 +22,17 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center font-bold rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed font-alata shadow-2xs';
 
   const variantStyles = {
-    // Primary Emerald #059669
-    primary: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-sm focus:ring-emerald-500',
-    emerald: 'bg-gradient-to-r from-emerald-700 to-emerald-500 hover:opacity-95 text-white shadow-emerald-sm focus:ring-emerald-500',
-    berry: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-sm focus:ring-emerald-500',
-    gold: 'bg-emerald-100 hover:bg-emerald-200 text-emerald-950 border border-emerald-300 focus:ring-emerald-500',
-    secondary: 'bg-white hover:bg-emerald-50 text-emerald-950 border-2 border-emerald-200 focus:ring-emerald-500',
-    outline: 'border-2 border-emerald-600 text-emerald-800 hover:bg-emerald-50 focus:ring-emerald-500',
+    // Primary Royal Wine #601D49
+    primary: 'bg-[#601D49] hover:bg-[#7d2347] text-[#FFEBB8] shadow-wine-sm focus:ring-[#601D49]',
+    wine: 'bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-95 text-[#FFEBB8] shadow-wine-sm focus:ring-[#601D49]',
+    berry: 'bg-[#BD5579] hover:bg-[#9e355c] text-white shadow-wine-sm focus:ring-[#BD5579]',
+    gold: 'bg-[#FFEBB8] hover:bg-[#ffd580] text-black border border-[#BD5579]/30 focus:ring-[#BD5579]',
+    secondary: 'bg-white hover:bg-[#fdf2f7] text-black border-2 border-[#BD5579]/30 focus:ring-[#601D49]',
+    outline: 'border-2 border-[#601D49] text-[#601D49] hover:bg-[#fdf2f7] focus:ring-[#601D49]',
     danger: 'bg-rose-600 hover:bg-rose-500 text-white focus:ring-rose-500',
-    ghost: 'text-emerald-950 hover:bg-emerald-50 focus:ring-emerald-500 shadow-none',
+    ghost: 'text-black hover:bg-[#fdf2f7] hover:text-[#601D49] focus:ring-[#601D49] shadow-none',
     success: 'bg-emerald-600 hover:bg-emerald-500 text-white focus:ring-emerald-500',
+    emerald: 'bg-emerald-600 hover:bg-emerald-500 text-white focus:ring-emerald-500',
   };
 
   const sizeStyles = {
