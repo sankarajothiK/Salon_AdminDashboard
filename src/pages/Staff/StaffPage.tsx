@@ -49,12 +49,12 @@ export const StaffPage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Staff & Stylist Performance</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Staff & Stylist Performance</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Tracking stylist productivity, appointment volumes, and attributed billing revenue ({staffList.length} total staff)
           </p>
         </div>
@@ -64,7 +64,7 @@ export const StaffPage: React.FC = () => {
             Name: s.name,
             Role: s.role,
             Phone: s.phone_number,
-            Salon: s.salon?.name || 'Salon',
+            Salon: s.salon_name || 'Salon',
             Appointments: s.appointmentCount || 0,
             Revenue: s.revenueGenerated || 0,
           }))}
@@ -76,7 +76,7 @@ export const StaffPage: React.FC = () => {
             rows: filteredStaff.map((s) => [
               s.name,
               s.role,
-              s.salon?.name || '—',
+              s.salon_name || '—',
               s.appointmentCount || 0,
               formatCurrency(s.revenueGenerated),
             ]),
@@ -85,18 +85,18 @@ export const StaffPage: React.FC = () => {
       </div>
 
       {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
           placeholder="Search by stylist name, role, or phone..."
-          className="flex-1 text-black font-bold"
+          className="flex-1 text-[#161826] font-bold"
         />
 
         <select
           value={salonFilter}
           onChange={(e) => setSalonFilter(e.target.value)}
-          className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+          className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
         >
           <option value="all">All Salons</option>
           {salons.map((s) => (
@@ -107,7 +107,7 @@ export const StaffPage: React.FC = () => {
         </select>
       </div>
 
-      {/* Staff Cards Grid with White & Wine Styling */}
+      {/* Staff Cards Grid with Gold & Dark Styling */}
       {loading ? (
         <LoadingSpinner message="Calculating stylist metrics from Supabase..." size="md" />
       ) : (
@@ -115,33 +115,33 @@ export const StaffPage: React.FC = () => {
           {filteredStaff.map((s) => (
             <div
               key={s.id}
-              className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 hover:border-[#601D49] hover:shadow-card-elevated transition-all shadow-card-subtle space-y-4"
+              className="bg-white border-2 border-[#D4AF37]/25 rounded-2xl p-5 hover:border-[#D4AF37] hover:shadow-card-elevated transition-all shadow-card-subtle space-y-4"
             >
               <div className="flex items-start gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] text-white flex items-center justify-center font-bold text-base shadow-wine-sm flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#D4AF37] to-[#C5A059] text-[#161826] flex items-center justify-center font-bold text-base shadow-gold-sm flex-shrink-0">
                   {s.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <h3 className="font-bold text-black text-sm">{s.name}</h3>
-                  <div className="text-xs text-[#601D49] font-bold">{s.role}</div>
-                  <div className="text-[11px] text-black font-semibold mt-0.5">{s.salon?.name || 'Salon'}</div>
+                  <h3 className="font-bold text-[#161826] text-sm">{s.name}</h3>
+                  <div className="text-xs text-[#D4AF37] font-bold">{s.role}</div>
+                  <div className="text-[11px] text-[#161826]/80 font-semibold mt-0.5">{s.salon_name || 'Salon'}</div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#BD5579]/15">
-                <div className="p-3 bg-[#fdf5f8] rounded-xl border border-[#BD5579]/20">
-                  <div className="text-[10.5px] font-bold text-[#601D49] uppercase">Bookings</div>
-                  <div className="text-base font-bold text-black mt-0.5">{s.appointmentCount || 0}</div>
+              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#D4AF37]/20">
+                <div className="p-3 bg-[#FCF9EE] rounded-xl border border-[#D4AF37]/25">
+                  <div className="text-[10.5px] font-bold text-[#D4AF37] uppercase">Bookings</div>
+                  <div className="text-base font-bold text-[#161826] mt-0.5">{s.appointmentCount || 0}</div>
                 </div>
-                <div className="p-3 bg-[#fdf5f8] rounded-xl border border-[#BD5579]/20">
-                  <div className="text-[10.5px] font-bold text-[#601D49] uppercase">Revenue</div>
-                  <div className="text-base font-bold text-black mt-0.5">{formatCurrency(s.revenueGenerated)}</div>
+                <div className="p-3 bg-[#FCF9EE] rounded-xl border border-[#D4AF37]/25">
+                  <div className="text-[10.5px] font-bold text-[#D4AF37] uppercase">Revenue</div>
+                  <div className="text-base font-bold text-[#161826] mt-0.5">{formatCurrency(s.revenueGenerated)}</div>
                 </div>
               </div>
 
               {s.phone_number && (
-                <div className="text-[11px] text-black flex items-center gap-1.5 font-bold">
-                  <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
+                <div className="text-[11px] text-[#161826] flex items-center gap-1.5 font-bold">
+                  <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
                   <span>{formatPhoneNumber(s.phone_number)}</span>
                 </div>
               )}

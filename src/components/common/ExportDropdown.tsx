@@ -64,35 +64,35 @@ export const ExportDropdown: React.FC<ExportDropdownProps> = ({
         size="sm"
         disabled={disabled || !data.length}
         onClick={() => setIsOpen(!isOpen)}
-        icon={<Download className="w-3.5 h-3.5 text-[#601D49]" />}
+        icon={<Download className="w-3.5 h-3.5 text-[#D4AF37]" />}
       >
         <span>Export</span>
-        <ChevronDown className="w-3.5 h-3.5 ml-1 text-black/60" />
+        <ChevronDown className="w-3.5 h-3.5 ml-1 text-[#161826]/60" />
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 z-30 mt-2 w-48 rounded-2xl bg-white border border-[#BD5579]/20 shadow-wine-md py-1.5 text-xs text-black animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 z-30 mt-2 w-48 rounded-2xl bg-white border border-[#D4AF37]/30 shadow-dark-md py-1.5 text-xs text-[#161826] animate-in fade-in zoom-in-95 duration-100">
           <button
             onClick={handleExportCSV}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#fdf5f8] transition-colors text-left font-bold"
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#FCF9EE] transition-colors text-left font-bold"
           >
-            <TableIcon className="w-4 h-4 text-[#601D49]" />
-            <span className="text-black">Export to CSV</span>
+            <TableIcon className="w-4 h-4 text-[#D4AF37]" />
+            <span className="text-[#161826]">Export to CSV</span>
           </button>
           <button
             onClick={handleExportExcel}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#fdf5f8] transition-colors text-left font-bold"
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#FCF9EE] transition-colors text-left font-bold"
           >
-            <FileSpreadsheet className="w-4 h-4 text-[#BD5579]" />
-            <span className="text-black">Export to Excel (.xlsx)</span>
+            <FileSpreadsheet className="w-4 h-4 text-[#D4AF37]" />
+            <span className="text-[#161826]">Export to Excel (.xlsx)</span>
           </button>
           {pdfConfig && (
             <button
               onClick={handleExportPDF}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#fdf5f8] transition-colors text-left border-t border-[#BD5579]/15 font-bold"
+              className="w-full flex items-center gap-2.5 px-3.5 py-2 hover:bg-[#FCF9EE] transition-colors text-left border-t border-[#D4AF37]/20 font-bold"
             >
               <FileText className="w-4 h-4 text-rose-700" />
-              <span className="text-black">Export to PDF</span>
+              <span className="text-[#161826]">Export to PDF</span>
             </button>
           )}
         </div>

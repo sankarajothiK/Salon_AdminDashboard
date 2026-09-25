@@ -1,4 +1,7 @@
-import { supabase } from '@/lib/supabase';
+import { salonService } from './salonService';
+import { accountDeletionService } from './accountDeletionService';
+import { appointmentService } from './appointmentService';
+import { billingService } from './billingService';
 import { AppTelemetryRecord, SalonLifecycleStatus } from '@/types';
 
 export const telemetryService = {
@@ -7,12 +10,12 @@ export const telemetryService = {
    */
   async getTelemetryRecords(): Promise<{ data: AppTelemetryRecord[]; error: string | null }> {
     try {
-      // 1. Fetch registered salons and deleted salons in parallel
+      // 1. Fetch registered salons, deletions, appointments, and bills in parallel
       const [salonsRes, deletionsRes, apptsRes, billsRes] = await Promise.all([
-        supabase.from('salons').select('*').order('created_at', { ascending: false }),
-        supabase.from('account_deletions').select('*'),
-        supabase.from('appointments').select('id, salon_id, created_at').order('created_at', { ascending: false }),
-        supabase.from('bills').select('id, salon_id, created_at').order('created_at', { ascending: false }),
+        salonService.getSalons(),
+        accountDeletionService.getAccountDeletions(),
+        appointmentService.getAppointments(),
+        billingService.getBills(),
       ]);
 
       const salons = salonsRes.data || [];
@@ -31,9 +34,9 @@ export const telemetryService = {
         const lastAppt = appointments.find((a) => a.salon_id === s.id);
         const lastBill = bills.find((b) => b.salon_id === s.id);
 
-        let lastTime = new Date(s.created_at).getTime();
+        let lastTime = new Date(s.created_at || Date.now()).getTime();
         if (lastAppt) {
-          const apptTime = new Date(lastAppt.created_at).getTime();
+          const apptTime = new Date(lastAppt.created_at || lastAppt.start_time).getTime();
           if (apptTime > lastTime) lastTime = apptTime;
         }
         if (lastBill) {
@@ -50,19 +53,22 @@ export const telemetryService = {
           status = 'active';
         }
 
+        const apptCount = appointments.filter((a) => a.salon_id === s.id).length;
+        const billCount = bills.filter((b) => b.salon_id === s.id).length;
+
         records.push({
           id: `tel-${s.id}`,
           salon_id: s.id,
           salon_name: s.name,
           owner_name: s.owner_name,
           phone_number: s.phone_number,
-          city: s.city,
-          app_version: '1.0.0', // Current release version
+          city: s.city || 'India',
+          app_version: '1.0.0', // Current Style Fleet release version
           platform: 'android',
           status,
           last_active_at: new Date(lastTime).toISOString(),
-          login_count: (appointments.filter((a) => a.salon_id === s.id).length || 1) + 5,
-          device_model: 'Samsung Galaxy / Vivo / Redmi',
+          login_count: (apptCount || 1) + (billCount || 1) + 4,
+          device_model: 'Android Device',
           os_version: 'Android 14',
           errors_count: 0,
         });

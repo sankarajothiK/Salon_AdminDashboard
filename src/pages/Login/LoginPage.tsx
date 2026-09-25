@@ -34,43 +34,43 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center items-center p-4 relative overflow-hidden font-alata">
-      {/* Background Radial Glows in Wine & Champagne */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#EA9D9D]/35 to-transparent blur-[90px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#FFEBB8]/40 blur-[70px] rounded-full pointer-events-none" />
+    <div className="min-h-screen bg-[#faf9f5] flex flex-col justify-center items-center p-4 relative overflow-hidden font-alata">
+      {/* Background Radial Glows in Gold & Dark Accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#D4AF37]/20 to-transparent blur-[90px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#FCF9EE] blur-[70px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#601D49] via-[#BD5579] to-[#EA9D9D] flex items-center justify-center text-[#FFEBB8] shadow-wine-md mx-auto mb-4 border-2 border-[#FFEBB8]">
-            <Crown className="w-8 h-8 text-[#FFEBB8]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#161826] flex items-center justify-center text-[#DFB847] shadow-dark-md mx-auto mb-4 border-2 border-[#D4AF37]/50">
+            <Crown className="w-8 h-8 text-[#DFB847]" />
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#fdf2f7] text-[#601D49] border border-[#BD5579]/30 text-xs font-bold mb-2 shadow-2xs">
-            <ShieldCheck className="w-4 h-4 text-[#601D49]" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 text-xs font-bold mb-2 shadow-2xs">
+            <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
             <span>SUPER ADMIN PORTAL</span>
           </div>
-          <h1 className="text-2xl font-bold text-black tracking-tight">STYLE FLEET</h1>
-          <p className="text-xs text-black mt-1 font-bold">Executive Oversight & Multi-Salon Fleet Telemetry</p>
+          <h1 className="text-2xl font-bold text-[#161826] tracking-tight">STYLE FLEET</h1>
+          <p className="text-xs text-[#161826]/80 mt-1 font-bold">Executive Oversight & Multi-Salon Fleet Telemetry</p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-white border-2 border-[#BD5579]/25 rounded-3xl p-6 sm:p-8 shadow-card-elevated">
+        <div className="bg-white border-2 border-[#D4AF37]/30 rounded-3xl p-6 sm:p-8 shadow-card-elevated">
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-rose-100 border border-rose-300 text-black text-xs font-bold flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-bold flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-700 flex-shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Auth Tab Toggle */}
-          <div className="flex rounded-xl bg-[#fdf5f8] p-1 mb-6 border border-[#BD5579]/20">
+          <div className="flex rounded-xl bg-[#FCF9EE] p-1 mb-6 border border-[#D4AF37]/25">
             <button
               type="button"
               onClick={() => setAuthMode('email')}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 authMode === 'email'
-                  ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs'
-                  : 'text-black hover:text-[#601D49]'
+                  ? 'bg-[#161826] text-[#DFB847] shadow-dark-sm'
+                  : 'text-[#161826] hover:text-[#D4AF37]'
               }`}
             >
               Email Sign In
@@ -80,8 +80,8 @@ export const LoginPage: React.FC = () => {
               onClick={() => setAuthMode('phone')}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 authMode === 'phone'
-                  ? 'bg-[#601D49] text-[#FFEBB8] shadow-2xs'
-                  : 'text-black hover:text-[#601D49]'
+                  ? 'bg-[#161826] text-[#DFB847] shadow-dark-sm'
+                  : 'text-[#161826] hover:text-[#D4AF37]'
               }`}
             >
               Mobile / Phone
@@ -91,60 +91,60 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {authMode === 'email' ? (
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-black mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#161826] mb-1.5">
                   Super Admin Email
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-black absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-[#D4AF37] absolute left-3.5 top-3" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@stylefleet.com"
-                    className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
+                    className="w-full bg-[#FCF9EE]/40 border-2 border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-[#161826] transition-all"
                   />
                 </div>
               </div>
             ) : (
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-black mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#161826] mb-1.5">
                   Super Admin Mobile
                 </label>
                 <div className="relative">
-                  <Phone className="w-4 h-4 text-black absolute left-3.5 top-3" />
+                  <Phone className="w-4 h-4 text-[#D4AF37] absolute left-3.5 top-3" />
                   <input
                     type="text"
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="8888888888"
-                    className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
+                    className="w-full bg-[#FCF9EE]/40 border-2 border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-[#161826] transition-all"
                   />
                 </div>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-black mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#161826] mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-black absolute left-3.5 top-3" />
+                <Lock className="w-4 h-4 text-[#D4AF37] absolute left-3.5 top-3" />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-[#fdfafc] border-2 border-[#BD5579]/25 text-black font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#BD5579] focus:border-[#601D49] transition-all"
+                  className="w-full bg-[#FCF9EE]/40 border-2 border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl pl-10 pr-3 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-[#161826] transition-all"
                 />
               </div>
             </div>
 
             <Button
               type="submit"
-              variant="primary"
+              variant="gold"
               size="lg"
               loading={loading}
               className="w-full mt-4"
@@ -155,20 +155,20 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* Quick Preset */}
-          <div className="mt-6 pt-6 border-t border-[#BD5579]/15">
+          <div className="mt-6 pt-6 border-t border-[#D4AF37]/20">
             <button
               type="button"
               onClick={handleQuickLogin}
-              className="w-full py-2.5 rounded-xl bg-[#fdf5f8] hover:bg-[#fce7f1] border border-[#BD5579]/30 text-xs font-bold text-black transition-colors shadow-2xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-xl bg-[#FCF9EE] hover:bg-[#F9F2D6] border border-[#D4AF37]/40 text-xs font-bold text-[#161826] transition-colors shadow-2xs flex items-center justify-center gap-2"
             >
-              <Crown className="w-4 h-4 text-[#601D49]" />
+              <Crown className="w-4 h-4 text-[#D4AF37]" />
               <span>1-Click Super Admin Sign In</span>
             </button>
           </div>
         </div>
 
         {/* Footer info */}
-        <p className="text-center text-xs text-black font-bold mt-6">
+        <p className="text-center text-xs text-[#161826]/75 font-bold mt-6">
           Style Fleet &copy; 2026. Direct Supabase Cloud Connection.
         </p>
       </div>

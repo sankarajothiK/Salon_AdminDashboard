@@ -17,18 +17,18 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   return (
     <div className={clsx('relative flex items-center font-alata', className)}>
-      <Search className="absolute left-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+      <Search className="absolute left-3.5 w-4 h-4 text-[#D4AF37] pointer-events-none" />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-white border border-slate-200 text-slate-900 text-xs rounded-xl pl-10 pr-8 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-all shadow-2xs"
+        className="w-full bg-[#FCF9EE]/40 border-2 border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl pl-10 pr-8 py-2.5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37] transition-all shadow-2xs"
       />
       {value && (
         <button
           onClick={() => onChange('')}
-          className="absolute right-2.5 text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100"
+          className="absolute right-2.5 text-[#161826]/50 hover:text-[#161826] p-1 rounded-full hover:bg-[#FCF9EE]"
         >
           <X className="w-3.5 h-3.5" />
         </button>

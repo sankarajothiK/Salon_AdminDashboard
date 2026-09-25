@@ -38,7 +38,7 @@ export const serviceCatalogService = {
     try {
       let query = supabase.from('services').select('*');
       if (salonId && salonId !== 'all') {
-        query = query.eq('salon_id', salonId);
+        query = query.or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`);
       }
 
       const { data: dbServices, error } = await query;
@@ -48,9 +48,9 @@ export const serviceCatalogService = {
 
       const customList = (dbServices || []).map((s: any) => ({
         id: s.id,
-        salon_id: s.salon_id,
+        salon_id: s.shop_id || s.salon_id,
         name: s.name,
-        price: Number(s.price) || 0,
+        price: s.price_minor !== undefined ? s.price_minor / 100 : Number(s.price) || 0,
         duration_minutes: s.duration_minutes || s.duration || 30,
         description: s.description || 'Custom salon service',
         category: s.category || 'GENERAL',

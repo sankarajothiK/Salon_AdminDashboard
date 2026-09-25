@@ -1,4 +1,6 @@
-import { supabase } from '@/lib/supabase';
+import { salonService } from './salonService';
+import { appointmentService } from './appointmentService';
+import { billingService } from './billingService';
 import { SystemAlert } from '@/types';
 
 export const alertService = {
@@ -7,17 +9,15 @@ export const alertService = {
    */
   async getSystemAlerts(): Promise<{ data: SystemAlert[]; error: string | null }> {
     try {
-      const [salonsRes, apptsRes, billsRes, waRes] = await Promise.all([
-        supabase.from('salons').select('*'),
-        supabase.from('appointments').select('*'),
-        supabase.from('bills').select('*'),
-        supabase.from('whatsapp_messages').select('*'),
+      const [salonsRes, apptsRes, billsRes] = await Promise.all([
+        salonService.getSalons(),
+        appointmentService.getAppointments(),
+        billingService.getBills(),
       ]);
 
       const salons = salonsRes.data || [];
       const appointments = apptsRes.data || [];
       const bills = billsRes.data || [];
-      const whatsappMessages = waRes.data || [];
 
       const alerts: SystemAlert[] = [];
       const now = Date.now();
@@ -26,7 +26,6 @@ export const alertService = {
       salons.forEach((salon) => {
         const salonAppts = appointments.filter((a) => a.salon_id === salon.id);
         const salonBills = bills.filter((b) => b.salon_id === salon.id);
-        const salonWA = whatsappMessages.filter((w) => w.salon_id === salon.id);
 
         // 1. Inactivity Alert: No appointments or bills in 7+ days
         const lastActivityDate = [
@@ -65,21 +64,6 @@ export const alertService = {
               timestamp: new Date().toISOString(),
             });
           }
-        }
-
-        // 3. WhatsApp Messaging Failure Alert
-        const failedWA = salonWA.filter((w) => w.status === 'failed');
-        if (failedWA.length > 0) {
-          alerts.push({
-            id: `alert-wa-${salon.id}`,
-            salonId: salon.id,
-            salonName: salon.name,
-            type: 'failed_messaging',
-            severity: 'medium',
-            title: `WhatsApp Invoicing Delivery Issue (${failedWA.length} Failed)`,
-            message: `${failedWA.length} automated WhatsApp invoice dispatches failed due to missing API token or rate limit.`,
-            timestamp: failedWA[0]?.created_at || new Date().toISOString(),
-          });
         }
       });
 

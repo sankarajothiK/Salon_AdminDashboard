@@ -34,24 +34,14 @@ export const billingService = {
     error: string | null;
   }> {
     try {
-      let query = supabase
-        .from('bills')
-        .select('*, customer:customer_id(*), salon:salon_id(*), items:bill_items(*)', { count: 'exact' });
+      let query = supabase.from('bills').select('*', { count: 'exact' });
 
       if (options.salonId && options.salonId !== 'all') {
-        query = query.eq('salon_id', options.salonId);
+        query = query.or(`shop_id.eq.${options.salonId},salon_id.eq.${options.salonId}`);
       }
 
       if (options.customerId) {
         query = query.eq('customer_id', options.customerId);
-      }
-
-      if (options.dateRange?.start) {
-        query = query.gte('created_at', options.dateRange.start);
-      }
-
-      if (options.dateRange?.end) {
-        query = query.lte('created_at', options.dateRange.end);
       }
 
       query = query.order('created_at', { ascending: false });
@@ -63,10 +53,77 @@ export const billingService = {
 
       const { data, count, error } = await query;
       if (error) throw error;
+      if (!data) return { data: [], totalCount: 0, error: null };
+
+      // Enrich with customers and shops
+      const [custRes, shopsRes, itemsRes] = await Promise.all([
+        supabase.from('customers').select('*'),
+        supabase.from('shops').select('*'),
+        supabase.from('bill_items').select('*'),
+      ]);
+
+      const custMap = new Map((custRes.data || []).map((c: any) => [c.id, c]));
+      const shopMap = new Map((shopsRes.data || []).map((s: any) => [s.id, s]));
+      const itemsList = itemsRes.data || [];
+
+      const enriched: Bill[] = data.map((b: any) => {
+        const cust = custMap.get(b.customer_id);
+        const shp = shopMap.get(b.shop_id || b.salon_id);
+        const billItems = itemsList.filter((i: any) => i.bill_id === b.id);
+
+        const subtotal = b.subtotal_minor !== undefined ? b.subtotal_minor / 100 : Number(b.subtotal) || 0;
+        const total = b.total_minor !== undefined ? b.total_minor / 100 : Number(b.total) || 0;
+        const gst = b.tax_minor !== undefined ? b.tax_minor / 100 : Number(b.gst_amount) || 0;
+        const discount = b.discount_minor !== undefined ? b.discount_minor / 100 : Number(b.discount) || 0;
+
+        return {
+          id: b.id,
+          salon_id: b.shop_id || b.salon_id,
+          customer_id: b.customer_id,
+          subtotal,
+          discount,
+          gst_amount: gst,
+          total,
+          payment_method: b.payment_method || 'CASH',
+          created_at: b.issued_at || b.created_at,
+          customer: cust
+            ? {
+                id: cust.id,
+                name: cust.name,
+                phone_number: cust.phone || cust.phone_number || '',
+                notes: cust.notes || '',
+                starred: !!(cust.is_starred || cust.starred),
+                created_at: cust.created_at,
+              }
+            : undefined,
+          salon: shp
+            ? {
+                id: shp.id,
+                name: shp.name,
+                owner_name: 'Salon Owner',
+                phone_number: shp.phone || '',
+                city: shp.city || '',
+                address: shp.address || '',
+                pin_code: shp.pin_code || '',
+                theme_color: shp.accent_color || '#D4AF37',
+                created_at: shp.created_at,
+                updated_at: shp.updated_at,
+              }
+            : undefined,
+          items: billItems.map((item: any) => ({
+            id: item.id,
+            bill_id: item.bill_id,
+            service_name: item.name || item.service_name || 'Service Item',
+            price: item.price_minor !== undefined ? item.price_minor / 100 : item.price || 0,
+            qty: item.quantity || item.qty || 1,
+            total: item.price_minor !== undefined ? (item.price_minor * (item.quantity || item.qty || 1)) / 100 : item.total || 0,
+          })),
+        };
+      });
 
       return {
-        data: (data || []) as Bill[],
-        totalCount: count || (data || []).length,
+        data: enriched,
+        totalCount: count || enriched.length,
         error: null,
       };
     } catch (err: any) {
@@ -83,9 +140,9 @@ export const billingService = {
     error: string | null;
   }> {
     try {
-      let query = supabase.from('bills').select('id, total, created_at, salon_id');
+      let query = supabase.from('bills').select('id, total, total_minor, created_at, issued_at, shop_id, salon_id');
       if (salonId && salonId !== 'all') {
-        query = query.eq('salon_id', salonId);
+        query = query.or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`);
       }
 
       const { data, error } = await query;
@@ -118,9 +175,9 @@ export const billingService = {
       let todayBillCount = 0;
       let monthBillCount = 0;
 
-      data.forEach((b) => {
-        const amount = Number(b.total) || 0;
-        const time = new Date(b.created_at).getTime();
+      data.forEach((b: any) => {
+        const amount = b.total_minor !== undefined ? Number(b.total_minor) / 100 : Number(b.total) || 0;
+        const time = new Date(b.issued_at || b.created_at).getTime();
 
         totalRevenue += amount;
 

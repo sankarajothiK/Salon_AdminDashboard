@@ -48,12 +48,12 @@ export const ServicesPage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Services & Treatment Catalog</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Services & Treatment Catalog</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Global service directory across Hair, Beard, Spa, and Salon Treatments ({services.length} unique services)
           </p>
         </div>
@@ -77,18 +77,18 @@ export const ServicesPage: React.FC = () => {
       </div>
 
       {/* Filter and Category Bar */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1.5 bg-[#fdf5f8] p-1 rounded-xl border border-[#BD5579]/20">
+          <div className="flex flex-wrap gap-1.5 bg-[#FCF9EE] p-1 rounded-xl border border-[#D4AF37]/25">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
                   selectedCategory === cat
-                    ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm'
-                    : 'text-black hover:text-[#601D49]'
+                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold'
+                    : 'text-[#161826] hover:text-[#D4AF37]'
                 }`}
               >
                 {cat}
@@ -100,7 +100,7 @@ export const ServicesPage: React.FC = () => {
           <select
             value={salonFilter}
             onChange={(e) => setSalonFilter(e.target.value)}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Salons (Direct Supabase)</option>
             {salons.map((s) => (
@@ -115,11 +115,11 @@ export const ServicesPage: React.FC = () => {
           value={search}
           onChange={setSearch}
           placeholder="Search by treatment or service name..."
-          className="text-black font-bold"
+          className="text-[#161826] font-bold"
         />
       </div>
 
-      {/* Services Grid with White & Wine Styling */}
+      {/* Services Grid with Gold & Dark Styling */}
       {loading ? (
         <LoadingSpinner message="Querying live service catalog from Supabase..." size="md" />
       ) : (
@@ -127,30 +127,30 @@ export const ServicesPage: React.FC = () => {
           {filteredServices.map((svc) => (
             <div
               key={svc.id}
-              className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 hover:border-[#601D49] hover:shadow-card-elevated transition-all shadow-card-subtle flex flex-col justify-between group"
+              className="bg-white border-2 border-[#D4AF37]/25 rounded-2xl p-5 hover:border-[#D4AF37] hover:shadow-card-elevated transition-all shadow-card-subtle flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#fdf5f8] text-[#601D49] border border-[#BD5579]/20">
+                  <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/30">
                     {svc.category}
                   </span>
-                  <div className="flex items-center gap-1 text-[11px] text-[#BD5579] font-bold">
-                    <Clock className="w-3.5 h-3.5 text-[#601D49]" />
+                  <div className="flex items-center gap-1 text-[11px] text-[#D4AF37] font-bold">
+                    <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
                     <span>{svc.duration_minutes} min</span>
                   </div>
                 </div>
 
-                <h3 className="text-sm font-bold text-black mt-3 group-hover:text-[#601D49] transition-colors">
+                <h3 className="text-sm font-bold text-[#161826] mt-3 group-hover:text-[#D4AF37] transition-colors">
                   {svc.name}
                 </h3>
-                <p className="text-xs text-black font-semibold mt-1 line-clamp-2">
+                <p className="text-xs text-[#161826]/80 font-semibold mt-1 line-clamp-2">
                   {svc.description || 'Professional salon treatment service.'}
                 </p>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-[#BD5579]/15 flex items-center justify-between">
-                <span className="text-xs text-black font-bold">Pricing</span>
-                <span className="text-base font-bold text-black">
+              <div className="pt-4 mt-4 border-t border-[#D4AF37]/20 flex items-center justify-between">
+                <span className="text-xs text-[#161826] font-bold">Pricing</span>
+                <span className="text-base font-bold text-[#161826]">
                   {formatCurrency(svc.price)}
                 </span>
               </div>

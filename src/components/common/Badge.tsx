@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'purple' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream' | 'emerald' | 'wine';
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'purple' | 'gold' | 'plum' | 'berry' | 'blush' | 'cream' | 'emerald' | 'wine' | 'dark';
   size?: 'sm' | 'md';
   dot?: boolean;
   className?: string;
@@ -11,41 +11,43 @@ interface BadgeProps {
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
-  variant = 'wine',
+  variant = 'gold',
   size = 'md',
   dot = false,
   className,
 }) => {
   const variantStyles = {
     default: 'bg-slate-100 text-slate-800 border-slate-300',
-    wine: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30',
-    plum: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30',
-    berry: 'bg-[#fce7f1] text-[#BD5579] border-[#BD5579]/30',
-    blush: 'bg-[#fdf2f7] text-[#601D49] border-[#EA9D9D]/40',
-    cream: 'bg-[#FFEBB8] text-black border-[#BD5579]/30',
-    gold: 'bg-[#FFEBB8] text-black border-[#BD5579]/30 shadow-2xs',
+    gold: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/40 shadow-2xs',
+    dark: 'bg-[#161826] text-[#DFB847] border-[#161826] shadow-2xs',
+    wine: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/40 shadow-2xs',
+    plum: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/40 shadow-2xs',
+    berry: 'bg-[#161826] text-[#DFB847] border-[#161826] shadow-2xs',
+    blush: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/30',
+    cream: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/40',
     emerald: 'bg-emerald-100 text-emerald-950 border-emerald-300',
     success: 'bg-emerald-100 text-emerald-950 border-emerald-300',
     warning: 'bg-amber-100 text-amber-950 border-amber-300',
     danger: 'bg-rose-100 text-rose-950 border-rose-300',
     info: 'bg-blue-100 text-blue-950 border-blue-300',
-    purple: 'bg-[#fdf2f7] text-[#601D49] border-[#BD5579]/30',
+    purple: 'bg-[#FCF9EE] text-[#161826] border-[#D4AF37]/40',
   };
 
   const dotColors = {
     default: 'bg-slate-500',
-    wine: 'bg-[#601D49]',
-    plum: 'bg-[#601D49]',
-    berry: 'bg-[#BD5579]',
-    blush: 'bg-[#EA9D9D]',
-    cream: 'bg-[#BD5579]',
-    gold: 'bg-[#601D49]',
+    gold: 'bg-[#D4AF37]',
+    dark: 'bg-[#DFB847]',
+    wine: 'bg-[#D4AF37]',
+    plum: 'bg-[#D4AF37]',
+    berry: 'bg-[#DFB847]',
+    blush: 'bg-[#D4AF37]',
+    cream: 'bg-[#D4AF37]',
     emerald: 'bg-emerald-600',
     success: 'bg-emerald-600',
     warning: 'bg-amber-600',
     danger: 'bg-rose-600',
     info: 'bg-blue-600',
-    purple: 'bg-[#601D49]',
+    purple: 'bg-[#D4AF37]',
   };
 
   const sizeStyles = {

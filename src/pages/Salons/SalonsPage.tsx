@@ -44,12 +44,12 @@ export const SalonsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Salon Management & Telemetry</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Salon Management & Telemetry</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Overview of all onboarded salon partners, installed app versions, and operational health ({salons.length} registered salons)
           </p>
         </div>
@@ -82,19 +82,19 @@ export const SalonsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
           placeholder="Search by salon name, owner, city, or phone..."
-          className="flex-1 text-black font-bold"
+          className="flex-1 text-[#161826] font-bold"
         />
 
         <div className="flex items-center gap-2">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
@@ -105,49 +105,49 @@ export const SalonsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Salons Table with White & Wine Styling */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Salons Table with Gold & Dark Styling */}
+      <div className="bg-white border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-card-subtle">
         {filteredSalons.length === 0 ? (
           <EmptyState
-            icon={<Store className="w-6 h-6 text-[#601D49]" />}
+            icon={<Store className="w-6 h-6 text-[#D4AF37]" />}
             title="No salons matched your criteria"
             description="Try changing the search query or status filter."
           />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-black">
-              <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+            <table className="w-full text-left text-xs text-[#161826]">
+              <thead className="bg-[#FCF9EE] text-[#161826] font-bold uppercase tracking-wider text-[11px] border-b border-[#D4AF37]/20">
                 <tr>
-                  <th className="px-5 py-4 font-bold text-black">Salon Name</th>
-                  <th className="px-4 py-4 font-bold text-black">Owner / Contact</th>
-                  <th className="px-4 py-4 font-bold text-black">Location</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">App Version</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">Lifecycle Status</th>
-                  <th className="px-4 py-4 font-bold text-black">Registered</th>
-                  <th className="px-5 py-4 font-bold text-black text-right">Actions</th>
+                  <th className="px-5 py-4 font-bold text-[#161826]">Salon Name</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Owner / Contact</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Location</th>
+                  <th className="px-4 py-4 font-bold text-[#161826] text-center">App Version</th>
+                  <th className="px-4 py-4 font-bold text-[#161826] text-center">Lifecycle Status</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Registered</th>
+                  <th className="px-5 py-4 font-bold text-[#161826] text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#BD5579]/10">
+              <tbody className="divide-y divide-[#D4AF37]/10">
                 {filteredSalons.map((salon) => {
                   return (
-                    <tr key={salon.id} className="hover:bg-[#fdf5f8]/70 transition-colors group">
+                    <tr key={salon.id} className="hover:bg-[#FCF9EE]/50 transition-colors group">
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div
                             className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-2xs flex-shrink-0"
-                            style={{ backgroundColor: salon.theme_color || '#601D49' }}
+                            style={{ backgroundColor: salon.theme_color || '#D4AF37' }}
                           >
                             {salon.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <Link
                               to={`/salons/${salon.id}`}
-                              className="font-bold text-black hover:text-[#601D49] transition-colors flex items-center gap-1 text-sm"
+                              className="font-bold text-[#161826] hover:text-[#D4AF37] transition-colors flex items-center gap-1 text-sm"
                             >
                               <span>{salon.name}</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#BD5579]" />
+                              <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                             </Link>
-                            <span className="text-[10.5px] text-[#601D49]/70 font-semibold">
+                            <span className="text-[10.5px] text-[#D4AF37] font-semibold">
                               ID: {salon.id.slice(0, 8)}...
                             </span>
                           </div>
@@ -155,37 +155,37 @@ export const SalonsPage: React.FC = () => {
                       </td>
 
                       <td className="px-4 py-4">
-                        <div className="font-bold text-black">{salon.owner_name || '—'}</div>
-                        <div className="text-[11px] text-black font-semibold flex items-center gap-1 mt-0.5">
-                          <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
+                        <div className="font-bold text-[#161826]">{salon.owner_name || '—'}</div>
+                        <div className="text-[11px] text-[#161826]/80 font-semibold flex items-center gap-1 mt-0.5">
+                          <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{formatPhoneNumber(salon.phone_number)}</span>
                         </div>
                       </td>
 
                       <td className="px-4 py-4">
-                        <div className="text-black font-bold flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-[#BD5579]" />
+                        <div className="text-[#161826] font-bold flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{salon.city || '—'}</span>
                         </div>
-                        <div className="text-[10.5px] text-[#601D49]/70 font-semibold truncate max-w-[140px]">
+                        <div className="text-[10.5px] text-[#161826]/70 font-semibold truncate max-w-[140px]">
                           {salon.address || '—'}
                         </div>
                       </td>
 
                       <td className="px-4 py-4 text-center">
-                        <span className="px-2.5 py-1 rounded-lg bg-[#FFEBB8]/40 text-[#601D49] font-mono font-bold text-xs border border-[#FFEBB8]">
+                        <span className="px-2.5 py-1 rounded-lg bg-[#FCF9EE] text-[#161826] font-mono font-bold text-xs border border-[#D4AF37]/30">
                           v{salon.app_version || '1.0.0'}
                         </span>
                       </td>
 
                       <td className="px-4 py-4 text-center">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">
-                          <span className="w-2 h-2 rounded-full bg-[#601D49] animate-pulse" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40">
+                          <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
                           <span>Active</span>
                         </span>
                       </td>
 
-                      <td className="px-4 py-4 text-black text-xs font-bold">
+                      <td className="px-4 py-4 text-[#161826] text-xs font-bold">
                         {formatDate(salon.created_at)}
                       </td>
 
@@ -193,14 +193,14 @@ export const SalonsPage: React.FC = () => {
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => setSelectedSalonId(salon.id)}
-                            className="px-3 py-1 text-[11px] rounded-lg bg-[#fdf5f8] hover:bg-wine-100 text-[#601D49] border border-[#BD5579]/20 font-bold transition-colors"
+                            className="px-3 py-1 text-[11px] rounded-lg bg-[#FCF9EE] hover:bg-[#F9F2D6] text-[#161826] border border-[#D4AF37]/30 font-bold transition-colors"
                             title="Filter dashboard to this salon"
                           >
                             Set Scope
                           </button>
                           <Link
                             to={`/salons/${salon.id}`}
-                            className="p-1.5 rounded-lg bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white hover:opacity-90 transition-opacity shadow-wine-sm"
+                            className="p-1.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] hover:opacity-90 transition-opacity shadow-gold-sm"
                             title="View 360 Salon Details"
                           >
                             <ExternalLink className="w-4 h-4" />

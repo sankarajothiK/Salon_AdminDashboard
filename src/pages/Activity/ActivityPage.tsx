@@ -59,19 +59,19 @@ export const ActivityPage: React.FC = () => {
       case 'account_deleted':
         return <UserX className="w-4 h-4 text-rose-700" />;
       case 'customer_created':
-        return <Users className="w-4 h-4 text-[#601D49]" />;
+        return <Users className="w-4 h-4 text-[#D4AF37]" />;
       case 'appointment_created':
       case 'appointment_completed':
       case 'appointment_cancelled':
-        return <Calendar className="w-4 h-4 text-[#601D49]" />;
+        return <Calendar className="w-4 h-4 text-[#D4AF37]" />;
       case 'bill_generated':
-        return <Receipt className="w-4 h-4 text-[#601D49]" />;
+        return <Receipt className="w-4 h-4 text-[#D4AF37]" />;
       case 'salon_registered':
-        return <Store className="w-4 h-4 text-[#601D49]" />;
+        return <Store className="w-4 h-4 text-[#D4AF37]" />;
       case 'whatsapp_sent':
-        return <MessageSquare className="w-4 h-4 text-[#601D49]" />;
+        return <MessageSquare className="w-4 h-4 text-[#D4AF37]" />;
       default:
-        return <ActivityIcon className="w-4 h-4 text-[#601D49]" />;
+        return <ActivityIcon className="w-4 h-4 text-[#D4AF37]" />;
     }
   };
 
@@ -80,12 +80,12 @@ export const ActivityPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Platform Audit & Activity Trail</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Platform Audit & Activity Trail</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Real-time aggregated stream of business events, appointments, billing records, and dispatches
           </p>
         </div>
@@ -103,19 +103,19 @@ export const ActivityPage: React.FC = () => {
       </div>
 
       {/* Filters Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={setSearch}
           placeholder="Search activity events..."
-          className="flex-1 text-black font-bold"
+          className="flex-1 text-[#161826] font-bold"
         />
 
         <div className="flex items-center gap-2">
           <select
             value={salonFilter}
             onChange={(e) => setSalonFilter(e.target.value)}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Salons</option>
             {salons.map((s) => (
@@ -128,7 +128,7 @@ export const ActivityPage: React.FC = () => {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Event Types</option>
             <option value="customer_created">Customer Signups</option>
@@ -141,11 +141,11 @@ export const ActivityPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Activity Timeline List with White & Wine Styling */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl p-5 shadow-card-subtle space-y-3">
+      {/* Activity Timeline List with Gold & Dark Styling */}
+      <div className="bg-white border border-[#D4AF37]/25 rounded-2xl p-5 shadow-card-subtle space-y-3">
         {filteredActivities.length === 0 ? (
           <EmptyState
-            icon={<ActivityIcon className="w-6 h-6 text-[#601D49]" />}
+            icon={<ActivityIcon className="w-6 h-6 text-[#D4AF37]" />}
             title="No activity events recorded"
             description="Events will automatically appear as salons operate their Style Fleet app."
           />
@@ -153,28 +153,28 @@ export const ActivityPage: React.FC = () => {
           filteredActivities.map((act) => (
             <div
               key={act.id}
-              className="p-3.5 rounded-xl bg-white border border-[#BD5579]/15 hover:border-[#601D49] transition-all flex items-start justify-between gap-4 text-xs"
+              className="p-3.5 rounded-xl bg-white border border-[#D4AF37]/20 hover:border-[#D4AF37] transition-all flex items-start justify-between gap-4 text-xs"
             >
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#fdf5f8] border border-[#BD5579]/20 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
+                <div className="w-9 h-9 rounded-xl bg-[#FCF9EE] border border-[#D4AF37]/30 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
                   {getEventIcon(act.type)}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-black">{act.title}</span>
-                    <span className="px-2 py-0.5 rounded bg-[#fdf5f8] text-[#601D49] border border-[#BD5579]/20 text-[10px] font-bold">
+                    <span className="font-bold text-[#161826]">{act.title}</span>
+                    <span className="px-2 py-0.5 rounded bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/30 text-[10px] font-bold">
                       {act.salonName}
                     </span>
                   </div>
-                  <p className="text-black font-semibold text-xs mt-1 leading-relaxed">{act.description}</p>
-                  <div className="text-[10.5px] text-[#BD5579] font-bold mt-1 flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-[#601D49]" />
+                  <p className="text-[#161826]/80 font-semibold text-xs mt-1 leading-relaxed">{act.description}</p>
+                  <div className="text-[10.5px] text-[#D4AF37] font-bold mt-1 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-[#D4AF37]" />
                     <span>{formatDateTime(act.timestamp)}</span>
                   </div>
                 </div>
               </div>
 
-              <span className="text-[11px] text-[#BD5579] font-bold whitespace-nowrap">
+              <span className="text-[11px] text-[#D4AF37] font-bold whitespace-nowrap">
                 {formatTimeAgo(act.timestamp)}
               </span>
             </div>

@@ -109,8 +109,8 @@ export const SupportMessagesPage: React.FC = () => {
       case 'resolved':
       case 'replied':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#601D49]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 shadow-2xs">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" />
             <span>Answered & Resolved</span>
           </span>
         );
@@ -132,33 +132,33 @@ export const SupportMessagesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-wine-50 via-white to-champagne-50/40 border border-[#BD5579]/20 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-[#FCF9EE] via-white to-[#FCF9EE]/50 border border-[#D4AF37]/30 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] flex items-center justify-center text-white shadow-wine-sm flex-shrink-0 border border-[#BD5579]/30">
-              <MessageSquare className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-[#161826] flex items-center justify-center text-[#DFB847] shadow-dark-sm flex-shrink-0 border border-[#D4AF37]/40">
+              <MessageSquare className="w-4 h-4 text-[#DFB847]" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">
               Salon Support Messages & Response Center
             </h1>
-            <span className="px-3 py-0.5 rounded-full bg-wine-50 text-[#601D49] border border-[#BD5579]/30 text-xs font-bold shadow-2xs">
+            <span className="px-3 py-0.5 rounded-full bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 text-xs font-bold shadow-2xs">
               Live Supabase
             </span>
           </div>
-          <p className="text-xs text-black mt-1.5 leading-relaxed font-bold">
-            Real-time messages sent by salon owners from the mobile app. Reply directly from the answer box to resolve their queries and dispatch live responses.
+          <p className="text-xs text-[#161826]/80 mt-1.5 leading-relaxed font-bold">
+            Real-time messages sent by salon owners from the mobile app. Reply directly from the answer box to resolve their queries and dispatch live responses to their device.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => fetchMessages()}
-            className="p-2.5 rounded-xl bg-white hover:bg-wine-50 text-black border border-[#BD5579]/20 transition-colors shadow-2xs"
+            className="p-2.5 rounded-xl bg-white hover:bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/30 transition-colors shadow-2xs"
             title="Refresh Messages"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#601D49]' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#D4AF37]' : ''}`} />
           </button>
           <ExportDropdown
             data={messages.map((m) => ({
@@ -182,39 +182,39 @@ export const SupportMessagesPage: React.FC = () => {
         <StatCard
           title="Awaiting Answer"
           value={openCount}
-          icon={<AlertCircle className="w-5 h-5" />}
+          icon={<AlertCircle className="w-5 h-5 text-amber-700" />}
           subtitle="Open salon messages"
           variant="amber"
         />
         <StatCard
           title="In Progress"
           value={inProgressCount}
-          icon={<Clock className="w-5 h-5" />}
+          icon={<Clock className="w-5 h-5 text-blue-700" />}
           subtitle="Under active review"
           variant="blue"
         />
         <StatCard
           title="Answered & Resolved"
           value={resolvedCount}
-          icon={<CheckCircle2 className="w-5 h-5" />}
+          icon={<CheckCircle2 className="w-5 h-5 text-[#D4AF37]" />}
           subtitle="Responses delivered"
-          variant="wine"
+          variant="gold"
         />
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Status Tabs */}
-          <div className="flex flex-wrap gap-1.5 bg-[#fdf5f8] p-1 rounded-xl border border-[#BD5579]/20">
+          <div className="flex flex-wrap gap-1.5 bg-[#FCF9EE] p-1 rounded-xl border border-[#D4AF37]/25">
             {['all', 'open', 'in_progress', 'resolved'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
                 className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all capitalize ${
                   statusFilter === st
-                    ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm'
-                    : 'text-black hover:text-[#601D49]'
+                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold'
+                    : 'text-[#161826] hover:text-[#D4AF37]'
                 }`}
               >
                 {st === 'resolved' ? 'Answered / Resolved' : st === 'open' ? 'Awaiting Answer' : st}
@@ -226,7 +226,7 @@ export const SupportMessagesPage: React.FC = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
             >
               <option value="all">All Categories</option>
               <option value="Bug / Error">Bug / Error</option>
@@ -241,7 +241,7 @@ export const SupportMessagesPage: React.FC = () => {
           value={search}
           onChange={setSearch}
           placeholder="Search by salon name, owner, phone number, category, or message content..."
-          className="text-black font-bold"
+          className="text-[#161826] font-bold"
         />
       </div>
 
@@ -263,28 +263,28 @@ export const SupportMessagesPage: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className="bg-white border border-[#BD5579]/20 rounded-3xl p-5 sm:p-6 hover:border-[#601D49] transition-all shadow-card-subtle space-y-4"
+                className="bg-white border-2 border-[#D4AF37]/25 rounded-3xl p-5 sm:p-6 hover:border-[#D4AF37] transition-all shadow-card-subtle space-y-4"
               >
                 {/* Message Header */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#BD5579]/15 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#D4AF37]/20 pb-3">
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       {getStatusBadge(item.status)}
-                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#fdf5f8] text-[#601D49] border border-[#BD5579]/20 uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/30 uppercase">
                         {item.category || 'General Inquiry'}
                       </span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-black font-bold pt-1">
-                      <span>Salon: <strong className="text-black text-sm">{item.salon_name || 'Salon'}</strong></span>
-                      <span>Owner: <strong className="text-black">{item.owner_name || 'Owner'}</strong></span>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#161826] font-bold pt-1">
+                      <span>Salon: <strong className="text-[#161826] text-sm">{item.salon_name || 'Salon'}</strong></span>
+                      <span>Owner: <strong className="text-[#161826]">{item.owner_name || 'Owner'}</strong></span>
                       {(item.phone || item.phone_number) && (
-                        <span className="flex items-center gap-1 text-[#601D49] font-bold">
-                          <Phone className="w-3.5 h-3.5 text-[#BD5579]" />
+                        <span className="flex items-center gap-1 text-[#D4AF37] font-bold">
+                          <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
                           <span>{formatPhoneNumber(item.phone || item.phone_number)}</span>
                         </span>
                       )}
-                      <span className="text-[#BD5579] font-semibold">{formatTimeAgo(item.created_at)}</span>
+                      <span className="text-[#D4AF37] font-semibold">{formatTimeAgo(item.created_at)}</span>
                     </div>
                   </div>
 
@@ -298,10 +298,10 @@ export const SupportMessagesPage: React.FC = () => {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-90 text-white text-xs font-bold transition-all shadow-wine-sm flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-xl bg-[#161826] hover:bg-[#252A3F] text-[#DFB847] border border-[#D4AF37]/30 text-xs font-bold transition-all shadow-dark-sm flex items-center gap-1.5"
                         title="Send message on WhatsApp"
                       >
-                        <Send className="w-3.5 h-3.5 text-white" />
+                        <Send className="w-3.5 h-3.5 text-[#DFB847]" />
                         <span>WhatsApp</span>
                       </a>
                     )}
@@ -310,42 +310,42 @@ export const SupportMessagesPage: React.FC = () => {
                         setSelectedMessage(item);
                         setModalAnswerText('');
                       }}
-                      className="p-2 rounded-xl bg-[#fdf5f8] hover:bg-wine-100 text-black border border-[#BD5579]/20 transition-colors"
+                      className="p-2 rounded-xl bg-[#FCF9EE] hover:bg-[#F9F2D6] text-[#161826] border border-[#D4AF37]/30 transition-colors"
                       title="Open full dialog"
                     >
-                      <Eye className="w-4 h-4 text-[#601D49]" />
+                      <Eye className="w-4 h-4 text-[#D4AF37]" />
                     </button>
                   </div>
                 </div>
 
                 {/* Salon Owner's Stated Query / Message */}
-                <div className="p-4 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-2xl">
-                  <div className="text-[11px] font-bold uppercase text-[#601D49] mb-1 flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-[#BD5579]" />
+                <div className="p-4 bg-[#FCF9EE]/60 border border-[#D4AF37]/20 rounded-2xl">
+                  <div className="text-[11px] font-bold uppercase text-[#D4AF37] mb-1 flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-[#D4AF37]" />
                     <span>Salon Owner's Query:</span>
                   </div>
-                  <p className="text-black font-bold text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
+                  <p className="text-[#161826] font-bold text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
                     "{item.message}"
                   </p>
                 </div>
 
                 {/* Previous Answers Thread (if any) */}
                 {hasAnswers && (
-                  <div className="space-y-2 pl-2 sm:pl-4 border-l-4 border-[#601D49]">
-                    <div className="text-[11px] font-bold uppercase text-[#601D49] flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#BD5579]" />
+                  <div className="space-y-2 pl-2 sm:pl-4 border-l-4 border-[#D4AF37]">
+                    <div className="text-[11px] font-bold uppercase text-[#161826] flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
                       <span>Super Admin Answer & Reply History ({item.answers!.length}):</span>
                     </div>
                     {item.answers!.map((ans) => (
                       <div
                         key={ans.id}
-                        className="p-3.5 rounded-2xl bg-[#fdf5f8] border border-[#BD5579]/20 text-xs text-black font-bold space-y-1"
+                        className="p-3.5 rounded-2xl bg-[#FCF9EE]/80 border border-[#D4AF37]/30 text-xs text-[#161826] font-bold space-y-1"
                       >
-                        <div className="flex items-center justify-between text-[11px] text-[#601D49] font-bold border-b border-[#BD5579]/15 pb-1">
+                        <div className="flex items-center justify-between text-[11px] text-[#D4AF37] font-bold border-b border-[#D4AF37]/20 pb-1">
                           <span>Answered by: {ans.answered_by}</span>
                           <span>{formatTimeAgo(ans.created_at)} ({formatDateTime(ans.created_at)})</span>
                         </div>
-                        <p className="text-black font-bold leading-relaxed pt-1">
+                        <p className="text-[#161826] font-bold leading-relaxed pt-1">
                           {ans.answer}
                         </p>
                       </div>
@@ -354,10 +354,10 @@ export const SupportMessagesPage: React.FC = () => {
                 )}
 
                 {/* Dedicated Answer & Reply Box */}
-                <div className="pt-2 border-t border-[#BD5579]/15 space-y-3">
+                <div className="pt-2 border-t border-[#D4AF37]/20 space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold uppercase text-black flex items-center gap-1.5">
-                      <CornerDownRight className="w-3.5 h-3.5 text-[#601D49]" />
+                    <label className="text-xs font-bold uppercase text-[#161826] flex items-center gap-1.5">
+                      <CornerDownRight className="w-3.5 h-3.5 text-[#D4AF37]" />
                       <span>{hasAnswers ? 'Add Another Reply / Update:' : 'Reply & Answer This Query:'}</span>
                     </label>
                   </div>
@@ -373,7 +373,7 @@ export const SupportMessagesPage: React.FC = () => {
                             [item.id]: preset,
                           }))
                         }
-                        className="text-[10.5px] px-2.5 py-1 rounded-lg bg-[#fdf5f8] hover:bg-wine-100 text-[#601D49] border border-[#BD5579]/20 font-bold transition-colors text-left"
+                        className="text-[10.5px] px-2.5 py-1 rounded-lg bg-[#FCF9EE] hover:bg-[#F9F2D6] text-[#161826] border border-[#D4AF37]/30 font-bold transition-colors text-left"
                       >
                         ✨ {preset.slice(0, 42)}...
                       </button>
@@ -392,18 +392,18 @@ export const SupportMessagesPage: React.FC = () => {
                       }
                       placeholder="Type your official answer here to resolve this query and deliver to the salon..."
                       rows={2}
-                      className="flex-1 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-2xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+                      className="flex-1 bg-[#FCF9EE]/50 border border-[#D4AF37]/30 rounded-2xl p-3 text-xs text-[#161826] font-bold focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
                     />
 
                     <button
                       onClick={() => handleSendInlineAnswer(item)}
                       disabled={!currentDraft.trim() || sendingId === item.id}
-                      className="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-95 disabled:opacity-50 text-white text-xs font-bold shadow-wine-sm transition-all flex items-center justify-center gap-2 flex-shrink-0"
+                      className="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#D4AF37] to-[#C5A059] hover:opacity-95 disabled:opacity-50 text-[#161826] text-xs font-bold shadow-gold-sm transition-all flex items-center justify-center gap-2 flex-shrink-0"
                     >
                       {sendingId === item.id ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-[#161826] border-t-transparent rounded-full animate-spin" />
                       ) : (
-                        <Send className="w-4 h-4 text-white" />
+                        <Send className="w-4 h-4 text-[#161826]" />
                       )}
                       <span>Send Answer & Resolve</span>
                     </button>
@@ -423,33 +423,33 @@ export const SupportMessagesPage: React.FC = () => {
           title="Support Message Inspection & Response"
           subtitle={`Message Reference ID: ${selectedMessage.id}`}
         >
-          <div className="space-y-4 font-alata text-xs text-black">
-            <div className="bg-[#fdf5f8] p-4 rounded-2xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
+          <div className="space-y-4 font-alata text-xs text-[#161826]">
+            <div className="bg-[#FCF9EE] p-4 rounded-2xl border border-[#D4AF37]/30 space-y-2 font-bold text-[#161826]">
               <div className="flex justify-between">
                 <span>Salon:</span>
-                <span className="text-black font-bold">{selectedMessage.salon_name || 'Salon Owner'}</span>
+                <span className="text-[#161826] font-bold">{selectedMessage.salon_name || 'Salon Owner'}</span>
               </div>
               <div className="flex justify-between">
                 <span>Owner Name:</span>
-                <span className="text-black font-bold">{selectedMessage.owner_name || 'Owner'}</span>
+                <span className="text-[#161826] font-bold">{selectedMessage.owner_name || 'Owner'}</span>
               </div>
               <div className="flex justify-between">
                 <span>Phone:</span>
-                <span className="text-black font-bold">{formatPhoneNumber(selectedMessage.phone || selectedMessage.phone_number)}</span>
+                <span className="text-[#161826] font-bold">{formatPhoneNumber(selectedMessage.phone || selectedMessage.phone_number)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Category:</span>
-                <span className="text-black font-bold">{selectedMessage.category}</span>
+                <span className="text-[#161826] font-bold">{selectedMessage.category}</span>
               </div>
               <div className="flex justify-between">
                 <span>Received At:</span>
-                <span className="text-black">{formatDateTime(selectedMessage.created_at)}</span>
+                <span className="text-[#161826]">{formatDateTime(selectedMessage.created_at)}</span>
               </div>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold uppercase text-black mb-1.5">Salon Owner Query:</h4>
-              <div className="p-4 bg-white border border-[#BD5579]/20 rounded-xl text-black font-bold text-xs leading-relaxed whitespace-pre-wrap">
+              <h4 className="text-xs font-bold uppercase text-[#161826] mb-1.5">Salon Owner Query:</h4>
+              <div className="p-4 bg-white border border-[#D4AF37]/30 rounded-xl text-[#161826] font-bold text-xs leading-relaxed whitespace-pre-wrap">
                 "{selectedMessage.message}"
               </div>
             </div>
@@ -457,22 +457,22 @@ export const SupportMessagesPage: React.FC = () => {
             {/* Modal Previous Answers */}
             {selectedMessage.answers && selectedMessage.answers.length > 0 && (
               <div className="space-y-2">
-                <h4 className="text-xs font-bold uppercase text-black">Previous Answers ({selectedMessage.answers.length}):</h4>
+                <h4 className="text-xs font-bold uppercase text-[#161826]">Previous Answers ({selectedMessage.answers.length}):</h4>
                 {selectedMessage.answers.map((a) => (
-                  <div key={a.id} className="p-3 bg-[#fdf5f8] border border-[#BD5579]/20 rounded-xl font-bold text-black">
-                    <div className="text-[10.5px] text-[#601D49] border-b border-[#BD5579]/15 pb-1 flex justify-between">
+                  <div key={a.id} className="p-3 bg-[#FCF9EE] border border-[#D4AF37]/30 rounded-xl font-bold text-[#161826]">
+                    <div className="text-[10.5px] text-[#D4AF37] border-b border-[#D4AF37]/20 pb-1 flex justify-between">
                       <span>{a.answered_by}</span>
                       <span>{formatDateTime(a.created_at)}</span>
                     </div>
-                    <p className="pt-1 text-black font-bold">{a.answer}</p>
+                    <p className="pt-1 text-[#161826] font-bold">{a.answer}</p>
                   </div>
                 ))}
               </div>
             )}
 
             {/* Modal Answer Box */}
-            <div className="space-y-2 pt-2 border-t border-[#BD5579]/20">
-              <label className="block text-xs font-bold uppercase text-black">
+            <div className="space-y-2 pt-2 border-t border-[#D4AF37]/30">
+              <label className="block text-xs font-bold uppercase text-[#161826]">
                 Type Super Admin Answer:
               </label>
               <textarea
@@ -480,7 +480,7 @@ export const SupportMessagesPage: React.FC = () => {
                 onChange={(e) => setModalAnswerText(e.target.value)}
                 placeholder="Enter official answer / solution..."
                 rows={3}
-                className="w-full bg-[#fdf5f8] border border-[#BD5579]/20 rounded-xl p-3 text-xs text-black font-bold focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+                className="w-full bg-[#FCF9EE]/50 border border-[#D4AF37]/30 rounded-xl p-3 text-xs text-[#161826] font-bold focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
               />
             </div>
 
@@ -488,7 +488,7 @@ export const SupportMessagesPage: React.FC = () => {
               <button
                 onClick={handleSendModalAnswer}
                 disabled={!modalAnswerText.trim() || modalSending}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] hover:opacity-95 disabled:opacity-50 text-white font-bold shadow-wine-sm transition-all flex items-center gap-2"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C5A059] hover:opacity-95 disabled:opacity-50 text-[#161826] font-bold shadow-gold-sm transition-all flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 <span>Submit Answer & Resolve</span>

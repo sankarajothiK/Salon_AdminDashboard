@@ -79,12 +79,12 @@ export const AppointmentsPage: React.FC = () => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Appointment Operations</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Appointment Operations</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Tracking customer bookings, stylist assignments, and completion states ({totalCount} total bookings)
           </p>
         </div>
@@ -92,12 +92,12 @@ export const AppointmentsPage: React.FC = () => {
         <ExportDropdown
           data={appointments.map((a) => ({
             ID: a.id,
-            Salon: a.salon?.name || 'Salon',
-            Customer: a.customer?.name || 'Client',
-            Phone: a.customer?.phone_number || '',
+            Salon: a.salon_name || 'Salon',
+            Customer: a.customer_name || 'Client',
+            Phone: a.customer_phone || '',
             Service: a.service_name,
-            Stylist: a.staff?.name || 'Stylist',
-            DateTime: a.start_time,
+            Stylist: a.staff_name || 'Stylist',
+            DateTime: a.start_time || a.created_at,
             Status: a.status,
             Amount: a.final_amount || a.total_amount,
           }))}
@@ -107,11 +107,11 @@ export const AppointmentsPage: React.FC = () => {
             subtitle: `Total Count: ${totalCount}`,
             headers: ['Customer', 'Salon', 'Service', 'Stylist', 'Date & Time', 'Status', 'Amount'],
             rows: appointments.map((a) => [
-              a.customer?.name || 'Client',
-              a.salon?.name || '—',
+              a.customer_name || 'Client',
+              a.salon_name || '—',
               a.service_name,
-              a.staff?.name || '—',
-              formatDateTime(a.start_time),
+              a.staff_name || '—',
+              formatDateTime(a.start_time || a.created_at),
               a.status?.toUpperCase(),
               formatCurrency(a.final_amount || a.total_amount),
             ]),
@@ -120,17 +120,17 @@ export const AppointmentsPage: React.FC = () => {
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* View Mode Buttons */}
-          <div className="flex rounded-xl bg-[#fdf5f8] p-1 border border-[#BD5579]/20">
+          <div className="flex rounded-xl bg-[#FCF9EE] p-1 border border-[#D4AF37]/25">
             <button
               onClick={() => {
                 setViewMode('all');
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'all' ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm' : 'text-black hover:text-[#601D49]'
+                viewMode === 'all' ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold' : 'text-[#161826] hover:text-[#D4AF37]'
               }`}
             >
               All Bookings
@@ -141,7 +141,7 @@ export const AppointmentsPage: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'today' ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm' : 'text-black hover:text-[#601D49]'
+                viewMode === 'today' ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold' : 'text-[#161826] hover:text-[#D4AF37]'
               }`}
             >
               Today's Schedule
@@ -152,7 +152,7 @@ export const AppointmentsPage: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                viewMode === 'upcoming' ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm' : 'text-black hover:text-[#601D49]'
+                viewMode === 'upcoming' ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold' : 'text-[#161826] hover:text-[#D4AF37]'
               }`}
             >
               Upcoming
@@ -167,7 +167,7 @@ export const AppointmentsPage: React.FC = () => {
                 setSalonFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
             >
               <option value="all">All Salons</option>
               {salons.map((s) => (
@@ -184,7 +184,7 @@ export const AppointmentsPage: React.FC = () => {
                 setStatusFilter(e.target.value);
                 setCurrentPage(1);
               }}
-              className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
             >
               <option value="all">All Statuses</option>
               <option value="scheduled">Scheduled</option>
@@ -204,83 +204,83 @@ export const AppointmentsPage: React.FC = () => {
             setCurrentPage(1);
           }}
           placeholder="Search by service name, notes..."
-          className="text-black font-bold"
+          className="text-[#161826] font-bold"
         />
       </div>
 
-      {/* Appointments Table with White & Wine Styling */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Appointments Table with Gold & Dark Styling */}
+      <div className="bg-white border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Fetching appointments from Supabase..." size="md" />
         ) : appointments.length === 0 ? (
           <EmptyState
-            icon={<CalendarIcon className="w-6 h-6 text-[#601D49]" />}
+            icon={<CalendarIcon className="w-6 h-6 text-[#D4AF37]" />}
             title="No appointments found"
             description="No bookings matched your filter criteria."
           />
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-black">
-                <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+              <table className="w-full text-left text-xs text-[#161826]">
+                <thead className="bg-[#FCF9EE] text-[#161826] font-bold uppercase tracking-wider text-[11px] border-b border-[#D4AF37]/20">
                   <tr>
-                    <th className="px-5 py-4 font-bold text-black">Customer & Salon</th>
-                    <th className="px-4 py-4 font-bold text-black">Service</th>
-                    <th className="px-4 py-4 font-bold text-black">Stylist</th>
-                    <th className="px-4 py-4 font-bold text-black">Schedule</th>
-                    <th className="px-4 py-4 font-bold text-black text-center">Status</th>
-                    <th className="px-4 py-4 font-bold text-black text-right">Amount</th>
-                    <th className="px-5 py-4 font-bold text-black text-right">Details</th>
+                    <th className="px-5 py-4 font-bold text-[#161826]">Customer & Salon</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Service</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Stylist</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Schedule</th>
+                    <th className="px-4 py-4 font-bold text-[#161826] text-center">Status</th>
+                    <th className="px-4 py-4 font-bold text-[#161826] text-right">Amount</th>
+                    <th className="px-5 py-4 font-bold text-[#161826] text-right">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#BD5579]/10">
+                <tbody className="divide-y divide-[#D4AF37]/10">
                   {appointments.map((appt) => {
                     const style = getAppointmentStatusStyle(appt.status);
 
                     return (
-                      <tr key={appt.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
+                      <tr key={appt.id} className="hover:bg-[#FCF9EE]/50 transition-colors">
                         <td className="px-5 py-4">
-                          <div className="font-bold text-black text-sm">
-                            {appt.customer ? (
+                          <div className="font-bold text-[#161826] text-sm">
+                            {appt.customer_id ? (
                               <Link
-                                to={`/customers/${appt.customer.id}`}
-                                className="hover:text-[#601D49] transition-colors"
+                                to={`/customers/${appt.customer_id}`}
+                                className="hover:text-[#D4AF37] transition-colors"
                               >
-                                {appt.customer.name}
+                                {appt.customer_name || 'Client'}
                               </Link>
                             ) : (
-                              'Walk-in Client'
+                              appt.customer_name || 'Walk-in Client'
                             )}
                           </div>
-                          <div className="text-[10.5px] text-[#601D49]/70 font-semibold mt-0.5">{appt.salon?.name || 'Salon'}</div>
+                          <div className="text-[10.5px] text-[#D4AF37] font-semibold mt-0.5">{appt.salon_name || 'Salon'}</div>
                         </td>
 
-                        <td className="px-4 py-4 font-bold text-black text-sm">{appt.service_name}</td>
+                        <td className="px-4 py-4 font-bold text-[#161826] text-sm">{appt.service_name}</td>
 
-                        <td className="px-4 py-4 text-black font-bold">{appt.staff?.name || '—'}</td>
+                        <td className="px-4 py-4 text-[#161826] font-bold">{appt.staff_name || '—'}</td>
 
                         <td className="px-4 py-4">
-                          <div className="text-black font-bold">{formatDate(appt.start_time)}</div>
-                          <div className="text-[11px] text-[#BD5579] font-semibold">{formatTime(appt.start_time)}</div>
+                          <div className="text-[#161826] font-bold">{formatDate(appt.start_time || appt.created_at)}</div>
+                          <div className="text-[11px] text-[#D4AF37] font-semibold">{formatTime(appt.start_time || appt.created_at)}</div>
                         </td>
 
                         <td className="px-4 py-4 text-center">
                           <span
-                            className={`inline-flex items-center gap-1.5 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border ${style.bg} text-black ${style.border}`}
+                            className={`inline-flex items-center gap-1.5 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border ${style.bg} text-[#161826] ${style.border}`}
                           >
                             <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
                             {style.label}
                           </span>
                         </td>
 
-                        <td className="px-4 py-4 text-right font-bold text-black text-sm">
+                        <td className="px-4 py-4 text-right font-bold text-[#161826] text-sm">
                           {formatCurrency(appt.final_amount || appt.total_amount)}
                         </td>
 
                         <td className="px-5 py-4 text-right">
                           <button
                             onClick={() => setSelectedAppt(appt)}
-                            className="p-1.5 rounded-lg bg-[#fdf5f8] hover:bg-[#601D49] hover:text-white text-[#601D49] transition-colors border border-[#BD5579]/20 shadow-2xs"
+                            className="p-1.5 rounded-lg bg-[#FCF9EE] hover:bg-[#161826] hover:text-[#DFB847] text-[#161826] transition-colors border border-[#D4AF37]/30 shadow-2xs"
                             title="View Booking Detail"
                           >
                             <Eye className="w-4 h-4" />
@@ -312,52 +312,52 @@ export const AppointmentsPage: React.FC = () => {
           title="Appointment Details"
           subtitle={`Booking Reference ID: ${selectedAppt.id}`}
         >
-          <div className="space-y-4 text-xs font-alata text-black">
-            <div className="bg-[#fdf5f8] p-4 rounded-xl border border-[#BD5579]/20 space-y-2 font-bold text-black">
+          <div className="space-y-4 text-xs font-alata text-[#161826]">
+            <div className="bg-[#FCF9EE] p-4 rounded-xl border border-[#D4AF37]/30 space-y-2 font-bold text-[#161826]">
               <div className="flex justify-between">
                 <span>Salon:</span>
-                <span className="font-bold text-black">{selectedAppt.salon?.name}</span>
+                <span className="font-bold text-[#161826]">{selectedAppt.salon_name}</span>
               </div>
               <div className="flex justify-between">
                 <span>Customer:</span>
-                <span className="font-bold text-black">{selectedAppt.customer?.name} ({formatPhoneNumber(selectedAppt.customer?.phone_number)})</span>
+                <span className="font-bold text-[#161826]">{selectedAppt.customer_name} ({formatPhoneNumber(selectedAppt.customer_phone || '')})</span>
               </div>
               <div className="flex justify-between">
                 <span>Assigned Stylist:</span>
-                <span className="font-bold text-[#601D49]">{selectedAppt.staff?.name || 'Unassigned'}</span>
+                <span className="font-bold text-[#D4AF37]">{selectedAppt.staff_name || 'Unassigned'}</span>
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-[#BD5579]/20 font-bold text-black">
+            <div className="space-y-2 pt-2 border-t border-[#D4AF37]/25 font-bold text-[#161826]">
               <div className="flex justify-between">
                 <span>Services:</span>
-                <span className="font-bold text-black">{selectedAppt.service_name}</span>
+                <span className="font-bold text-[#161826]">{selectedAppt.service_name}</span>
               </div>
               <div className="flex justify-between">
                 <span>Scheduled Time:</span>
-                <span className="text-black">{formatDateTime(selectedAppt.start_time)}</span>
+                <span className="text-[#161826]">{formatDateTime(selectedAppt.start_time || selectedAppt.created_at)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Duration:</span>
-                <span className="text-black">{selectedAppt.duration_minutes || selectedAppt.duration || 30} minutes</span>
+                <span className="text-[#161826]">{selectedAppt.duration_minutes || selectedAppt.duration || 30} minutes</span>
               </div>
               <div className="flex justify-between">
                 <span>Status:</span>
-                <span className="font-bold uppercase text-black">{selectedAppt.status}</span>
+                <span className="font-bold uppercase text-[#161826]">{selectedAppt.status}</span>
               </div>
               <div className="flex justify-between">
                 <span>Payment Status:</span>
-                <span className="font-bold text-black uppercase">{selectedAppt.payment_status || 'Pending'}</span>
+                <span className="font-bold text-[#161826] uppercase">{selectedAppt.payment_status || 'Pending'}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-[#BD5579]/20">
+              <div className="flex justify-between text-sm font-bold text-[#161826] pt-2 border-t border-[#D4AF37]/25">
                 <span>Total Amount:</span>
-                <span className="text-black">{formatCurrency(selectedAppt.final_amount || selectedAppt.total_amount)}</span>
+                <span className="text-[#161826]">{formatCurrency(selectedAppt.final_amount || selectedAppt.total_amount)}</span>
               </div>
             </div>
 
             {selectedAppt.notes && (
-              <div className="p-3 bg-[#fdf5f8] rounded-xl border border-[#BD5579]/20 text-black font-bold">
-                <span className="text-black font-bold block mb-1">Appointment Notes:</span>
+              <div className="p-3 bg-[#FCF9EE] rounded-xl border border-[#D4AF37]/30 text-[#161826] font-bold">
+                <span className="text-[#161826] font-bold block mb-1">Appointment Notes:</span>
                 {selectedAppt.notes}
               </div>
             )}

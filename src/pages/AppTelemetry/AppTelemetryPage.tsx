@@ -63,8 +63,8 @@ export const AppTelemetryPage: React.FC = () => {
     switch (status) {
       case 'active':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">
-            <span className="w-2 h-2 rounded-full bg-[#601D49] animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
             <span>Active</span>
           </span>
         );
@@ -77,8 +77,8 @@ export const AppTelemetryPage: React.FC = () => {
         );
       case 'uninstalled':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-900 border border-orange-200">
-            <span className="w-2 h-2 rounded-full bg-orange-600" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#161826] text-[#DFB847] border border-[#161826]">
+            <span className="w-2 h-2 rounded-full bg-[#DFB847]" />
             <span>Uninstalled</span>
           </span>
         );
@@ -93,22 +93,22 @@ export const AppTelemetryPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-wine-50 via-white to-champagne-50/40 border border-[#BD5579]/20 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-[#FCF9EE] via-white to-[#FCF9EE]/50 border border-[#D4AF37]/30 rounded-3xl p-6 sm:p-7 shadow-card-subtle">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] flex items-center justify-center text-white shadow-wine-sm flex-shrink-0 border border-[#BD5579]/30">
-              <Smartphone className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-[#161826] flex items-center justify-center text-[#DFB847] shadow-dark-sm flex-shrink-0 border border-[#D4AF37]/40">
+              <Smartphone className="w-4 h-4 text-[#DFB847]" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">
               App Version & User Lifecycle Telemetry
             </h1>
-            <span className="px-3 py-0.5 rounded-full bg-wine-50 text-[#601D49] border border-[#BD5579]/30 text-xs font-bold shadow-2xs">
+            <span className="px-3 py-0.5 rounded-full bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 text-xs font-bold shadow-2xs">
               Live Telemetry
             </span>
           </div>
-          <p className="text-xs text-black mt-1.5 leading-relaxed font-bold">
+          <p className="text-xs text-[#161826]/80 mt-1.5 leading-relaxed font-bold">
             Track which app version users are running, active app usage, dormant/inactive accounts, app uninstalls, and account deletions.
           </p>
         </div>
@@ -146,46 +146,46 @@ export const AppTelemetryPage: React.FC = () => {
         <StatCard
           title="Active Users"
           value={activeCount}
-          icon={<CheckCircle2 className="w-5 h-5" />}
+          icon={<CheckCircle2 className="w-5 h-5 text-[#D4AF37]" />}
           subtitle="Operating within 14 days"
-          variant="wine"
+          variant="gold"
         />
         <StatCard
           title="Inactive / Dormant"
           value={inactiveCount}
-          icon={<Clock className="w-5 h-5" />}
+          icon={<Clock className="w-5 h-5 text-amber-700" />}
           subtitle="No activity in 14–45 days"
           variant="amber"
         />
         <StatCard
           title="Uninstalled App"
           value={uninstalledCount}
-          icon={<Smartphone className="w-5 h-5" />}
+          icon={<Smartphone className="w-5 h-5 text-[#DFB847]" />}
           subtitle="Disconnected >45 days"
-          variant="berry"
+          variant="dark"
         />
         <StatCard
           title="Deleted Accounts"
           value={deletedCount}
-          icon={<UserX className="w-5 h-5" />}
+          icon={<UserX className="w-5 h-5 text-rose-800" />}
           subtitle="Account deletion recorded"
           variant="rose"
         />
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle space-y-3">
+      <div className="bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Status Tabs */}
-          <div className="flex flex-wrap gap-1.5 bg-[#fdf5f8] p-1 rounded-xl border border-[#BD5579]/20">
+          <div className="flex flex-wrap gap-1.5 bg-[#FCF9EE] p-1 rounded-xl border border-[#D4AF37]/25">
             {['all', 'active', 'inactive', 'uninstalled', 'deleted'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
                 className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all capitalize ${
                   statusFilter === st
-                    ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white shadow-wine-sm'
-                    : 'text-black hover:text-[#601D49]'
+                    ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold'
+                    : 'text-[#161826] hover:text-[#D4AF37]'
                 }`}
               >
                 {st}
@@ -197,7 +197,7 @@ export const AppTelemetryPage: React.FC = () => {
             <select
               value={versionFilter}
               onChange={(e) => setVersionFilter(e.target.value)}
-              className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+              className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
             >
               <option value="all">All App Versions</option>
               <option value="1.0.0">v1.0.0 (Release)</option>
@@ -211,55 +211,55 @@ export const AppTelemetryPage: React.FC = () => {
           value={search}
           onChange={setSearch}
           placeholder="Search by salon name, owner, phone number, version, or reason..."
-          className="text-black font-bold"
+          className="text-[#161826] font-bold"
         />
       </div>
 
       {/* Telemetry Table */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      <div className="bg-white border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Calculating app version distribution & lifecycle statuses..." size="md" />
         ) : filteredRecords.length === 0 ? (
           <EmptyState
-            icon={<Smartphone className="w-6 h-6 text-[#601D49]" />}
+            icon={<Smartphone className="w-6 h-6 text-[#D4AF37]" />}
             title="No telemetry records found"
             description="No salon matches your filter criteria."
           />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-black">
-              <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+            <table className="w-full text-left text-xs text-[#161826]">
+              <thead className="bg-[#FCF9EE] text-[#161826] font-bold uppercase tracking-wider text-[11px] border-b border-[#D4AF37]/20">
                 <tr>
-                  <th className="px-5 py-4 font-bold text-black">Salon & Owner</th>
-                  <th className="px-4 py-4 font-bold text-black">Contact Phone</th>
-                  <th className="px-4 py-4 font-bold text-black">App Version</th>
-                  <th className="px-4 py-4 font-bold text-black">Platform & Device</th>
-                  <th className="px-4 py-4 font-bold text-black text-center">Lifecycle Status</th>
-                  <th className="px-4 py-4 font-bold text-black">Last Active</th>
-                  <th className="px-5 py-4 font-bold text-black">Notes / Exit Reason</th>
+                  <th className="px-5 py-4 font-bold text-[#161826]">Salon & Owner</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Contact Phone</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">App Version</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Platform & Device</th>
+                  <th className="px-4 py-4 font-bold text-[#161826] text-center">Lifecycle Status</th>
+                  <th className="px-4 py-4 font-bold text-[#161826]">Last Active</th>
+                  <th className="px-5 py-4 font-bold text-[#161826]">Notes / Exit Reason</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#BD5579]/10">
+              <tbody className="divide-y divide-[#D4AF37]/10">
                 {filteredRecords.map((item) => (
-                  <tr key={item.id} className="hover:bg-[#fdf5f8]/70 transition-colors">
+                  <tr key={item.id} className="hover:bg-[#FCF9EE]/50 transition-colors">
                     <td className="px-5 py-4">
-                      <div className="font-bold text-black text-sm">{item.salon_name}</div>
-                      <div className="text-[11px] text-[#601D49] font-semibold">{item.owner_name}</div>
+                      <div className="font-bold text-[#161826] text-sm">{item.salon_name}</div>
+                      <div className="text-[11px] text-[#D4AF37] font-semibold">{item.owner_name}</div>
                     </td>
 
-                    <td className="px-4 py-4 font-bold text-black text-xs">
+                    <td className="px-4 py-4 font-bold text-[#161826] text-xs">
                       {formatPhoneNumber(item.phone_number)}
                     </td>
 
                     <td className="px-4 py-4">
-                      <span className="px-2.5 py-1 rounded-lg bg-[#FFEBB8]/40 text-[#601D49] font-mono font-bold text-xs border border-[#FFEBB8]">
+                      <span className="px-2.5 py-1 rounded-lg bg-[#FCF9EE] text-[#161826] font-mono font-bold text-xs border border-[#D4AF37]/30">
                         v{item.app_version}
                       </span>
                     </td>
 
                     <td className="px-4 py-4">
-                      <div className="font-bold text-black capitalize">{item.platform}</div>
-                      <div className="text-[10.5px] text-[#BD5579] font-semibold">{item.device_model}</div>
+                      <div className="font-bold text-[#161826] capitalize">{item.platform}</div>
+                      <div className="text-[10.5px] text-[#D4AF37] font-semibold">{item.device_model}</div>
                     </td>
 
                     <td className="px-4 py-4 text-center">
@@ -267,8 +267,8 @@ export const AppTelemetryPage: React.FC = () => {
                     </td>
 
                     <td className="px-4 py-4">
-                      <div className="text-black font-bold">{formatDate(item.last_active_at)}</div>
-                      <div className="text-[10.5px] text-[#BD5579] font-semibold">{formatTimeAgo(item.last_active_at)}</div>
+                      <div className="text-[#161826] font-bold">{formatDate(item.last_active_at)}</div>
+                      <div className="text-[10.5px] text-[#D4AF37] font-semibold">{formatTimeAgo(item.last_active_at)}</div>
                     </td>
 
                     <td className="px-5 py-4">
@@ -277,7 +277,7 @@ export const AppTelemetryPage: React.FC = () => {
                           {item.deletion_reason}
                         </span>
                       ) : (
-                        <span className="text-black font-semibold text-xs">
+                        <span className="text-[#161826] font-semibold text-xs">
                           {item.status === 'active' ? 'Operational & syncing live' : item.status === 'inactive' ? 'Dormant account' : 'App uninstalled'}
                         </span>
                       )}

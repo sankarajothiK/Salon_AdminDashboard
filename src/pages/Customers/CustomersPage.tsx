@@ -63,12 +63,12 @@ export const CustomersPage: React.FC = () => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
-    <div className="space-y-6 font-alata text-black">
+    <div className="space-y-6 font-alata text-[#161826]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">Customer Intelligence & Fleet Directory</h1>
-          <p className="text-xs text-black font-semibold mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#161826] tracking-tight">Customer Intelligence & Fleet Directory</h1>
+          <p className="text-xs text-[#161826]/80 font-semibold mt-1">
             Central customer directory and retention analytics across {salons.length} salons ({totalCount} total customers)
           </p>
         </div>
@@ -77,7 +77,7 @@ export const CustomersPage: React.FC = () => {
           data={customers.map((c) => ({
             Name: c.name,
             Phone: c.phone_number,
-            Salon: c.salon?.name || 'Salon',
+            Salon: c.salon_name || 'Salon',
             TotalVisits: c.totalVisits,
             TotalSpent: c.totalSpent,
             Segment: c.segment,
@@ -91,7 +91,7 @@ export const CustomersPage: React.FC = () => {
             rows: customers.map((c) => [
               c.name,
               c.phone_number,
-              c.salon?.name || '—',
+              c.salon_name || '—',
               c.totalVisits || 0,
               formatCurrency(c.totalSpent),
               c.segment?.toUpperCase() || 'NEW',
@@ -102,7 +102,7 @@ export const CustomersPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#BD5579]/20 p-4 rounded-2xl shadow-card-subtle">
+      <div className="flex flex-col sm:flex-row gap-3 bg-white border border-[#D4AF37]/25 p-4 rounded-2xl shadow-card-subtle">
         <SearchInput
           value={search}
           onChange={(val) => {
@@ -110,7 +110,7 @@ export const CustomersPage: React.FC = () => {
             setCurrentPage(1);
           }}
           placeholder="Search by customer name, phone number, or notes..."
-          className="flex-1 text-black font-bold"
+          className="flex-1 text-[#161826] font-bold"
         />
 
         <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export const CustomersPage: React.FC = () => {
               setSalonFilter(e.target.value);
               setCurrentPage(1);
             }}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Salons</option>
             {salons.map((s) => (
@@ -138,7 +138,7 @@ export const CustomersPage: React.FC = () => {
               setSegmentFilter(e.target.value as any);
               setCurrentPage(1);
             }}
-            className="bg-white border border-[#BD5579]/20 text-black font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#BD5579]/40"
+            className="bg-white border border-[#D4AF37]/30 text-[#161826] font-bold text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40"
           >
             <option value="all">All Customer Segments</option>
             <option value="new">New Customers (1 Visit)</option>
@@ -148,83 +148,83 @@ export const CustomersPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Customers Table with White & Wine Styling */}
-      <div className="bg-white border border-[#BD5579]/20 rounded-2xl overflow-hidden shadow-card-subtle">
+      {/* Customers Table with Gold & Dark Styling */}
+      <div className="bg-white border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-card-subtle">
         {loading ? (
           <LoadingSpinner message="Querying customer database from Supabase..." size="md" />
         ) : customers.length === 0 ? (
           <EmptyState
-            icon={<Users className="w-6 h-6 text-[#601D49]" />}
+            icon={<Users className="w-6 h-6 text-[#D4AF37]" />}
             title="No customers found"
             description="No customer records matched your query or filter criteria."
           />
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-black">
-                <thead className="bg-[#fdf5f8] text-black font-bold uppercase tracking-wider text-[11px] border-b border-[#BD5579]/20">
+              <table className="w-full text-left text-xs text-[#161826]">
+                <thead className="bg-[#FCF9EE] text-[#161826] font-bold uppercase tracking-wider text-[11px] border-b border-[#D4AF37]/20">
                   <tr>
-                    <th className="px-5 py-4 font-bold text-black">Customer</th>
-                    <th className="px-4 py-4 font-bold text-black">Phone</th>
-                    <th className="px-4 py-4 font-bold text-black">Salon</th>
-                    <th className="px-4 py-4 font-bold text-black text-center">Visits</th>
-                    <th className="px-4 py-4 font-bold text-black text-right">Lifetime Spend</th>
-                    <th className="px-4 py-4 font-bold text-black">Last Visit</th>
-                    <th className="px-4 py-4 font-bold text-black text-center">Segment</th>
-                    <th className="px-5 py-4 font-bold text-black text-right">Action</th>
+                    <th className="px-5 py-4 font-bold text-[#161826]">Customer</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Phone</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Salon</th>
+                    <th className="px-4 py-4 font-bold text-[#161826] text-center">Visits</th>
+                    <th className="px-4 py-4 font-bold text-[#161826] text-right">Lifetime Spend</th>
+                    <th className="px-4 py-4 font-bold text-[#161826]">Last Visit</th>
+                    <th className="px-4 py-4 font-bold text-[#161826] text-center">Segment</th>
+                    <th className="px-5 py-4 font-bold text-[#161826] text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#BD5579]/10">
+                <tbody className="divide-y divide-[#D4AF37]/10">
                   {customers.map((c) => {
                     const getSegmentBadge = () => {
                       if (c.starred || c.segment === 'vip') {
-                        return <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#FFEBB8]/50 text-[#601D49] border border-[#FFEBB8]">VIP ⭐</span>;
+                        return <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/40 shadow-2xs">VIP ⭐</span>;
                       }
                       if (c.segment === 'returning') {
-                        return <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#601D49]/10 text-[#601D49] border border-[#BD5579]/30">Returning</span>;
+                        return <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/30">Returning</span>;
                       }
                       return <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-blue-50 text-blue-900 border border-blue-200">New</span>;
                     };
 
                     return (
-                      <tr key={c.id} className="hover:bg-[#fdf5f8]/70 transition-colors group">
+                      <tr key={c.id} className="hover:bg-[#FCF9EE]/50 transition-colors group">
                         <td className="px-5 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#601D49] to-[#BD5579] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-wine-sm">
+                            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#D4AF37] to-[#C5A059] text-[#161826] flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-gold-sm">
                               {c.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
                               <Link
                                 to={`/customers/${c.id}`}
-                                className="font-bold text-black text-sm hover:text-[#601D49] transition-colors flex items-center gap-1"
+                                className="font-bold text-[#161826] text-sm hover:text-[#D4AF37] transition-colors flex items-center gap-1"
                               >
                                 <span>{c.name}</span>
-                                <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#BD5579]" />
+                                <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#D4AF37]" />
                               </Link>
-                              {c.notes && <span className="text-[10.5px] text-[#601D49]/70 font-semibold block truncate max-w-[150px]">{c.notes}</span>}
+                              {c.notes && <span className="text-[10.5px] text-[#D4AF37] font-semibold block truncate max-w-[150px]">{c.notes}</span>}
                             </div>
                           </div>
                         </td>
 
-                        <td className="px-4 py-4 font-bold text-black text-xs">
+                        <td className="px-4 py-4 font-bold text-[#161826] text-xs">
                           {formatPhoneNumber(c.phone_number)}
                         </td>
 
                         <td className="px-4 py-4">
-                          <span className="px-2.5 py-1 rounded-lg bg-[#fdf5f8] text-[#601D49] border border-[#BD5579]/20 text-[11px] font-bold">
-                            {c.salon?.name || 'Salon'}
+                          <span className="px-2.5 py-1 rounded-lg bg-[#FCF9EE] text-[#161826] border border-[#D4AF37]/25 text-[11px] font-bold">
+                            {c.salon_name || 'Salon'}
                           </span>
                         </td>
 
-                        <td className="px-4 py-4 text-center font-bold text-black text-sm">
+                        <td className="px-4 py-4 text-center font-bold text-[#161826] text-sm">
                           {c.totalVisits || 0}
                         </td>
 
-                        <td className="px-4 py-4 text-right font-bold text-black text-sm">
+                        <td className="px-4 py-4 text-right font-bold text-[#161826] text-sm">
                           {formatCurrency(c.totalSpent)}
                         </td>
 
-                        <td className="px-4 py-4 text-black text-xs font-bold">
+                        <td className="px-4 py-4 text-[#161826] text-xs font-bold">
                           {formatTimeAgo(c.lastVisit)}
                         </td>
 
@@ -233,7 +233,7 @@ export const CustomersPage: React.FC = () => {
                         <td className="px-5 py-4 text-right">
                           <Link
                             to={`/customers/${c.id}`}
-                            className="px-3 py-1.5 text-xs rounded-xl bg-gradient-to-r from-[#601D49] to-[#BD5579] text-white hover:opacity-95 font-bold transition-all shadow-wine-sm"
+                            className="px-3 py-1.5 text-xs rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] hover:opacity-95 font-bold transition-all shadow-gold-sm"
                           >
                             Profile 360&deg;
                           </Link>

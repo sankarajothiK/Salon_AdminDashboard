@@ -8,12 +8,12 @@
   }
 
   body {
-    background-color: #ffffff;
+    background-color: #faf9f5;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(251, 207, 229, 0.4) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(255, 235, 184, 0.35) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(252, 231, 241, 0.4) 0px, transparent 50%);
-    color: #000000;
+      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(22, 24, 38, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(249, 242, 214, 0.3) 0px, transparent 50%);
+    color: #161826;
     font-family: 'Alata', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -21,49 +21,57 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Alata', sans-serif;
-    color: #000000;
+    color: #161826;
     letter-spacing: -0.02em;
   }
 }
 
-/* Custom Wine Scrollbar */
+/* Custom Gold & Dark Accent Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #fdf2f7;
+  background: #f9f2d6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ea9d9d;
+  background: #c5a059;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #601d49;
+  background: #161826;
 }
 
-/* Wine Gradients & Utilities */
-.bg-wine-gradient {
-  background: linear-gradient(135deg, #601d49 0%, #bd5579 60%, #ea9d9d 100%);
+/* Gold & Dark (#161826) Gradients & Utilities */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #c5a059 50%, #161826 100%);
 }
 
-.bg-wine-primary {
-  background: linear-gradient(135deg, #601d49 0%, #7d2347 100%);
+.bg-gold-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #c5a059 100%);
 }
 
-.bg-wine-glow {
-  background: linear-gradient(135deg, #fdf2f7 0%, #fce7f1 100%);
+.bg-dark-primary {
+  background: linear-gradient(135deg, #161826 0%, #1d2132 100%);
 }
 
-.border-wine-subtle {
-  border-color: rgba(96, 29, 73, 0.2);
+.bg-gold-glow {
+  background: linear-gradient(135deg, #fcf9ee 0%, #f9f2d6 100%);
 }
 
-.text-wine-gradient {
-  background: linear-gradient(135deg, #601d49 0%, #bd5579 100%);
+.border-gold-subtle {
+  border-color: rgba(212, 175, 55, 0.25);
+}
+
+.border-dark-subtle {
+  border-color: rgba(22, 24, 38, 0.15);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

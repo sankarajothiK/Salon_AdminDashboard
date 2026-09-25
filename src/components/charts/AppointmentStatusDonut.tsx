@@ -13,10 +13,10 @@ interface AppointmentStatusDonutProps {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  COMPLETED: '#601D49', // Royal Wine Primary
-  SCHEDULED: '#BD5579', // Berry Rose
-  CONFIRMED: '#7D2347', // Deep Wine
-  'IN PROGRESS': '#EA9D9D', // Blush
+  COMPLETED: '#D4AF37', // Luxury Gold
+  SCHEDULED: '#161826', // Dark Accent
+  CONFIRMED: '#C5A059', // Deep Warm Gold
+  'IN PROGRESS': '#DFB847', // Light Gold
   CANCELLED: '#f43f5e', // Rose
   NOSHOW: '#94a3b8', // Slate
 };
@@ -25,7 +25,7 @@ export const AppointmentStatusDonut: React.FC<AppointmentStatusDonutProps> = ({ 
   const activeData = data.filter((d) => d.count > 0);
 
   if (!activeData.length) {
-    return <div className="h-64 flex items-center justify-center text-xs text-[#601D49] font-alata font-bold">No appointments recorded</div>;
+    return <div className="h-64 flex items-center justify-center text-xs text-[#161826] font-alata font-bold">No appointments recorded</div>;
   }
 
   return (
@@ -45,7 +45,7 @@ export const AppointmentStatusDonut: React.FC<AppointmentStatusDonutProps> = ({ 
             {activeData.map((entry) => (
               <Cell
                 key={`cell-${entry.status}`}
-                fill={STATUS_COLORS[entry.status] || '#601D49'}
+                fill={STATUS_COLORS[entry.status] || '#D4AF37'}
                 stroke="#ffffff"
                 strokeWidth={2}
               />
@@ -54,10 +54,10 @@ export const AppointmentStatusDonut: React.FC<AppointmentStatusDonutProps> = ({ 
           <Tooltip
             contentStyle={{
               backgroundColor: '#ffffff',
-              borderColor: '#601D49',
+              borderColor: '#D4AF37',
               borderRadius: '0.75rem',
-              color: '#000000',
-              boxShadow: '0 10px 15px -3px rgba(96, 29, 73, 0.15)',
+              color: '#161826',
+              boxShadow: '0 10px 15px -3px rgba(22, 24, 38, 0.15)',
               fontSize: '12px',
               fontFamily: 'Alata, sans-serif',
               fontWeight: 'bold',
@@ -67,7 +67,7 @@ export const AppointmentStatusDonut: React.FC<AppointmentStatusDonutProps> = ({ 
           <Legend
             verticalAlign="bottom"
             height={36}
-            formatter={(value) => <span className="text-black text-xs font-bold">{value}</span>}
+            formatter={(value) => <span className="text-[#161826] text-xs font-bold">{value}</span>}
           />
         </PieChart>
       </ResponsiveContainer>

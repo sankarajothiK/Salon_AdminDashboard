@@ -3,66 +3,95 @@ import { Salon } from '@/types';
 
 export const salonService = {
   /**
-   * Fetch all registered salons with calculated statistics
+   * Fetch all registered salons/shops with calculated real live statistics
    */
   async getAllSalons(): Promise<{ data: Salon[]; error: string | null }> {
     try {
-      // 1. Fetch salons
-      const { data: salons, error: salonsError } = await supabase
-        .from('salons')
+      // 1. Fetch shops or salons
+      let rawSalons: any[] = [];
+      const { data: shops, error: shopsError } = await supabase
+        .from('shops')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (salonsError) throw salonsError;
-      if (!salons) return { data: [], error: null };
+      if (!shopsError && shops && shops.length > 0) {
+        // Fetch profiles to get owner names
+        const { data: profiles } = await supabase.from('profiles').select('*');
+        const profileMap = new Map((profiles || []).map((p: any) => [p.id, p]));
+
+        rawSalons = shops.map((s: any) => ({
+          id: s.id,
+          name: s.name,
+          owner_name: profileMap.get(s.owner_profile_id)?.full_name || 'Salon Owner',
+          phone_number: s.phone || profileMap.get(s.owner_profile_id)?.phone || '—',
+          address: s.address || '',
+          city: s.city || '',
+          pin_code: s.pin_code || '',
+          theme_color: s.accent_color || '#D4AF37',
+          app_version: '1.0.0',
+          created_at: s.created_at,
+          updated_at: s.updated_at,
+        }));
+      } else {
+        const { data: salons } = await supabase
+          .from('salons')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (salons) rawSalons = salons;
+      }
+
+      if (!rawSalons.length) return { data: [], error: null };
 
       // 2. Fetch customer counts
       const { data: customers } = await supabase
         .from('customers')
-        .select('id, salon_id');
+        .select('id, shop_id, salon_id');
 
       // 3. Fetch appointment metrics
       const { data: appointments } = await supabase
         .from('appointments')
-        .select('id, salon_id, status, created_at, start_time');
+        .select('id, shop_id, salon_id, status, created_at, starts_at, start_time');
 
       // 4. Fetch bills metrics
       const { data: bills } = await supabase
         .from('bills')
-        .select('id, salon_id, total, created_at');
+        .select('id, shop_id, salon_id, total, total_minor, created_at');
 
       // 5. Fetch staff counts
       const { data: staff } = await supabase
         .from('staff')
-        .select('id, salon_id');
+        .select('id, shop_id, salon_id');
 
       // Map enriched metadata
-      const enrichedSalons: Salon[] = salons.map((salon) => {
-        const salonCustomers = (customers || []).filter((c) => c.salon_id === salon.id);
-        const salonAppointments = (appointments || []).filter((a) => a.salon_id === salon.id);
-        const salonBills = (bills || []).filter((b) => b.salon_id === salon.id);
-        const salonStaff = (staff || []).filter((s) => s.salon_id === salon.id);
+      const enrichedSalons: Salon[] = rawSalons.map((salon) => {
+        const salonCustomers = (customers || []).filter(
+          (c: any) => c.shop_id === salon.id || c.salon_id === salon.id
+        );
+        const salonAppointments = (appointments || []).filter(
+          (a: any) => a.shop_id === salon.id || a.salon_id === salon.id
+        );
+        const salonBills = (bills || []).filter(
+          (b: any) => b.shop_id === salon.id || b.salon_id === salon.id
+        );
+        const salonStaff = (staff || []).filter(
+          (s: any) => s.shop_id === salon.id || s.salon_id === salon.id
+        );
 
-        const totalRevenue = salonBills.reduce((sum, b) => sum + (Number(b.total) || 0), 0);
+        const totalRevenue = salonBills.reduce((sum: number, b: any) => {
+          const amt = b.total_minor !== undefined ? Number(b.total_minor) / 100 : Number(b.total) || 0;
+          return sum + amt;
+        }, 0);
 
         // Find last activity
         const activityDates = [
-          ...salonAppointments.map((a) => a.created_at || a.start_time),
-          ...salonBills.map((b) => b.created_at),
+          ...salonAppointments.map((a: any) => a.created_at || a.starts_at || a.start_time),
+          ...salonBills.map((b: any) => b.created_at),
           salon.created_at,
         ].filter(Boolean);
 
         const latestTimestamp = activityDates.length
-          ? new Date(Math.max(...activityDates.map((d) => new Date(d).getTime()))).toISOString()
+          ? new Date(Math.max(...activityDates.map((d: any) => new Date(d).getTime()))).toISOString()
           : salon.created_at;
-
-        // Health Status determination
-        const now = Date.now();
-        const diffDays = (now - new Date(latestTimestamp).getTime()) / (1000 * 60 * 60 * 24);
-        let status: Salon['status'] = 'active';
-        if (diffDays > 30) status = 'inactive';
-        else if (diffDays <= 7) status = 'active';
-        else status = 'active';
 
         return {
           ...salon,
@@ -70,7 +99,7 @@ export const salonService = {
           appointmentCount: salonAppointments.length,
           totalRevenue,
           staffCount: salonStaff.length,
-          status,
+          status: 'active',
           lastActivity: latestTimestamp,
         };
       });
@@ -87,37 +116,70 @@ export const salonService = {
    */
   async getSalonById(salonId: string): Promise<{ data: Salon | null; error: string | null }> {
     try {
-      const { data: salon, error } = await supabase
-        .from('salons')
+      let salonData: any = null;
+
+      const { data: shop } = await supabase
+        .from('shops')
         .select('*')
         .eq('id', salonId)
-        .single();
+        .maybeSingle();
 
-      if (error) throw error;
-      if (!salon) return { data: null, error: 'Salon not found' };
+      if (shop) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', shop.owner_profile_id)
+          .maybeSingle();
+
+        salonData = {
+          id: shop.id,
+          name: shop.name,
+          owner_name: profile?.full_name || 'Salon Owner',
+          phone_number: shop.phone || profile?.phone || '—',
+          address: shop.address || '',
+          city: shop.city || '',
+          pin_code: shop.pin_code || '',
+          theme_color: shop.accent_color || '#D4AF37',
+          app_version: '1.0.0',
+          created_at: shop.created_at,
+          updated_at: shop.updated_at,
+        };
+      } else {
+        const { data: salon } = await supabase
+          .from('salons')
+          .select('*')
+          .eq('id', salonId)
+          .maybeSingle();
+        salonData = salon;
+      }
+
+      if (!salonData) return { data: null, error: 'Salon not found' };
 
       // Aggregates for this salon
       const [
-        { count: customerCount },
-        { count: appointmentCount },
-        { data: bills },
-        { count: staffCount },
+        custRes,
+        apptRes,
+        billsRes,
+        staffRes,
       ] = await Promise.all([
-        supabase.from('customers').select('*', { count: 'exact', head: true }).eq('salon_id', salonId),
-        supabase.from('appointments').select('*', { count: 'exact', head: true }).eq('salon_id', salonId),
-        supabase.from('bills').select('total, created_at').eq('salon_id', salonId),
-        supabase.from('staff').select('*', { count: 'exact', head: true }).eq('salon_id', salonId),
+        supabase.from('customers').select('id').or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`),
+        supabase.from('appointments').select('id').or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`),
+        supabase.from('bills').select('total, total_minor').or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`),
+        supabase.from('staff').select('id').or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`),
       ]);
 
-      const totalRevenue = (bills || []).reduce((sum, b) => sum + (Number(b.total) || 0), 0);
+      const totalRevenue = (billsRes.data || []).reduce((sum: number, b: any) => {
+        const amt = b.total_minor !== undefined ? Number(b.total_minor) / 100 : Number(b.total) || 0;
+        return sum + amt;
+      }, 0);
 
       return {
         data: {
-          ...salon,
-          customerCount: customerCount || 0,
-          appointmentCount: appointmentCount || 0,
+          ...salonData,
+          customerCount: (custRes.data || []).length,
+          appointmentCount: (apptRes.data || []).length,
           totalRevenue,
-          staffCount: staffCount || 0,
+          staffCount: (staffRes.data || []).length,
           status: 'active',
         },
         error: null,

@@ -48,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       className={clsx(
-        'h-screen bg-white border-r-2 border-[#BD5579]/20 flex flex-col transition-all duration-300 font-alata select-none',
+        'h-screen bg-white border-r-2 border-[#D4AF37]/25 flex flex-col transition-all duration-300 font-alata select-none',
         // Mobile Drawer behavior
         'max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-50 max-lg:w-72 max-lg:shadow-2xl',
         mobileOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full',
@@ -58,21 +58,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
     >
       {/* Brand Header */}
-      <div className="h-16 px-4 flex items-center justify-between border-b-2 border-[#BD5579]/20 bg-gradient-to-r from-white via-[#FFEBB8]/25 to-white">
+      <div className="h-16 px-4 flex items-center justify-between border-b-2 border-[#D4AF37]/25 bg-gradient-to-r from-white via-[#FCF9EE] to-white">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#601D49] via-[#BD5579] to-[#EA9D9D] flex items-center justify-center text-[#FFEBB8] shadow-wine-sm flex-shrink-0 border-2 border-[#FFEBB8]">
-            <Crown className="w-5 h-5 text-[#FFEBB8]" />
+          <div className="w-10 h-10 rounded-xl bg-[#161826] flex items-center justify-center text-[#DFB847] shadow-dark-sm flex-shrink-0 border-2 border-[#D4AF37]/40">
+            <Crown className="w-5 h-5 text-[#DFB847]" />
           </div>
           {(!collapsed || mobileOpen) && (
             <div className="overflow-hidden">
-              <h1 className="text-sm font-bold text-black tracking-wide truncate flex items-center gap-1.5">
+              <h1 className="text-sm font-bold text-[#161826] tracking-wide truncate flex items-center gap-1.5">
                 <span>STYLE FLEET</span>
-                <span className="text-[10px] text-black bg-[#FFEBB8] px-1.5 py-0.5 rounded-md border border-[#BD5579]/30 font-bold shadow-2xs">
+                <span className="text-[10px] text-[#161826] bg-[#FCF9EE] px-1.5 py-0.5 rounded-md border border-[#D4AF37]/40 font-bold shadow-2xs">
                   SUPER ADMIN
                 </span>
               </h1>
-              <div className="flex items-center gap-1 text-[11px] text-[#601D49] font-bold tracking-wide">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#601D49]" />
+              <div className="flex items-center gap-1 text-[11px] text-[#D4AF37] font-bold tracking-wide">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
                 <span>HQ Command</span>
               </div>
             </div>
@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Mobile Close Button */}
         <button
           onClick={onCloseMobile}
-          className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:text-black hover:bg-wine-50 transition-colors border border-[#BD5579]/20"
+          className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:text-[#161826] hover:bg-[#FCF9EE] transition-colors border border-[#D4AF37]/30"
           title="Close Navigation"
         >
           <X className="w-5 h-5" />
@@ -91,10 +91,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Super Admin Indicator */}
       {(!collapsed || mobileOpen) && (
-        <div className="px-4 py-2.5 bg-[#fdf5f8] border-b border-[#BD5579]/15">
-          <div className="flex items-center justify-between text-xs font-bold text-black">
-            <span className="truncate max-w-[130px] text-black">{user?.name}</span>
-            <span className="text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs bg-[#601D49] text-[#FFEBB8] border-[#601D49]">
+        <div className="px-4 py-2.5 bg-[#FCF9EE]/60 border-b border-[#D4AF37]/20">
+          <div className="flex items-center justify-between text-xs font-bold text-[#161826]">
+            <span className="truncate max-w-[130px] text-[#161826]">{user?.name}</span>
+            <span className="text-[10.5px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs bg-[#161826] text-[#DFB847] border-[#161826]">
               Super Admin
             </span>
           </div>
@@ -114,8 +114,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               clsx(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all group',
                 isActive
-                  ? 'bg-gradient-to-r from-[#601D49] to-[#BD5579] text-[#FFEBB8] shadow-wine-sm font-bold border border-[#601D49]'
-                  : 'text-black hover:text-[#601D49] hover:bg-[#fdf2f7] border border-transparent'
+                  ? 'bg-gradient-to-r from-[#D4AF37] to-[#C5A059] text-[#161826] shadow-gold-sm font-bold border border-[#D4AF37]'
+                  : 'text-[#161826] hover:text-[#161826] hover:bg-[#FCF9EE] border border-transparent'
               )
             }
             title={collapsed && !mobileOpen ? item.label : undefined}
@@ -125,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <item.icon
                   className={clsx(
                     'w-4 h-4 flex-shrink-0 transition-colors',
-                    isActive ? 'text-[#FFEBB8]' : 'text-black group-hover:text-[#601D49]'
+                    isActive ? 'text-[#161826]' : 'text-[#161826] group-hover:text-[#D4AF37]'
                   )}
                 />
                 {(!collapsed || mobileOpen) && <span className="truncate">{item.label}</span>}
@@ -136,11 +136,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
 
       {/* Bottom Sign Out Bar */}
-      <div className="p-3 border-t-2 border-[#BD5579]/15 bg-[#fdf5f8]">
+      <div className="p-3 border-t-2 border-[#D4AF37]/20 bg-[#FCF9EE]/50">
         <button
           onClick={logout}
           className={clsx(
-            'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-black hover:bg-rose-100 hover:text-rose-900 transition-colors border border-rose-200',
+            'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-[#161826] hover:bg-rose-100 hover:text-rose-900 transition-colors border border-rose-200',
             collapsed && !mobileOpen && 'justify-center'
           )}
           title="Sign Out"

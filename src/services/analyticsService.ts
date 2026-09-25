@@ -1,4 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { salonService } from './salonService';
+import { customerService } from './customerService';
+import { appointmentService } from './appointmentService';
+import { billingService } from './billingService';
+import { staffService } from './staffService';
 import { PlatformMetrics } from '@/types';
 import { format, subDays, startOfMonth } from 'date-fns';
 
@@ -8,33 +12,24 @@ export const analyticsService = {
    */
   async getPlatformMetrics(salonId?: string): Promise<{ data: PlatformMetrics | null; error: string | null }> {
     try {
-      // 1. Fetch raw data across tables
-      let salonsQuery = supabase.from('salons').select('id, name, created_at');
-      let customersQuery = supabase.from('customers').select('id, salon_id, created_at, starred');
-      let apptsQuery = supabase.from('appointments').select('id, salon_id, start_time, status, total_amount, created_at');
-      let billsQuery = supabase.from('bills').select('id, salon_id, total, created_at');
-      let staffQuery = supabase.from('staff').select('id, salon_id');
-
-      if (salonId && salonId !== 'all') {
-        customersQuery = customersQuery.eq('salon_id', salonId);
-        apptsQuery = apptsQuery.eq('salon_id', salonId);
-        billsQuery = billsQuery.eq('salon_id', salonId);
-        staffQuery = staffQuery.eq('salon_id', salonId);
-      }
-
+      // 1. Fetch mapped domain entities in parallel
       const [salonsRes, customersRes, apptsRes, billsRes, staffRes] = await Promise.all([
-        salonsQuery,
-        customersQuery,
-        apptsQuery,
-        billsQuery,
-        staffQuery,
+        salonService.getSalons(),
+        customerService.getCustomers(salonId),
+        appointmentService.getAppointments(salonId),
+        billingService.getBills(salonId),
+        staffService.getStaff(salonId),
       ]);
 
-      const salons = salonsRes.data || [];
+      let salons = salonsRes.data || [];
       const customers = customersRes.data || [];
       const appointments = apptsRes.data || [];
       const bills = billsRes.data || [];
       const staff = staffRes.data || [];
+
+      if (salonId && salonId !== 'all') {
+        salons = salons.filter((s) => s.id === salonId);
+      }
 
       // Calculate time boundaries
       const now = new Date();
@@ -73,14 +68,16 @@ export const analyticsService = {
       });
 
       bills.forEach((b) => {
-        if (salonRevenueMap[b.salon_id]) {
-          salonRevenueMap[b.salon_id].revenue += Number(b.total) || 0;
+        const sId = b.salon_id;
+        if (sId && salonRevenueMap[sId]) {
+          salonRevenueMap[sId].revenue += Number(b.total) || 0;
         }
       });
 
       appointments.forEach((a) => {
-        if (salonRevenueMap[a.salon_id]) {
-          salonRevenueMap[a.salon_id].appointments += 1;
+        const sId = a.salon_id;
+        if (sId && salonRevenueMap[sId]) {
+          salonRevenueMap[sId].appointments += 1;
         }
       });
 
@@ -99,11 +96,13 @@ export const analyticsService = {
       }
 
       bills.forEach((b) => {
-        const d = format(new Date(b.created_at), 'yyyy-MM-dd');
-        if (trendMap[d]) {
-          trendMap[d].revenue += Number(b.total) || 0;
-          trendMap[d].count += 1;
-        }
+        try {
+          const d = format(new Date(b.created_at), 'yyyy-MM-dd');
+          if (trendMap[d]) {
+            trendMap[d].revenue += Number(b.total) || 0;
+            trendMap[d].count += 1;
+          }
+        } catch (e) {}
       });
 
       const dailyRevenueTrend = Object.entries(trendMap).map(([date, val]) => ({

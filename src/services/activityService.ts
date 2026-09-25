@@ -1,4 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { salonService } from './salonService';
+import { customerService } from './customerService';
+import { appointmentService } from './appointmentService';
+import { billingService } from './billingService';
+import { accountDeletionService } from './accountDeletionService';
 import { ActivityEvent } from '@/types';
 import { formatCurrency } from '@/utils/formatters';
 
@@ -8,54 +12,46 @@ export const activityService = {
    */
   async getRecentActivity(limit = 40, salonId?: string): Promise<{ data: ActivityEvent[]; error: string | null }> {
     try {
-      // 1. Fetch recent records in parallel
-      let salonsQuery = supabase.from('salons').select('id, name, created_at').order('created_at', { ascending: false }).limit(limit);
-      let customersQuery = supabase.from('customers').select('id, name, phone_number, salon_id, created_at, salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
-      let apptsQuery = supabase.from('appointments').select('id, service_name, status, total_amount, start_time, created_at, salon_id, customer:customer_id(name), salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
-      let billsQuery = supabase.from('bills').select('id, total, created_at, salon_id, customer:customer_id(name), salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
-      let notifsQuery = supabase.from('notifications').select('id, title, message, status, type, created_at, salon_id, salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
-      let waQuery = supabase.from('whatsapp_messages').select('id, phone_number, status, created_at, salon_id, salon:salon_id(name)').order('created_at', { ascending: false }).limit(limit);
-      let deletionsQuery = supabase.from('account_deletions').select('*').order('created_at', { ascending: false }).limit(limit);
-
-      if (salonId && salonId !== 'all') {
-        customersQuery = customersQuery.eq('salon_id', salonId);
-        apptsQuery = apptsQuery.eq('salon_id', salonId);
-        billsQuery = billsQuery.eq('salon_id', salonId);
-        notifsQuery = notifsQuery.eq('salon_id', salonId);
-        waQuery = waQuery.eq('salon_id', salonId);
-        deletionsQuery = deletionsQuery.eq('salon_id', salonId);
-      }
-
-      const [salonsRes, customersRes, apptsRes, billsRes, notifsRes, waRes, deletionsRes] = await Promise.all([
-        salonsQuery,
-        customersQuery,
-        apptsQuery,
-        billsQuery,
-        notifsQuery,
-        waQuery,
-        deletionsQuery,
+      // 1. Fetch domain records in parallel
+      const [salonsRes, customersRes, apptsRes, billsRes, deletionsRes] = await Promise.all([
+        salonService.getSalons(),
+        customerService.getCustomers(salonId),
+        appointmentService.getAppointments(salonId),
+        billingService.getBills(salonId),
+        accountDeletionService.getAccountDeletions(),
       ]);
+
+      const salons = salonsRes.data || [];
+      const customers = customersRes.data || [];
+      const appointments = apptsRes.data || [];
+      const bills = billsRes.data || [];
+      const deletions = deletionsRes.data || [];
+
+      const salonMap = new Map<string, string>();
+      salons.forEach((s) => salonMap.set(s.id, s.name));
 
       const events: ActivityEvent[] = [];
 
       // Process Account Deletions
-      (deletionsRes.data || []).forEach((d: any) => {
-        events.push({
-          id: `del-${d.id}`,
-          type: 'account_deleted',
-          title: `Account Deleted: ${d.salon_name}`,
-          description: `Salon owner requested account deletion. Reason: "${d.reason}"`,
-          salonId: d.salon_id,
-          salonName: d.salon_name || 'Deleted Salon',
-          timestamp: d.deleted_at || d.created_at,
-          entityId: d.id,
-          entityType: 'account_deletion',
-        });
+      deletions.forEach((d) => {
+        if (!salonId || salonId === 'all' || d.salon_id === salonId) {
+          events.push({
+            id: `del-${d.id}`,
+            type: 'account_deleted',
+            title: `Account Deleted: ${d.salon_name}`,
+            description: `Salon owner requested account deletion. Reason: "${d.reason}"`,
+            salonId: d.salon_id,
+            salonName: d.salon_name || 'Deleted Salon',
+            timestamp: d.deleted_at || d.created_at,
+            entityId: d.id,
+            entityType: 'account_deletion',
+          });
+        }
       });
 
-      // Process Salons
+      // Process Salons (Registration)
       if (!salonId || salonId === 'all') {
-        (salonsRes.data || []).forEach((s: any) => {
+        salons.forEach((s) => {
           events.push({
             id: `salon-${s.id}`,
             type: 'salon_registered',
@@ -71,14 +67,14 @@ export const activityService = {
       }
 
       // Process Customers
-      (customersRes.data || []).forEach((c: any) => {
+      customers.forEach((c) => {
         events.push({
           id: `cust-${c.id}`,
           type: 'customer_created',
           title: 'New Customer Registered',
           description: `Customer "${c.name || c.phone_number}" registered.`,
           salonId: c.salon_id,
-          salonName: c.salon?.name || 'Salon',
+          salonName: c.salon_name || salonMap.get(c.salon_id) || 'Salon',
           timestamp: c.created_at,
           entityId: c.id,
           entityType: 'customer',
@@ -86,8 +82,9 @@ export const activityService = {
       });
 
       // Process Appointments
-      (apptsRes.data || []).forEach((a: any) => {
-        const custName = a.customer?.name || 'Client';
+      appointments.forEach((a) => {
+        const custName = a.customer_name || 'Client';
+        const sName = a.salon_name || salonMap.get(a.salon_id) || 'Salon';
         if (a.status === 'completed') {
           events.push({
             id: `appt-comp-${a.id}`,
@@ -95,7 +92,7 @@ export const activityService = {
             title: 'Appointment Completed',
             description: `${custName} completed service "${a.service_name}" (${formatCurrency(a.total_amount)}).`,
             salonId: a.salon_id,
-            salonName: a.salon?.name || 'Salon',
+            salonName: sName,
             timestamp: a.start_time || a.created_at,
             entityId: a.id,
             entityType: 'appointment',
@@ -107,7 +104,7 @@ export const activityService = {
             title: 'Appointment Cancelled',
             description: `Appointment for ${custName} (${a.service_name}) was cancelled.`,
             salonId: a.salon_id,
-            salonName: a.salon?.name || 'Salon',
+            salonName: sName,
             timestamp: a.created_at,
             entityId: a.id,
             entityType: 'appointment',
@@ -119,7 +116,7 @@ export const activityService = {
             title: 'Appointment Booked',
             description: `${custName} scheduled "${a.service_name}".`,
             salonId: a.salon_id,
-            salonName: a.salon?.name || 'Salon',
+            salonName: sName,
             timestamp: a.created_at,
             entityId: a.id,
             entityType: 'appointment',
@@ -128,32 +125,18 @@ export const activityService = {
       });
 
       // Process Bills
-      (billsRes.data || []).forEach((b: any) => {
-        const custName = b.customer?.name || 'Walk-in Client';
+      bills.forEach((b) => {
+        const custName = b.customer_name || 'Walk-in Client';
+        const sName = b.salon_name || salonMap.get(b.salon_id) || 'Salon';
         events.push({
           id: `bill-${b.id}`,
           type: 'bill_generated',
           title: 'Invoice Generated',
           description: `Bill of ${formatCurrency(b.total)} created for ${custName}.`,
           salonId: b.salon_id,
-          salonName: b.salon?.name || 'Salon',
+          salonName: sName,
           timestamp: b.created_at,
           entityId: b.id,
-          entityType: 'bill',
-        });
-      });
-
-      // Process WhatsApp Messages
-      (waRes.data || []).forEach((w: any) => {
-        events.push({
-          id: `wa-${w.id}`,
-          type: 'whatsapp_sent',
-          title: w.status === 'sent' ? 'WhatsApp Invoice Sent' : 'WhatsApp Dispatch Pending',
-          description: `Invoice dispatch to +91 ${w.phone_number} [Status: ${w.status}].`,
-          salonId: w.salon_id,
-          salonName: w.salon?.name || 'Salon',
-          timestamp: w.created_at,
-          entityId: w.id,
           entityType: 'bill',
         });
       });
