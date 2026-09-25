@@ -5,8 +5,12 @@ export const staffService = {
   /**
    * Fetch staff with salon and performance metrics
    */
-  async getStaff(salonId?: string): Promise<{ data: Staff[]; error: string | null }> {
+  async getStaff(salonIdOrOptions?: string | { salonId?: string }): Promise<{ data: Staff[]; error: string | null }> {
     try {
+      const salonId = typeof salonIdOrOptions === 'object' && salonIdOrOptions !== null
+        ? salonIdOrOptions.salonId
+        : salonIdOrOptions;
+
       let query = supabase.from('staff').select('*');
 
       if (salonId && salonId !== 'all') {

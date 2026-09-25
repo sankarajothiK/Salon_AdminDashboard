@@ -19,10 +19,10 @@ export const accountDeletionService = {
         directDeletions.forEach((d: any) => {
           const item: AccountDeletion = {
             id: d.id,
-            salon_id: d.salon_id,
-            salon_name: d.salon_name || 'Deleted Salon',
+            salon_id: d.shop_id || d.salon_id,
+            salon_name: d.shop_name || d.salon_name || 'Deleted Salon',
             owner_name: d.owner_name || 'Salon Owner',
-            phone_number: d.phone_number || '',
+            phone_number: d.phone || d.phone_number || '',
             reason: d.reason || 'No specific reason provided',
             deleted_at: d.deleted_at || d.created_at,
             created_at: d.created_at || d.deleted_at,

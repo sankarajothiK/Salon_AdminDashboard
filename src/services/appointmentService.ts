@@ -18,12 +18,17 @@ export const appointmentService = {
   /**
    * Fetch appointments with full customer, staff, service, and salon joins
    */
-  async getAppointments(options: AppointmentFilterOptions = {}): Promise<{
+  async getAppointments(optionsOrSalonId?: AppointmentFilterOptions | string): Promise<{
     data: Appointment[];
     totalCount: number;
     error: string | null;
   }> {
     try {
+      const options: AppointmentFilterOptions =
+        typeof optionsOrSalonId === 'string'
+          ? { salonId: optionsOrSalonId }
+          : (optionsOrSalonId || {});
+
       let query = supabase.from('appointments').select('*', { count: 'exact' });
 
       if (options.salonId && options.salonId !== 'all') {

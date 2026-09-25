@@ -34,8 +34,12 @@ export const serviceCatalogService = {
   /**
    * Fetch services directly from Supabase with strict deduplication
    */
-  async getServices(salonId?: string): Promise<{ data: Service[]; error: string | null }> {
+  async getServices(salonIdOrOptions?: string | { salonId?: string }): Promise<{ data: Service[]; error: string | null }> {
     try {
+      const salonId = typeof salonIdOrOptions === 'object' && salonIdOrOptions !== null
+        ? salonIdOrOptions.salonId
+        : salonIdOrOptions;
+
       let query = supabase.from('services').select('*');
       if (salonId && salonId !== 'all') {
         query = query.or(`shop_id.eq.${salonId},salon_id.eq.${salonId}`);

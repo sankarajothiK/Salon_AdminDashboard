@@ -13,12 +13,17 @@ export const customerService = {
   /**
    * Fetch all customers with metrics & filtering
    */
-  async getCustomers(options: CustomerFilterOptions = {}): Promise<{
+  async getCustomers(optionsOrSalonId?: CustomerFilterOptions | string): Promise<{
     data: Customer[];
     totalCount: number;
     error: string | null;
   }> {
     try {
+      const options: CustomerFilterOptions =
+        typeof optionsOrSalonId === 'string'
+          ? { salonId: optionsOrSalonId }
+          : (optionsOrSalonId || {});
+
       let query = supabase.from('customers').select('*', { count: 'exact' });
 
       if (options.salonId && options.salonId !== 'all') {

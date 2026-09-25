@@ -5,14 +5,20 @@ export const salonService = {
   /**
    * Fetch all registered salons/shops with calculated real live statistics
    */
-  async getAllSalons(): Promise<{ data: Salon[]; error: string | null }> {
+  async getAllSalons(salonId?: string): Promise<{ data: Salon[]; error: string | null }> {
     try {
       // 1. Fetch shops or salons
       let rawSalons: any[] = [];
-      const { data: shops, error: shopsError } = await supabase
+      let shopsQuery = supabase
         .from('shops')
         .select('*')
         .order('created_at', { ascending: false });
+
+      if (salonId && salonId !== 'all') {
+        shopsQuery = shopsQuery.eq('id', salonId);
+      }
+
+      const { data: shops, error: shopsError } = await shopsQuery;
 
       if (!shopsError && shops && shops.length > 0) {
         // Fetch profiles to get owner names
@@ -33,10 +39,16 @@ export const salonService = {
           updated_at: s.updated_at,
         }));
       } else {
-        const { data: salons } = await supabase
+        let salonsQuery = supabase
           .from('salons')
           .select('*')
           .order('created_at', { ascending: false });
+
+        if (salonId && salonId !== 'all') {
+          salonsQuery = salonsQuery.eq('id', salonId);
+        }
+
+        const { data: salons } = await salonsQuery;
         if (salons) rawSalons = salons;
       }
 
@@ -109,6 +121,13 @@ export const salonService = {
       console.error('salonService.getAllSalons error:', err);
       return { data: [], error: err.message || 'Failed to fetch salons' };
     }
+  },
+
+  /**
+   * Alias for getAllSalons to support callers using getSalons
+   */
+  async getSalons(salonId?: string): Promise<{ data: Salon[]; error: string | null }> {
+    return this.getAllSalons(salonId);
   },
 
   /**

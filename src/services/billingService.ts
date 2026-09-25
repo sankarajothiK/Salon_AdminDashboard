@@ -28,12 +28,17 @@ export const billingService = {
   /**
    * Fetch bills with salon, customer, and item joins
    */
-  async getBills(options: BillingFilterOptions = {}): Promise<{
+  async getBills(optionsOrSalonId?: BillingFilterOptions | string): Promise<{
     data: Bill[];
     totalCount: number;
     error: string | null;
   }> {
     try {
+      const options: BillingFilterOptions =
+        typeof optionsOrSalonId === 'string'
+          ? { salonId: optionsOrSalonId }
+          : (optionsOrSalonId || {});
+
       let query = supabase.from('bills').select('*', { count: 'exact' });
 
       if (options.salonId && options.salonId !== 'all') {

@@ -30,6 +30,9 @@ export const activityService = {
       const salonMap = new Map<string, string>();
       salons.forEach((s) => salonMap.set(s.id, s.name));
 
+      const custMap = new Map<string, string>();
+      customers.forEach((c) => custMap.set(c.id, c.name));
+
       const events: ActivityEvent[] = [];
 
       // Process Account Deletions
@@ -74,7 +77,7 @@ export const activityService = {
           title: 'New Customer Registered',
           description: `Customer "${c.name || c.phone_number}" registered.`,
           salonId: c.salon_id,
-          salonName: c.salon_name || salonMap.get(c.salon_id) || 'Salon',
+          salonName: c.salon?.name || salonMap.get(c.salon_id) || 'Salon',
           timestamp: c.created_at,
           entityId: c.id,
           entityType: 'customer',
@@ -83,8 +86,8 @@ export const activityService = {
 
       // Process Appointments
       appointments.forEach((a) => {
-        const custName = a.customer_name || 'Client';
-        const sName = a.salon_name || salonMap.get(a.salon_id) || 'Salon';
+        const custName = a.customer?.name || custMap.get(a.customer_id) || 'Client';
+        const sName = a.salon?.name || salonMap.get(a.salon_id) || 'Salon';
         if (a.status === 'completed') {
           events.push({
             id: `appt-comp-${a.id}`,
@@ -126,8 +129,8 @@ export const activityService = {
 
       // Process Bills
       bills.forEach((b) => {
-        const custName = b.customer_name || 'Walk-in Client';
-        const sName = b.salon_name || salonMap.get(b.salon_id) || 'Salon';
+        const custName = b.customer?.name || custMap.get(b.customer_id) || 'Walk-in Client';
+        const sName = b.salon?.name || salonMap.get(b.salon_id) || 'Salon';
         events.push({
           id: `bill-${b.id}`,
           type: 'bill_generated',
