@@ -1,22 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { SupportMessage, SupportMessageAnswer } from '@/types';
 
-const LOCAL_STORAGE_ANSWERS_KEY = 'salon_crm_support_answers_store';
-
-function getLocalAnswers(): SupportMessageAnswer[] {
-  try {
-    const raw = localStorage.getItem(LOCAL_STORAGE_ANSWERS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  return [];
-}
-
-function saveLocalAnswers(answers: SupportMessageAnswer[]) {
-  try {
-    localStorage.setItem(LOCAL_STORAGE_ANSWERS_KEY, JSON.stringify(answers));
-  } catch (e) {}
-}
-
 export const supportMessageService = {
   /**
    * Fetch all support messages directly from Supabase with joined answers
@@ -33,8 +17,8 @@ export const supportMessageService = {
         .select('*')
         .order('created_at', { ascending: false });
 
-      // 2. Fetch answers from Supabase 'support_message_answers' (if table exists) + local store
-      let dbAnswers: SupportMessageAnswer[] = [...getLocalAnswers()];
+      // 2. Fetch answers from Supabase 'support_message_answers' table
+      let dbAnswers: SupportMessageAnswer[] = [];
       try {
         const { data: ansData, error: ansErr } = await supabase
           .from('support_message_answers')
@@ -42,20 +26,16 @@ export const supportMessageService = {
           .order('created_at', { ascending: true });
 
         if (!ansErr && ansData && ansData.length > 0) {
-          ansData.forEach((a: any) => {
-            if (!dbAnswers.some((x) => x.id === a.id)) {
-              dbAnswers.push({
-                id: a.id,
-                support_message_id: a.support_message_id,
-                salon_id: a.salon_id,
-                salon_name: a.salon_name,
-                phone: a.phone,
-                answer: a.answer,
-                answered_by: a.answered_by || 'Super Admin',
-                created_at: a.created_at,
-              });
-            }
-          });
+          dbAnswers = ansData.map((a: any) => ({
+            id: a.id,
+            support_message_id: a.support_message_id,
+            salon_id: a.salon_id || a.shop_id,
+            salon_name: a.salon_name || a.shop_name,
+            phone: a.phone || a.phone_number,
+            answer: a.answer,
+            answered_by: a.answered_by || 'Super Admin',
+            created_at: a.created_at,
+          }));
         }
       } catch (e) {
         console.log('support_message_answers query notice:', e);
@@ -139,12 +119,7 @@ export const supportMessageService = {
         created_at: new Date().toISOString(),
       };
 
-      // 1. Save in local cache for immediate UI feedback
-      const localAnswers = getLocalAnswers();
-      localAnswers.push(newAnswer);
-      saveLocalAnswers(localAnswers);
-
-      // 2. Insert into Supabase 'support_message_answers' table
+      // 1. Insert into Supabase 'support_message_answers' table
       try {
         await supabase.from('support_message_answers').insert([
           {

@@ -140,8 +140,12 @@ export const DashboardPage: React.FC = () => {
         <div className="bg-white border-2 border-[#D4AF37]/25 rounded-2xl p-5 shadow-card-subtle flex items-center justify-between">
           <div>
             <div className="text-xs font-bold uppercase text-[#161826]">Current App Version</div>
-            <div className="text-xl font-bold text-[#161826] mt-1">v1.0.0 (Release)</div>
-            <div className="text-[11px] text-[#D4AF37] font-bold mt-0.5">100% adoption on Android</div>
+            <div className="text-xl font-bold text-[#161826] mt-1">
+              {telemetrySummary?.versionBreakdown?.[0]?.version || 'v1.0.0'} (Release)
+            </div>
+            <div className="text-[11px] text-[#D4AF37] font-bold mt-0.5">
+              {telemetrySummary?.versionBreakdown?.[0]?.percentage || 100}% adoption on Android
+            </div>
           </div>
           <div className="w-10 h-10 rounded-xl bg-[#FCF9EE] border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]">
             <Smartphone className="w-5 h-5" />
