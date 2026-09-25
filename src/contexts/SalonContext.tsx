@@ -34,6 +34,14 @@ export const SalonProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setError(res.error);
     } else {
       setSalons(res.data);
+      // If current selectedSalonId is not 'all' and not found in fresh live salons, auto-reset to 'all'
+      setSelectedSalonIdState((currentId) => {
+        if (currentId !== 'all' && !res.data.some((s) => s.id === currentId)) {
+          localStorage.setItem(SELECTED_SALON_KEY, 'all');
+          return 'all';
+        }
+        return currentId;
+      });
     }
     setLoading(false);
   }, []);

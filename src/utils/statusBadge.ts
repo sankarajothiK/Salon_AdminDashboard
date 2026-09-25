@@ -9,6 +9,7 @@ export interface StatusStyle {
 export function getAppointmentStatusStyle(status: string | undefined): StatusStyle {
   switch (status?.toLowerCase()) {
     case 'completed':
+    case 'done':
       return {
         label: 'Completed',
         bg: 'bg-emerald-500/10',
