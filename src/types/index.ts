@@ -1,4 +1,4 @@
-export type UserRole = 'super_admin';
+export type UserRole = 'super_admin' | 'company_admin' | 'support_admin' | 'salon_admin';
 
 export type SalonLifecycleStatus = 'active' | 'inactive' | 'uninstalled' | 'deleted';
 
@@ -8,6 +8,7 @@ export interface AdminUser {
   phone?: string;
   name: string;
   role: UserRole;
+  salonId?: string;
   avatarUrl?: string;
 }
 
@@ -22,6 +23,7 @@ export interface Salon {
   gstin?: string | null;
   theme_color?: string;
   created_at: string;
+  updated_at?: string;
   // Computed / Aggregated properties from Supabase & Telemetry
   app_version?: string;
   platform?: 'android' | 'ios';
@@ -37,7 +39,8 @@ export interface Salon {
 
 export interface Customer {
   id: string;
-  salon_id: string;
+  salon_id?: string;
+  salon_name?: string;
   name: string;
   phone_number: string;
   notes?: string;
@@ -57,10 +60,12 @@ export interface Customer {
 export interface Staff {
   id: string;
   salon_id: string;
+  salon_name?: string;
   name: string;
   role: string;
-  created_at: string;
+  phone?: string;
   phone_number?: string;
+  created_at: string;
   salon?: Salon;
   appointmentCount?: number;
   completedAppointments?: number;
@@ -75,7 +80,7 @@ export interface Service {
   duration_minutes: number;
   duration?: number;
   description?: string | null;
-  category: 'HAIR' | 'BEARD' | 'SPA' | 'GENERAL';
+  category: 'HAIR' | 'BEARD' | 'SPA' | 'GENERAL' | string;
   is_default?: boolean;
   created_at?: string;
 }
@@ -83,14 +88,19 @@ export interface Service {
 export interface Appointment {
   id: string;
   salon_id: string;
+  salon_name?: string;
   customer_id: string;
-  staff_id: string;
+  customer_name?: string;
+  customer_phone?: string;
+  staff_id?: string | null;
+  staff_name?: string;
+  service_id?: string;
   service_name: string;
   start_time: string;
   duration_minutes?: number;
   duration?: number;
-  status: 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'noshow';
-  payment_status?: 'pending' | 'paid' | 'billed';
+  status: 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'done' | 'cancelled' | 'noshow' | string;
+  payment_status?: 'pending' | 'paid' | 'billed' | string;
   payment_method?: 'cash' | 'upi' | 'card' | 'online' | string;
   total_amount?: number;
   discount?: number;
@@ -106,12 +116,15 @@ export interface Appointment {
 export interface Bill {
   id: string;
   salon_id: string;
+  salon_name?: string;
   customer_id?: string | null;
+  customer_name?: string;
   subtotal: number;
   discount: number;
-  gst_percent: number;
+  gst_percent?: number;
   gst_amount: number;
   total: number;
+  payment_method?: string;
   created_at: string;
   salon?: Salon;
   customer?: Customer;
@@ -126,6 +139,16 @@ export interface BillItem {
   qty: number;
   staff_id?: string | null;
   staff?: Staff;
+}
+
+export interface WhatsAppMessage {
+  id: string;
+  customer_id?: string;
+  phone_number: string;
+  message: string;
+  type: string;
+  status: string;
+  created_at: string;
 }
 
 export interface Expense {
@@ -232,19 +255,26 @@ export interface ActivityEvent {
 export interface PlatformMetrics {
   totalSalons: number;
   activeSalons: number;
-  inactiveSalons: number;
-  uninstalledSalons: number;
-  deletedSalons: number;
+  inactiveSalons?: number;
+  uninstalledSalons?: number;
+  deletedSalons?: number;
   totalCustomers: number;
-  openSupportMessages: number;
-  resolvedSupportMessages: number;
-  totalRevenue: number;
+  newCustomersThisMonth?: number;
+  returningCustomers?: number;
+  todayAppointments?: number;
+  completedAppointmentsToday?: number;
+  todayRevenue?: number;
   thisMonthRevenue: number;
-  versionDistribution: { version: string; count: number; percentage: number }[];
-  statusDistribution: { status: SalonLifecycleStatus; count: number; label: string }[];
+  totalRevenue?: number;
+  totalStaff?: number;
+  openSupportMessages?: number;
+  resolvedSupportMessages?: number;
+  versionDistribution?: { version: string; count: number; percentage: number }[];
+  statusDistribution?: { status: SalonLifecycleStatus; count: number; label: string }[];
   revenueBySalon: { salonId: string; salonName: string; revenue: number; appointments: number }[];
   dailyRevenueTrend: { date: string; revenue: number; count: number }[];
-  recentErrorsCount: number;
+  appointmentStatusCounts?: { status: string; count: number }[];
+  recentErrorsCount?: number;
 }
 
 export interface SystemAlert {

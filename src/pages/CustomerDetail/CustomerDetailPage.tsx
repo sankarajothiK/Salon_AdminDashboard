@@ -61,7 +61,7 @@ export const CustomerDetailPage: React.FC = () => {
   // Build Chronological Timeline
   interface TimelineEvent {
     id: string;
-    type: 'created' | 'appointment' | 'bill' | 'notification' | 'whatsapp';
+    type: 'created' | 'appointment' | 'bill' | 'notification' | 'whatsapp' | string;
     title: string;
     description: string;
     timestamp: string;

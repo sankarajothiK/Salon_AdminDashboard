@@ -94,6 +94,7 @@ export const appointmentService = {
           customer: cust
             ? {
                 id: cust.id,
+                salon_id: cust.shop_id || cust.salon_id || a.shop_id || a.salon_id,
                 name: cust.name,
                 phone_number: cust.phone || cust.phone_number || '',
                 notes: cust.notes || '',

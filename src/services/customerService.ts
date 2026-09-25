@@ -208,6 +208,7 @@ export const customerService = {
         staff: staffMap.get(a.staff_id) || undefined,
         customer: {
           id: customerData.id,
+          salon_id: salonId,
           name: customerData.name,
           phone_number: customerData.phone || customerData.phone_number || '',
           notes: customerData.notes || '',
@@ -234,6 +235,7 @@ export const customerService = {
           created_at: b.issued_at || b.created_at,
           customer: {
             id: customerData.id,
+            salon_id: salonId,
             name: customerData.name,
             phone_number: customerData.phone || customerData.phone_number || '',
             notes: customerData.notes || '',

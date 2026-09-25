@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AdminUser } from '@/types';
+import { AdminUser, UserRole } from '@/types';
 import { supabase } from '@/lib/supabase';
 
 interface AuthContextType {
   user: AdminUser | null;
   isAuthenticated: boolean;
   loading: boolean;
+  hasRole: (roles?: UserRole[]) => boolean;
   login: (credential: string, pass: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
@@ -108,12 +109,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('salon_admin_user');
   };
 
+  const hasRole = (roles?: UserRole[]) => {
+    if (!roles || roles.length === 0) return true;
+    if (!user) return false;
+    return roles.includes(user.role);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthenticated: !!user,
         loading,
+        hasRole,
         login,
         logout,
       }}

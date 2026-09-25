@@ -94,6 +94,7 @@ export const billingService = {
           customer: cust
             ? {
                 id: cust.id,
+                salon_id: cust.shop_id || cust.salon_id || b.shop_id || b.salon_id,
                 name: cust.name,
                 phone_number: cust.phone || cust.phone_number || '',
                 notes: cust.notes || '',
